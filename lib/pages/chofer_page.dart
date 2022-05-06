@@ -13,35 +13,44 @@ class _HomeChoferPageState extends State<HomeChoferPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('HomePage Chofer'),
-      ),
-      body: Stack(
-        children: <Widget>[
-          Column(
-            children: const <Widget>[
-              SizedBox(height: 70.0,),
-              SizedBox(
-                height: 0.0,
-                child: Text(
-                  "Bienvenido", 
-                  style: TextStyle(
-                    color: Colors.black, 
-                    fontSize: 28.0, 
-                    fontWeight: FontWeight.bold
-                  )
-                )
-              )
-            ],
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.grey.shade600,       
+        elevation: 10,
+        toolbarHeight: 70,
+        title: const Text('Bus Routes'),
+        actions: [
+          Container(
+            height: 40,
+            width: 40,
+            alignment: Alignment.center,
+            /*decoration: BoxDecoration(
+              // ignore: prefer_const_literals_to_create_immutables
+              boxShadow: [
+                const BoxShadow(blurRadius: 7, spreadRadius: 3, color: Colors.grey)
+              ],
+              shape: BoxShape.circle,
+              color: Colors.grey.shade600
+            ),*/
+            child: const Icon(Icons.logout, size: 20),
           ),
+          const SizedBox(width: 26)
+        ],
+      ),
+      backgroundColor: Colors.white,
+      body: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[       
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               // ignore: deprecated_member_use
               RaisedButton(
-                elevation: 0.0,
+                elevation: 10.0,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                 padding: const EdgeInsets.only(top: 7.0, bottom: 7.0, right: 40.0, left: 7.0),
-                onPressed: () {},
+                onPressed: () {
+
+                },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -50,22 +59,25 @@ class _HomeChoferPageState extends State<HomeChoferPage> {
                       padding: EdgeInsets.only(left: 10.0),
                       child: Text(
                         'Registrar Microbus', 
-                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     )
                   ],
                 ),
-                textColor: const Color(0xFFFFC107),
-                color: const Color(0xFFDADADA),
+                textColor: Colors.white,              
+                color: Colors.orange.shade300,
+                
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 30.0, bottom: 0.0),
                 // ignore: deprecated_member_use
                 child: RaisedButton(
-                  elevation: 0.0,
+                  elevation: 10.0,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                   padding: const EdgeInsets.only(top: 7.0, bottom: 7.0, right: 40.0, left: 7.0),
-                  onPressed: () {},
+                  onPressed: () {
+
+                  },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
@@ -73,14 +85,14 @@ class _HomeChoferPageState extends State<HomeChoferPage> {
                       const Padding(
                         padding: EdgeInsets.only(left: 10.0),
                         child: Text(
-                          'Registrar Microbus', 
-                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                          'Iniciar Ruta', 
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                       )
                     ],
                   ),
-                  textColor: const Color(0xFFFFC107),
-                  color: const Color(0xFFDADADA),
+                  textColor: Colors.white,              
+                color: Colors.orange.shade300,
                 ),
               )  
             ],
