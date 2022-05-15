@@ -17,7 +17,7 @@ class _HomeChoferPageState extends State<HomeChoferPage> {
         backgroundColor: Colors.grey.shade600,       
         elevation: 10,
         toolbarHeight: 70,
-        title: const Text('Bus Routes'),
+        title: const Text('App Chófer'),
         actions: [
           Container(
             height: 40,
@@ -58,7 +58,7 @@ class _HomeChoferPageState extends State<HomeChoferPage> {
                     const Padding(
                       padding: EdgeInsets.only(left: 10.0),
                       child: Text(
-                        'Registrar Microbus', 
+                        'Iniciar Recorrido', 
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     )
@@ -85,14 +85,14 @@ class _HomeChoferPageState extends State<HomeChoferPage> {
                       const Padding(
                         padding: EdgeInsets.only(left: 10.0),
                         child: Text(
-                          'Iniciar Ruta', 
+                          'Ir al Mapa', 
                           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                       )
                     ],
                   ),
                   textColor: Colors.white,              
-                color: Colors.orange.shade300,
+                  color: Colors.orange.shade300,
                 ),
               )  
             ],

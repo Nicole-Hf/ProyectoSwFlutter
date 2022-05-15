@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rutas_microbuses/pages/bus_page.dart';
 import 'package:rutas_microbuses/pages/chofer_page.dart';
 import 'package:rutas_microbuses/pages/home_page.dart';
 import 'package:rutas_microbuses/pages/login_page.dart';
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
         '/home': (context) => const HomePage(),
-        '/chofer': (context) => const HomeChoferPage()
+        '/chofer': (context) => const HomeChoferPage(),
+        '/bus': (context) => const BusPage()
       },
     );
   }

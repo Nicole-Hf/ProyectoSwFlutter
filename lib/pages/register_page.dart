@@ -2,12 +2,10 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:rutas_microbuses/pages/chofer_page.dart';
-import 'package:rutas_microbuses/pages/home_page.dart';
+import 'package:rutas_microbuses/pages/bus_page.dart';
 import 'package:rutas_microbuses/services/auth_services.dart';
 import 'package:rutas_microbuses/services/globals.dart';
 import 'package:rutas_microbuses/utils/button.dart';
-import 'package:rutas_microbuses/utils/variables.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -20,39 +18,23 @@ class _RegisterPageState extends State<RegisterPage> {
   String _name = '';
   String _email = '';
   String _password = '';
-  String _tipo = '';
 
   createAccountPressed() async {
     bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(_email);
     if (emailValid) {
-      http.Response response = await AuthServices.register(_name, _email, _password, _tipo);
+      http.Response response = await AuthServices.register(_name, _email, _password);
       Map responseMap = jsonDecode(response.body);
-      var dataUser = json.decode(response.body);
       if (response.statusCode == 401) {
-        user_type = dataUser['user']['tipo'];
-        if (user_type == 'pasajero') {
-          Navigator.push(
-            context, 
-            MaterialPageRoute(builder: (BuildContext context) => const HomePage(),
-          ));
-        } else {
-          Navigator.push(
-            context, 
-            MaterialPageRoute(builder: (BuildContext context) => const HomeChoferPage(),
-          ));
-        } 
+        Navigator.push(
+          context, 
+          MaterialPageRoute(builder: (BuildContext context) => const BusPage(),
+        ));
       } else {
           errorSnackBar(context, responseMap.values.first[0]);
       }
     } else {
         errorSnackBar(context, 'Email not valid');
     }
-  }
-
-  void _tipoChanged(value) {  // Extrae el oyente del botón del grupo de radio
-    setState(() {
-      _tipo = value;
-    });
   }
 
   @override
@@ -104,24 +86,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             onChanged: (value) {
                               _password = value;
                             },
-                          ),
-                          const SizedBox(height: 20,),
-                          Row(
-                            children: <Widget>[
-                              const Text('Chófer'),
-                              Radio(
-                                value: 'chofer',
-                                onChanged: _tipoChanged,
-                                groupValue: _tipo,
-                              ),
-                              const SizedBox(width: 20,),
-                              const Text('Pasajero'),
-                              Radio(
-                                value: 'pasajero',
-                                onChanged: _tipoChanged,
-                                groupValue: _tipo,
-                              )
-                            ],
                           ),
                           const SizedBox(height: 20,),
                           RoundedButton(

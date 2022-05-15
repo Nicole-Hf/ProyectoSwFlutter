@@ -3,16 +3,15 @@ import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/services/globals.dart';
 
 class AuthServices {
-  static Future<http.Response> register(String name, String email, String password, String tipo) async {
+  static Future<http.Response> register(String name, String email, String password) async {
     Map data = {
       "name": name,
       "email": email,
       "password": password,
-      "tipo": tipo
     };
 
     var body = json.encode(data);
-    var url = Uri.parse(baseUrl + 'auth/register');
+    var url = Uri.parse(baseUrl + 'auth/register/conductor');
     http.Response response = await http.post(
       url,
       headers: headers,
@@ -29,7 +28,7 @@ class AuthServices {
       "password": password,
     };
     var body = json.encode(data);
-    var url = Uri.parse(baseUrl + 'auth/login');
+    var url = Uri.parse(baseUrl + 'auth/login/conductor');
     http.Response response = await http.post(
       url,
       headers: headers,

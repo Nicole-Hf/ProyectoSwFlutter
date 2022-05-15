@@ -27,18 +27,10 @@ class _LoginPageState extends State<LoginPage> {
       Map responseMap = jsonDecode(response.body);
       var dataUser = json.decode(response.body);
       if (response.statusCode == 200) {
-        user_type = dataUser['user']['tipo'];
-        if (user_type == 'pasajero') {
-          Navigator.push(
-            context, 
-            MaterialPageRoute(builder: (BuildContext context) => const HomePage(),
-          ));
-        } else {
-          Navigator.push(
-            context, 
-            MaterialPageRoute(builder: (BuildContext context) => const HomeChoferPage(),
-          ));
-        }       
+        Navigator.push(
+          context, 
+          MaterialPageRoute(builder: (BuildContext context) => const HomeChoferPage(),
+        ));       
       } else {
         errorSnackBar(context, responseMap.values.first);
       }
