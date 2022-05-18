@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:http/http.dart' as http;
+import 'package:rutas_microbuses/controllers/linea_controller.dart';
 import 'package:rutas_microbuses/models/linea.dart';
-import 'package:rutas_microbuses/pages/chofer_page.dart';
 import 'package:rutas_microbuses/pages/home_page.dart';
-import 'package:rutas_microbuses/services/api.dart';
-import 'package:rutas_microbuses/services/auth_services.dart';
-import 'package:rutas_microbuses/services/globals.dart';
 import 'package:rutas_microbuses/utils/button.dart';
 import 'package:rutas_microbuses/utils/variables.dart';
 
@@ -19,35 +18,23 @@ class BusPage extends StatefulWidget {
 }
 
 class _BusPageState extends State<BusPage> {
-  String _linea = '';
   String _interno = '';
   String _placa = '';
   String _modelo = '';
   String _servicios = '';
   String _capacidad = '';
-  var lineas = <Linea>[];
-
-  @override
-  void initState() {
-    _getLineas();
-    super.initState();
-  }
-
-  _getLineas() async {
-    await _initData();
-  }
-
-  _initData() async {
-    await CallApi().getPublicData("lineas").then((response) {
-      setState(() {
-        Iterable list = json.decode(response.body);
-        lineas = list.map((model) => Linea.fromJson(model)).toList();
-      });
-    });
-  }
-
+  final _formKey = GlobalKey<FormState>();
+  final _typeAheadController = TextEditingController();
+  
   createBusPressed() async {
-    
+    http.Response response = await LineaController.createBus(_placa, _modelo, _servicios, _interno, _capacidad);
+    if (response.statusCode == 401) {
+      Navigator.push(
+        context, 
+        MaterialPageRoute(
+          builder: (BuildContext context) => const HomePage(),
+      ));
+    }
   }
 
   @override
@@ -79,21 +66,42 @@ class _BusPageState extends State<BusPage> {
                       child: Column(
                         children: [
                           const SizedBox(height: 20,),
-                          DropdownButton(
-                            items: lineas.map((item) {
-                              return DropdownMenuItem(
-                                child: Text(item.linea),
-                                value: item.id.toString(),
+                          TypeAheadFormField<Linea?>(
+                            key: _formKey,
+                            textFieldConfiguration: TextFieldConfiguration(
+                              controller: _typeAheadController,
+                              decoration: const InputDecoration(
+                                hintText: 'Seleccione una línea'
+                              )
+                            ),
+                            suggestionsCallback: LineaController.getLineaSuggestion, 
+                            itemBuilder: (context, Linea? suggestion) {
+                              final linea = suggestion!;
+                              return ListTile(
+                                title: Text(linea.linea),
                               );
-                            }).toList(),
-                            onChanged: (newVal) {
-                              setState(() {
-                                _linea = newVal.toString();
-                              });
+                            }, 
+                            noItemsFoundBuilder: (context) => const SizedBox(
+                              height: 100,
+                              child: Text(
+                                'No se encontró la línea', 
+                                style: TextStyle(fontSize: 24),
+                              )
+                            ),
+                            transitionBuilder: (context, suggestionsBox, controller) {
+                              return suggestionsBox;
                             },
-                            value: _linea,
-                            hint: const Text("Seleccione una línea")
-                          ), 
+                            onSuggestionSelected: (Linea? suggestion) {
+                              final linea = suggestion!;
+                              _typeAheadController.text = suggestion.linea;
+                              setState(() {                             
+                                idLinea = linea.id;
+                              });
+                              // ignore: avoid_print
+                              print('Linea id: $idLinea');
+                            },  
+                            onSaved: (value) => idLinea = value as int,                         
+                          ),
                           const SizedBox(height: 20,),
                           TextField(
                             decoration: const InputDecoration(hintText: 'Interno'),

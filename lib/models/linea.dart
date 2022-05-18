@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-Linea productFromJson(String str) => Linea.fromJson(json.decode(str));
-String lineaToJson(Linea data) => json.encode(data.toJson());
+List<Linea> lineaFromJson(String str) => List<Linea>.from(json.decode(str).map((x) => Linea.fromJson(x)));
+
+String lineaToJson(List<Linea> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Linea {
   Linea({
@@ -13,8 +14,8 @@ class Linea {
 
   final int id;
   final String linea;
-  final DateTime horaInicio;
-  final DateTime horaFinal;
+  final String horaInicio;
+  final String horaFinal;
   
   factory Linea.fromJson(Map<String, dynamic> json) => Linea(
     id: json["id"],

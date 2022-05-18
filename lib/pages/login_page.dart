@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:http/http.dart' as http;
-import 'package:rutas_microbuses/pages/chofer_page.dart';
+import 'package:rutas_microbuses/pages/home_page.dart';
 import 'package:rutas_microbuses/pages/register_page.dart';
 import 'package:rutas_microbuses/services/auth_services.dart';
 import 'package:rutas_microbuses/services/globals.dart';
 import 'package:rutas_microbuses/utils/button.dart';
+import 'package:rutas_microbuses/utils/variables.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -25,9 +27,12 @@ class _LoginPageState extends State<LoginPage> {
       Map responseMap = jsonDecode(response.body);
       var dataUser = json.decode(response.body);
       if (response.statusCode == 200) {
+        idConductor = dataUser['user']['conductor_id'];
+        // ignore: avoid_print
+        print('Conductor id: $idConductor');
         Navigator.push(
           context, 
-          MaterialPageRoute(builder: (BuildContext context) => const HomeChoferPage(),
+          MaterialPageRoute(builder: (BuildContext context) => const HomePage(),
         ));       
       } else {
         errorSnackBar(context, responseMap.values.first);
