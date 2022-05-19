@@ -30,6 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
       var dataUser = json.decode(response.body);
       if (response.statusCode == 401) {
         idConductor = dataUser['user']['conductor_id'];
+        username = dataUser['user']['name'];
         // ignore: avoid_print
         print('Conductor id: $idConductor');
         Navigator.push(

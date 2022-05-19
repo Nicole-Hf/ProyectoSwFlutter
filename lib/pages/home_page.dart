@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:rutas_microbuses/utils/variables.dart';
+
+import 'login_page.dart';
 
 class HomePage extends StatefulWidget{
   const HomePage({Key? key}) : super(key: key);
@@ -17,21 +21,26 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.black,       
         elevation: 10,
         toolbarHeight: 70,
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset("assets/images/logo_app.jpeg",)
+        ),
+        centerTitle: true,
         title: const Text('App Conductor'),
         actions: [
           Container(
             height: 40,
             width: 40,
             alignment: Alignment.center,
-            decoration: BoxDecoration(
-              // ignore: prefer_const_literals_to_create_immutables
-              boxShadow: [
-                const BoxShadow(blurRadius: 7, spreadRadius: 3, color: Colors.grey)
-              ],
-              shape: BoxShape.circle,
-              color: Colors.grey.shade900
+            child: IconButton(
+              icon: const Icon(Icons.logout, size: 25),
+              onPressed: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => const LoginPage()), 
+                  (route) => false
+                );
+              },
             ),
-            child: const Icon(Icons.logout, size: 20),
           ),
           const SizedBox(width: 26)
         ],
@@ -41,8 +50,60 @@ class _HomePageState extends State<HomePage> {
         fit: StackFit.expand,
         children: <Widget>[       
           Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            //mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Card(
+                margin: const EdgeInsets.only(left: 10, right: 10),
+                elevation: 10,
+                shadowColor: Colors.grey.withOpacity(0.5),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),),
+                child: Column(
+                  children: [
+                    ListTile(
+                      title: Text(
+                        'Línea:  $lineaName',
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    const Divider(),
+                    ListTile(
+                      title: Text(
+                        'Interno:  $interno',
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    const Divider(),
+                    ListTile(
+                      title: Text(
+                        'Placa:  $placa',
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    const Divider(),
+                    ListTile(
+                      title: Text(
+                        'Modelo:  $modelo',
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    const Divider(),
+                    ListTile(
+                      title: Text(
+                        'Servicios:  $servicios',
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    const Divider(),
+                    ListTile(
+                      title: Text(
+                        'Número de Asientos:  $capacidad',
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 40,),
               // ignore: deprecated_member_use
               RaisedButton(
                 elevation: 10.0,
@@ -65,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
                 textColor: Colors.white,              
-                color: Colors.orange.shade300,
+                color: Colors.green.shade600,
                 
               ),
               Padding(
@@ -92,7 +153,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   textColor: Colors.white,              
-                  color: Colors.orange.shade300,
+                  color: Colors.grey.shade500,
                 ),
               )  
             ],

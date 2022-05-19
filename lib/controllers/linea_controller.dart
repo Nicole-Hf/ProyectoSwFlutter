@@ -52,4 +52,13 @@ class LineaController {
     print(response.body);
     return response;
   }
+
+  static Future<http.Response> getBus() async {
+    var url = Uri.parse(baseUrl + 'getBus/$idConductor');
+    http.Response response = await http.get(url);
+    // ignore: avoid_print
+    print(response.body);
+    return response;
+  }
+  
 }

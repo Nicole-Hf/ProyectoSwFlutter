@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:http/http.dart' as http;
+import 'package:rutas_microbuses/controllers/linea_controller.dart';
 import 'package:rutas_microbuses/pages/home_page.dart';
 import 'package:rutas_microbuses/pages/register_page.dart';
 import 'package:rutas_microbuses/services/auth_services.dart';
@@ -26,8 +27,20 @@ class _LoginPageState extends State<LoginPage> {
       http.Response response = await AuthServices.login(_email, _password);
       Map responseMap = jsonDecode(response.body);
       var dataUser = json.decode(response.body);
+
+      http.Response responseBus = await LineaController.getBus();
+      var dataBus = json.decode(responseBus.body);
+
       if (response.statusCode == 200) {
         idConductor = dataUser['user']['conductor_id'];
+        username = dataUser['user']['name'];
+
+        interno = dataBus['interno'];
+        placa = dataBus['placa'];
+        modelo = dataBus['modelo'];
+        capacidad = dataBus['capacidad'];
+        servicios = dataBus['servicios'];
+        lineaName = dataBus['linea'];
         // ignore: avoid_print
         print('Conductor id: $idConductor');
         Navigator.push(

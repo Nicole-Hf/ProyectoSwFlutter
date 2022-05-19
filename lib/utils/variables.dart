@@ -1,4 +1,9 @@
-// ignore: non_constant_identifier_names
-String user_type = '';
-int idLinea = 0;
 int idConductor = 0;
+String username = "";
+int idLinea = 0;
+String lineaName = "";
+int interno = 0;
+int capacidad = 0;
+String placa = "";
+String servicios = "";
+String modelo = "";
