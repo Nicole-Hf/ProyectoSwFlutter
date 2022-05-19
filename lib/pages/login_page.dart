@@ -27,13 +27,14 @@ class _LoginPageState extends State<LoginPage> {
       http.Response response = await AuthServices.login(_email, _password);
       Map responseMap = jsonDecode(response.body);
       var dataUser = json.decode(response.body);
-
-      http.Response responseBus = await LineaController.getBus();
-      var dataBus = json.decode(responseBus.body);
+      //idConductor = dataUser['user']['conductor_id'];
 
       if (response.statusCode == 200) {
         idConductor = dataUser['user']['conductor_id'];
         username = dataUser['user']['name'];
+
+        http.Response responseBus = await LineaController.getBus();
+        var dataBus = json.decode(responseBus.body);
 
         interno = dataBus['interno'];
         placa = dataBus['placa'];

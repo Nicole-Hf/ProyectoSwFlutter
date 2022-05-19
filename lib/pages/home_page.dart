@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rutas_microbuses/pages/map_page.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:rutas_microbuses/utils/variables.dart';
 
@@ -137,7 +138,8 @@ class _HomePageState extends State<HomePage> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                   padding: const EdgeInsets.only(top: 7.0, bottom: 7.0, right: 40.0, left: 7.0),
                   onPressed: () {
-
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (BuildContext context) => const MapPage(),));
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,

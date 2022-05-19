@@ -28,7 +28,6 @@ class _BusPageState extends State<BusPage> {
   
   createBusPressed() async {
     http.Response response = await LineaController.createBus(_placa, _modelo, _servicios, _interno, _capacidad);
-    var data = json.decode(response.body);
 
     http.Response responseBus = await LineaController.getBus();
     var dataBus = json.decode(responseBus.body);
@@ -108,7 +107,7 @@ class _BusPageState extends State<BusPage> {
                               _typeAheadController.text = suggestion.linea;
                               setState(() {                             
                                 idLinea = linea.id;
-                                lineaName = linea.linea;
+                                //lineaName = linea.linea;
                               });
                               // ignore: avoid_print
                               print('Linea id: $idLinea');
