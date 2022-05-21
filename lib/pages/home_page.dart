@@ -20,6 +20,7 @@ class _HomePageState extends State<HomePage> {
   late bool _serviceEnabled;
   late PermissionStatus _permissionGranted;
   //late LocationData _locationData;
+  // ignore: unused_field
   bool _isListenLocation = false; //, _isGetLocation = false;
   
   @override

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 int idConductor = 0;
 String username = "";
 int idLinea = 0;
