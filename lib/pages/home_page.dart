@@ -1,7 +1,9 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'package:rutas_microbuses/pages/map_page.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:rutas_microbuses/utils/variables.dart';
 
 import 'login_page.dart';
@@ -14,6 +16,12 @@ class HomePage extends StatefulWidget{
 }
 
 class _HomePageState extends State<HomePage> {
+  Location location = Location();
+  late bool _serviceEnabled;
+  late PermissionStatus _permissionGranted;
+  //late LocationData _locationData;
+  bool _isListenLocation = false; //, _isGetLocation = false;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,39 +135,69 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
                 textColor: Colors.white,              
-                color: Colors.green.shade600,
-                
+                color: Colors.green.shade600,      
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 30.0, bottom: 0.0),
-                // ignore: deprecated_member_use
-                child: RaisedButton(
-                  elevation: 10.0,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                  padding: const EdgeInsets.only(top: 7.0, bottom: 7.0, right: 40.0, left: 7.0),
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (BuildContext context) => const MapPage(),));
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Image.asset('assets/images/ubt_icon.png', height: 40.0, width: 40.0,),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 10.0),
-                        child: Text(
-                          'Ir al Mapa', 
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      )
-                    ],
-                  ),
-                  textColor: Colors.white,              
-                  color: Colors.grey.shade500,
-                ),
+                child: Column(
+                  children: [
+                    // ignore: deprecated_member_use
+                    RaisedButton(
+                      elevation: 10.0,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                      padding: const EdgeInsets.only(top: 7.0, bottom: 7.0, right: 40.0, left: 7.0),
+                      onPressed: () async {
+                        _serviceEnabled = await location.serviceEnabled();
+                        if (!_serviceEnabled) {
+                          _serviceEnabled = await location.requestService();
+                          if (_serviceEnabled) {
+                            return;
+                          }
+                        }
+                        _permissionGranted = await location.hasPermission();
+                        if (_permissionGranted == PermissionStatus.DENIED) {
+                          _permissionGranted = await location.requestPermission();
+                          if (_permissionGranted != PermissionStatus.GRANTED) {
+                            return;
+                          }
+                        }
+                        setState(() {
+                          _isListenLocation = true;
+                        });
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (BuildContext context) => const MapPage(),));
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Image.asset('assets/images/ubt_icon.png', height: 40.0, width: 40.0,),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 10.0),
+                            child: Text('Ir al Mapa', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                          )
+                        ],
+                      ),
+                      textColor: Colors.white,              
+                      color: Colors.grey.shade500,
+                    ),
+                    StreamBuilder(
+                      stream: location.onLocationChanged(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState != ConnectionState.waiting) {
+                          var data = snapshot.data as LocationData;
+                          latitud = data.latitude;
+                          longitud = data.longitude;
+                          return Text('Location always change: \n ${data.latitude}/${data.longitude}');
+                        } else {
+                            return const Center(child: CircularProgressIndicator(),);
+                        }
+                      }
+                    )
+                  ]
+                )
               )  
             ],
-          )
+          ),     
         ],
       )
     );
