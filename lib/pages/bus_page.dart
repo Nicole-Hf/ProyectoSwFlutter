@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 // ignore: import_of_legacy_library_into_null_safe
@@ -14,6 +13,7 @@ class BusPage extends StatefulWidget {
   const BusPage({Key? key}) : super(key: key);
   
   @override
+  // ignore: library_private_types_in_public_api
   _BusPageState createState() => _BusPageState();
 }
 
@@ -40,6 +40,7 @@ class _BusPageState extends State<BusPage> {
       servicios = dataBus['servicios'];
       lineaName = dataBus['linea'];
 
+      // ignore: use_build_context_synchronously
       Navigator.push(
         context, 
         MaterialPageRoute(

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:http/http.dart' as http;
@@ -15,6 +14,7 @@ class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _LoginPageState createState() => _LoginPageState();
 }
 
@@ -44,11 +44,13 @@ class _LoginPageState extends State<LoginPage> {
         lineaName = dataBus['linea'];
         // ignore: avoid_print
         print('Conductor id: $idConductor');
+        // ignore: use_build_context_synchronously
         Navigator.push(
           context, 
           MaterialPageRoute(builder: (BuildContext context) => const HomePage(),
         ));       
       } else {
+        // ignore: use_build_context_synchronously
         errorSnackBar(context, responseMap.values.first);
       }
     } else {

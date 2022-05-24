@@ -12,7 +12,7 @@ class AuthServices {
     };
 
     var body = json.encode(data);
-    var url = Uri.parse(baseUrl + 'auth/register/conductor');
+    var url = Uri.parse('${baseUrl}auth/register/conductor');
     http.Response response = await http.post(
       url,
       headers: headers,
@@ -29,7 +29,7 @@ class AuthServices {
       "password": password,
     };
     var body = json.encode(data);
-    var url = Uri.parse(baseUrl + 'auth/login/conductor');
+    var url = Uri.parse('${baseUrl}auth/login/conductor');
     http.Response response = await http.post(
       url,
       headers: headers,

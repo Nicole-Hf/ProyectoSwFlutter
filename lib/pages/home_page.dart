@@ -1,6 +1,5 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:rutas_microbuses/pages/map_page.dart';
@@ -12,6 +11,7 @@ class HomePage extends StatefulWidget{
   const HomePage({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomePageState createState() => _HomePageState();
 }
 
@@ -122,6 +122,7 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () {
 
                 },
+                // ignore: sort_child_properties_last
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -156,18 +157,20 @@ class _HomePageState extends State<HomePage> {
                           }
                         }
                         _permissionGranted = await location.hasPermission();
-                        if (_permissionGranted == PermissionStatus.DENIED) {
+                        if (_permissionGranted == PermissionStatus.denied) {
                           _permissionGranted = await location.requestPermission();
-                          if (_permissionGranted != PermissionStatus.GRANTED) {
+                          if (_permissionGranted != PermissionStatus.granted) {
                             return;
                           }
                         }
                         setState(() {
                           _isListenLocation = true;
                         });
+                        // ignore: use_build_context_synchronously
                         Navigator.push(context, MaterialPageRoute(
                           builder: (BuildContext context) => const MapPage(),));
                       },
+                      // ignore: sort_child_properties_last
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
@@ -182,15 +185,15 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.grey.shade500,
                     ),
                     StreamBuilder(
-                      stream: location.onLocationChanged(),
+                      stream: location.onLocationChanged,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState != ConnectionState.waiting) {
                           var data = snapshot.data as LocationData;
-                          latitud = data.latitude;
-                          longitud = data.longitude;
+                          latitud = data.latitude!;
+                          longitud = data.longitude!;
                           return Text('Location always change: \n ${data.latitude}/${data.longitude}');
                         } else {
-                            return const Center(child: CircularProgressIndicator(),);
+                            return const Center();
                         }
                       }
                     )

@@ -7,7 +7,7 @@ import 'package:rutas_microbuses/utils/variables.dart';
 
 class LineaController {
   static Future<List<Linea>> getLineaSuggestion(String query) async {
-    final url = Uri.parse(baseUrl+'lineas');
+    final url = Uri.parse('${baseUrl}lineas');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -42,7 +42,7 @@ class LineaController {
     };
 
     var body = json.encode(data);
-    var url = Uri.parse(baseUrl + 'createBus');
+    var url = Uri.parse('${baseUrl}createBus');
     http.Response response = await http.post(
       url,
       headers: headers,
@@ -54,7 +54,7 @@ class LineaController {
   }
 
   static Future<http.Response> getBus() async {
-    var url = Uri.parse(baseUrl + 'getBus/$idConductor');
+    var url = Uri.parse('${baseUrl}getBus/$idConductor');
     http.Response response = await http.get(url);
     // ignore: avoid_print
     print(response.body);
