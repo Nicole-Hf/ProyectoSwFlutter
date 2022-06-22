@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rutas_microbuses/pages/bus_page.dart';
+import 'package:rutas_microbuses/pages/conductor_page.dart';
 import 'package:rutas_microbuses/pages/home_page.dart';
 import 'package:rutas_microbuses/pages/login_page.dart';
+import 'package:rutas_microbuses/pages/microbus_page.dart';
 import 'package:rutas_microbuses/pages/register_page.dart';
 
 void main() {
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
         '/home': (context) => const HomePage(),
-        '/createbus': (context) => const BusPage(),
+       // '/createbus': (context) => const BusPage(),
       },
     );
   }

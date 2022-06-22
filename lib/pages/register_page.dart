@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/pages/bus_page.dart';
+import 'package:rutas_microbuses/pages/conductor_page.dart';
 import 'package:rutas_microbuses/services/auth_services.dart';
 import 'package:rutas_microbuses/services/globals.dart';
 import 'package:rutas_microbuses/utils/button.dart';
@@ -36,7 +37,7 @@ class _RegisterPageState extends State<RegisterPage> {
         // ignore: use_build_context_synchronously
         Navigator.push(
           context, 
-          MaterialPageRoute(builder: (BuildContext context) => const BusPage(),
+          MaterialPageRoute(builder: (BuildContext context) => const conductorpage(),
         ));
       } else {
           // ignore: use_build_context_synchronously
@@ -99,7 +100,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           const SizedBox(height: 20,),
                           RoundedButton(
-                            btnText: 'Next Page', 
+                            btnText: 'Next Page',
                             onBtnPressed: () => createAccountPressed(),
                           ),
                           const SizedBox(height: 20,)

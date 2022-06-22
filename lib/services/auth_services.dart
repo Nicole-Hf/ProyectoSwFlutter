@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/services/globals.dart';
 
+import '../utils/variables.dart';
+
 class AuthServices {
   static Future<http.Response> register(String name, String email, String password) async {
     Map data = {
@@ -39,5 +41,29 @@ class AuthServices {
     // ignore: avoid_print
     print(response.body);
     return response;
-  }  
+  }
+
+  static Future<http.Response> conductorRegister(String name, String fechanacimiento, String ci, String telefono,
+      String categorialic) async {
+    Map data = {
+      "nombre": name,
+      "fecha_nacimiento": fechanacimiento,
+      "ci": ci,
+      "telefono": telefono,
+      "categoria_lic": categorialic,
+
+      "users_id": idConductor,
+    };
+
+    var body = json.encode(data);
+    var url = Uri.parse('${baseUrl}auth/UserConductor');
+    http.Response response = await http.post(
+        url,
+        headers: headers,
+        body: body
+    );
+    // ignore: avoid_print
+    print(response.body);
+    return response;
+  }
 }
