@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/controllers/linea_controller.dart';
+import 'package:rutas_microbuses/pages/conductor_page.dart';
 import 'package:rutas_microbuses/pages/home_page.dart';
 import 'package:rutas_microbuses/pages/register_page.dart';
 import 'package:rutas_microbuses/services/auth_services.dart';
@@ -47,7 +48,8 @@ class _LoginPageState extends State<LoginPage> {
         // ignore: use_build_context_synchronously
         Navigator.push(
           context, 
-          MaterialPageRoute(builder: (BuildContext context) => const HomePage(),
+          MaterialPageRoute(builder: (BuildContext context) => const conductorpage(),
+          //const HomePage(),
         ));       
       } else {
         // ignore: use_build_context_synchronously
@@ -100,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         const SizedBox(height: 30,),
                         RoundedButton(
-                          btnText: 'Sig in', 
+                          btnText: 'ingresar',
                           onBtnPressed: () => loginPressed(),
                         ),
                         const SizedBox(height: 30,),                
