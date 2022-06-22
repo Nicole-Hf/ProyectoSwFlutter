@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => const LoginPage(),
+        '/': (context) => const MicrobusPage(),
         '/register': (context) => const RegisterPage(),
         '/home': (context) => const HomePage(),
        // '/createbus': (context) => const BusPage(),

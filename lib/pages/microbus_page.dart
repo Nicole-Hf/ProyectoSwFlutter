@@ -164,58 +164,66 @@ class _MicrobusPageState extends State<MicrobusPage> {
     const Text("Perfil Microbus",
     style: TextStyle(fontSize: 25,fontWeight: FontWeight.w500),
     ),
-    Center(
-    child: Stack(
-    children: [
-    Container(
-    width: 300,
-    height: 200,
-    decoration: BoxDecoration(
-    border: Border.all(width: 4,color: Colors.white),
-    boxShadow: [
-    BoxShadow(
-    spreadRadius: 2,
-    blurRadius: 10,
-    color: Colors.black.withOpacity(0.1)
-    )
-    ],
-    shape: BoxShape.rectangle,
-    image: const DecorationImage(
-    fit:  BoxFit.cover,
-    image: AssetImage("assets/images/frozen.jpg"),
-    )
-    ),
-    ),
-      Positioned(
-          bottom: 0,
-          right: 0,
-          child: Container(
-            height: 40,
-            width: 40,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                    width: 4,
-                    color: Colors.white
+      Center(
+        child: Stack(
+          children: [
+            Container(
+              width: 300,
+              height: 200,
+              decoration: BoxDecoration(
+                border: Border.all(width: 4,color: Colors.white),
+                boxShadow: [
+                  BoxShadow(
+                      spreadRadius: 2,
+                      blurRadius: 10,
+                      color: Colors.black.withOpacity(0.1)
+                  )
+                ],
+                shape: BoxShape.rectangle,
+                //image: const DecorationImage(
+
+                //)
+              ),
+              child: ClipRect(
+                child: pickedImage !=null ? Image.file(pickedImage!,
+                    width: 50,
+                    height: 50,
+                    fit:  BoxFit.cover):
+                Image.asset("assets/images/frozen.jpg",
+                    width: 50,
+                    height: 50,
+                    fit:  BoxFit.cover
                 ),
-                color: Colors.green
+              ),
+
             ),
-            child: ClipOval(
-              child: pickedImage !=null ? Image.file(pickedImage!,
-                  width: 50,
-                  height: 50,
-                  fit:  BoxFit.cover):
-              Image.asset("assets/images/frozen.jpg",
-                  width: 50,
-                  height: 50,
-                  fit:  BoxFit.cover
-              ))
-            ,
-          )
-      )
-    ],
-    ),
-    ),
+            Positioned(
+                bottom: 0,
+                right: 0,
+                child: Container(
+                  height: 40,
+                  width: 40,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                          width: 4,
+                          color: Colors.white
+                      ),
+                      color: Colors.green
+                  ),
+                  child: IconButton(
+                      onPressed: imagePickerOption,
+                      icon: const Icon(
+
+                        Icons.camera_alt,
+                        color: Colors.white,
+                      ))
+                  ,
+                )
+            )
+          ],
+        ),
+      ),
       Column(
         children: [
           const SizedBox(height: 20,),
@@ -273,7 +281,7 @@ class _MicrobusPageState extends State<MicrobusPage> {
           ),
           const SizedBox(height: 20,),
                         RoundedButton(
-                            btnText: 'Next Page',
+                            btnText: 'Siguiente',
                             onBtnPressed: () => createAccountPressed(),
                           ),
                           const SizedBox(height: 20,)
