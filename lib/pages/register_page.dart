@@ -29,7 +29,7 @@ class _RegisterPageState extends State<RegisterPage> {
       Map responseMap = jsonDecode(response.body);
       var dataUser = json.decode(response.body);
       if (response.statusCode == 401) {
-        idConductor = dataUser['user']['conductor_id'];
+        idConductor = dataUser['user']['id'];
         username = dataUser['user']['name'];
         // ignore: avoid_print
         print('Conductor id: $idConductor');
