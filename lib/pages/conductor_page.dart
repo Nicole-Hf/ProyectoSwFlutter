@@ -1,13 +1,13 @@
 
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:rutas_microbuses/pages/microbus_page.dart';
 import 'package:rutas_microbuses/services/auth_services.dart';
+import 'package:rutas_microbuses/services/globals.dart';
 import 'package:rutas_microbuses/utils/button.dart';
 
-import '../services/globals.dart';
+
+import 'microbus_page.dart';
 
 class conductorpage extends StatefulWidget {
   const conductorpage({Key? key}) : super(key: key);
@@ -163,7 +163,6 @@ class _conductorpageState extends State<conductorpage> {
                             onBtnPressed: () => createAccountPressed(),
                           ),
                           const SizedBox(height: 20,)
-
                 ],
               ),
             /*  buildTextField("nombre completo", "ejm: Juan Perez",_name),
@@ -173,6 +172,7 @@ class _conductorpageState extends State<conductorpage> {
               buildTextField("categoria licencia", "ejm: A",_categorialic),
               const SizedBox(height: 30),
 */
+
               /*Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -203,6 +203,7 @@ class _conductorpageState extends State<conductorpage> {
 
                 ],
               )*/
+
             ],
           ),
         ),

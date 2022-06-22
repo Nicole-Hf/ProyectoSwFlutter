@@ -65,4 +65,30 @@ class AuthServices {
     print(response.body);
     return response;
   }
+
+  static Future<http.Response> microbusRegister(String placa, String modelo, String nro_asientos, String nro_linea,
+      String nroInterno,String fecha_asignacion,String fecha_baja) async {
+    Map data = {
+      "placa": placa,
+      "modelo": modelo,
+      "nro_asientos": nro_asientos,
+      "nro_linea": nro_linea,
+      "nroInterno": nroInterno,
+      "fecha_asignacion": fecha_asignacion,
+      "fecha_baja": fecha_baja,
+
+      "conductor_id": idConductor,
+    };
+
+    var body = json.encode(data);
+    var url = Uri.parse('${baseUrl}auth/UserConductor');
+    http.Response response = await http.post(
+        url,
+        headers: headers,
+        body: body
+    );
+    // ignore: avoid_print
+    print(response.body);
+    return response;
+  }
 }

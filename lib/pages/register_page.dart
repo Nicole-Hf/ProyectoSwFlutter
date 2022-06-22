@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:http/http.dart' as http;
-import 'package:rutas_microbuses/pages/bus_page.dart';
 import 'package:rutas_microbuses/pages/conductor_page.dart';
 import 'package:rutas_microbuses/pages/prueba_page.dart';
 import 'package:rutas_microbuses/services/auth_services.dart';
@@ -38,7 +37,7 @@ class _RegisterPageState extends State<RegisterPage> {
         // ignore: use_build_context_synchronously
         Navigator.push(
           context, 
-          MaterialPageRoute(builder: (BuildContext context) => const conductorpage(),
+          MaterialPageRoute(builder: (BuildContext context) => const ConductorPage(),
         ));
       } else {
           // ignore: use_build_context_synchronously
