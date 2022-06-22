@@ -115,12 +115,9 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 40,),
               // ignore: deprecated_member_use
-              RaisedButton(
-                elevation: 10.0,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                padding: const EdgeInsets.only(top: 7.0, bottom: 7.0, right: 40.0, left: 7.0),
+              ElevatedButton(
                 onPressed: () {
-
+                  debugPrint('Button cliked');
                 },
                 // ignore: sort_child_properties_last
                 child: Row(
@@ -135,19 +132,14 @@ class _HomePageState extends State<HomePage> {
                       ),
                     )
                   ],
-                ),
-                textColor: Colors.white,              
-                color: Colors.green.shade600,      
+                ),      
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 30.0, bottom: 0.0),
                 child: Column(
                   children: [
                     // ignore: deprecated_member_use
-                    RaisedButton(
-                      elevation: 10.0,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                      padding: const EdgeInsets.only(top: 7.0, bottom: 7.0, right: 40.0, left: 7.0),
+                    ElevatedButton(
                       onPressed: () async {
                         _serviceEnabled = await location.serviceEnabled();
                         if (!_serviceEnabled) {
@@ -181,8 +173,6 @@ class _HomePageState extends State<HomePage> {
                           )
                         ],
                       ),
-                      textColor: Colors.white,              
-                      color: Colors.grey.shade500,
                     ),
                     StreamBuilder(
                       stream: location.onLocationChanged,

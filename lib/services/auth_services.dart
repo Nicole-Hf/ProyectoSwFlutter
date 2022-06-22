@@ -31,7 +31,7 @@ class AuthServices {
       "password": password,
     };
     var body = json.encode(data);
-    var url = Uri.parse('${baseUrl}auth/login/conductor');
+    var url = Uri.parse('${baseUrl}auth/login');
     http.Response response = await http.post(
       url,
       headers: headers,
@@ -51,7 +51,6 @@ class AuthServices {
       "ci": ci,
       "telefono": telefono,
       "categoria_lic": categorialic,
-
       "users_id": idConductor,
     };
 
