@@ -94,7 +94,7 @@ class _ConductorPageState extends State<ConductorPage> {
                          shape: BoxShape.circle,
                          image: const DecorationImage(
                              fit:  BoxFit.cover,
-                             image: AssetImage("assets/images/frozen.jpg"),
+                             image: AssetImage("assets/images/user_icon.png"),
                          )
                        ),
                      ),

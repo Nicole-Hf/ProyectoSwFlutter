@@ -96,7 +96,7 @@ class _MicrobusPageState extends State<MicrobusPage> {
     shape: BoxShape.rectangle,
     image: const DecorationImage(
     fit:  BoxFit.cover,
-    image: AssetImage("assets/images/frozen.jpg"),
+    image: AssetImage("assets/images/micro_icon.png"),
     )
     ),
     ),
