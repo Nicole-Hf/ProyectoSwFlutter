@@ -51,7 +51,7 @@ class AuthServices {
       "ci": ci,
       "telefono": telefono,
       "categoria_lic": categorialic,
-      "users_id": idConductor,
+      "users_id": idUser,
     };
 
     var body = json.encode(data);
@@ -66,17 +66,16 @@ class AuthServices {
     return response;
   }
 
-  static Future<http.Response> microbusRegister(String placa, String modelo, String nro_asientos,
-      String nro_linea, String nroInterno,String fecha_asignacion,String fecha_baja) async {
+  static Future<http.Response> microbusRegister(String placa, String modelo, String nroasientos, String nrolinea,
+      String nroInterno,String fechaasignacion,String fechabaja) async {
     Map data = {
       "placa": placa,
       "modelo": modelo,
-      "nro_asientos": nro_asientos,
-      "nro_linea": nro_linea,
+      "nro_asientos": nroasientos,
+      "nro_linea": nrolinea,
       "nroInterno": nroInterno,
-      "fecha_asignacion": fecha_asignacion,
-      "fecha_baja": fecha_baja,
-
+      "fecha_asignacion": fechaasignacion,
+      "fecha_baja": fechabaja,
       "conductor_id": idConductor,
     };
 

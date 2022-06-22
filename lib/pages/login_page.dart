@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/controllers/linea_controller.dart';
 import 'package:rutas_microbuses/pages/conductor_page.dart';
-import 'package:rutas_microbuses/pages/home_page.dart';
 import 'package:rutas_microbuses/pages/register_page.dart';
 import 'package:rutas_microbuses/services/auth_services.dart';
 import 'package:rutas_microbuses/services/globals.dart';
@@ -48,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
         // ignore: use_build_context_synchronously
         Navigator.push(
           context, 
-          MaterialPageRoute(builder: (BuildContext context) => const conductorpage(),
+          MaterialPageRoute(builder: (BuildContext context) => const ConductorPage(),
           //const HomePage(),
         ));       
       } else {

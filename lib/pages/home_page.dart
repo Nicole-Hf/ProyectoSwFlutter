@@ -16,11 +16,12 @@ class HomePage extends StatefulWidget{
 
 class _HomePageState extends State<HomePage> {
  // Location location = Location();
+  /*Location location = Location();
   late bool _serviceEnabled;
   //late PermissionStatus _permissionGranted;
   //late LocationData _locationData;
   // ignore: unused_field
-  bool _isListenLocation = false; //, _isGetLocation = false;
+  bool _isListenLocation = false; //, _isGetLocation = false;*/
   
   @override
   Widget build(BuildContext context) {
@@ -133,7 +134,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),      
               ),
-              Padding(
+              /*Padding(
                 padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 30.0, bottom: 0.0),
                 child: Column(
                   children: [
@@ -188,7 +189,7 @@ class _HomePageState extends State<HomePage> {
                     )
                   ]
                 )
-              )  
+              )  */
             ],
           ),    */
         ],
