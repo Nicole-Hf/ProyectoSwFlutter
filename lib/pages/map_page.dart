@@ -1,10 +1,6 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:location/location.dart';
 import 'package:rutas_microbuses/pages/login_page.dart';
-import 'package:rutas_microbuses/utils/variables.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({Key? key}) : super(key: key);
@@ -15,7 +11,7 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  Location location = Location();
+  //Location location = Location();
 
   @override
   Widget build(BuildContext context) {
@@ -48,37 +44,7 @@ class _MapPageState extends State<MapPage> {
           const SizedBox(width: 26)
         ],
       ),
-      body: Stack(children: <Widget>[
-        StreamBuilder(
-          stream: location.onLocationChanged,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState != ConnectionState.waiting) {
-              var data = snapshot.data as LocationData;
-              latitud = data.latitude!;
-              longitud = data.longitude!;
-              return FlutterMap(
-                options: MapOptions(minZoom: 10.0, center: LatLng(latitud, longitud)),
-                layers: [
-                  TileLayerOptions(
-                    urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    subdomains: ['a', 'b', 'c'],
-                  ),
-                  MarkerLayerOptions(markers: [
-                    Marker(
-                      width: 45.0,
-                      height: 45.0,
-                      point: LatLng(latitud, longitud),
-                      builder: (context) => Image.asset('assets/images/ubt_icon.png', height: 20.0, width: 20.0,),
-                    )
-                  ])
-                ],
-              );
-            } else {
-              return const Center(child: CircularProgressIndicator(),);
-            }
-          }),
-        ]
-      )
+      body: Container(),
     );
   }
 }

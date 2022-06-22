@@ -1,14 +1,13 @@
+// ignore_for_file: avoid_print, use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:rutas_microbuses/pages/microbus_page.dart';
-import 'package:rutas_microbuses/pages/conductor_page.dart';
 import 'package:rutas_microbuses/services/auth_services.dart';
 import 'package:rutas_microbuses/services/globals.dart';
 import 'package:rutas_microbuses/utils/button.dart';
-import 'package:rutas_microbuses/utils/variables.dart';
-
 import 'map_page.dart';
+
 class MicrobusPage extends StatefulWidget {
   const MicrobusPage({Key? key}) : super(key: key);
 
@@ -19,17 +18,16 @@ class MicrobusPage extends StatefulWidget {
 class _MicrobusPageState extends State<MicrobusPage> {
   String _placa= '';
   String _modelo= '';
-  String _nro_asientos= '';
-  String _nro_linea= '';
+  String _nroasientos= '';
+  String _nrolinea= '';
   String _nroInterno= '';
-  String _fecha_asignacion= '';
-  String _fecha_baja= '';
+  String _fechaasignacion= '';
+  String _fechabaja= '';
 
   createAccountPressed() async {
-    http.Response response = await AuthServices.microbusRegister(_placa,_modelo,_nro_asientos,_nro_linea,
-        _nroInterno,_fecha_asignacion,_fecha_baja);
+    http.Response response = await AuthServices.microbusRegister(_placa,_modelo,_nroasientos,_nrolinea,
+        _nroInterno,_fechaasignacion,_fechabaja);
     Map responseMap = jsonDecode(response.body);
-    var dataUser = json.decode(response.body);
     if (response.statusCode == 401) {
       print("datos registrados");
       Navigator.push(
@@ -37,7 +35,6 @@ class _MicrobusPageState extends State<MicrobusPage> {
           MaterialPageRoute(builder: (BuildContext context) => const MapPage(),
           ));
     } else {
-      // ignore: use_build_context_synchronously
       errorSnackBar(context, responseMap.values.first[0]);
     }
 
@@ -146,7 +143,7 @@ class _MicrobusPageState extends State<MicrobusPage> {
           TextField(
             decoration: const InputDecoration(hintText: 'numero de asientos'),
             onChanged: (value) {
-              _nro_asientos = value;
+              _nroasientos = value;
             },
           ),
 
@@ -154,7 +151,7 @@ class _MicrobusPageState extends State<MicrobusPage> {
           TextField(
             decoration: const InputDecoration(hintText: 'numero de linea'),
             onChanged: (value) {
-              _nro_linea = value;
+              _nrolinea = value;
             },
           ),
 
@@ -170,7 +167,7 @@ class _MicrobusPageState extends State<MicrobusPage> {
           TextField(
             decoration: const InputDecoration(hintText: 'fecha de asignacion'),
             onChanged: (value) {
-              _fecha_asignacion = value;
+              _fechaasignacion = value;
             },
           ),
 
@@ -178,7 +175,7 @@ class _MicrobusPageState extends State<MicrobusPage> {
           TextField(
             decoration: const InputDecoration(hintText: 'fecha de baja'),
             onChanged: (value) {
-              _fecha_baja = value;
+              _fechabaja = value;
             },
           ),
           const SizedBox(height: 20,),

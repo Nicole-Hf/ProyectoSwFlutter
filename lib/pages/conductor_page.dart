@@ -1,22 +1,25 @@
 
+// ignore_for_file: use_build_context_synchronously, unnecessary_null_comparison, avoid_print
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/services/auth_services.dart';
 import 'package:rutas_microbuses/services/globals.dart';
 import 'package:rutas_microbuses/utils/button.dart';
+import 'package:rutas_microbuses/utils/variables.dart';
 
 
 import 'microbus_page.dart';
 
-class conductorpage extends StatefulWidget {
-  const conductorpage({Key? key}) : super(key: key);
+class ConductorPage extends StatefulWidget {
+  const ConductorPage({Key? key}) : super(key: key);
 
   @override
-  State<conductorpage> createState() => _conductorpageState();
+  State<ConductorPage> createState() => _ConductorPageState();
 }
 
-class _conductorpageState extends State<conductorpage> {
+class _ConductorPageState extends State<ConductorPage> {
   String _name= '';
   String _fechanacimiento= '';
   String _ci= '';
@@ -26,14 +29,14 @@ class _conductorpageState extends State<conductorpage> {
   createAccountPressed() async {
       http.Response response = await AuthServices.conductorRegister(_name, _fechanacimiento, _ci, _telefono, _categorialic);
       Map responseMap = jsonDecode(response.body);
-      var dataUser = json.decode(response.body);
+      var dataConductor = json.decode(response.body);
       if (response.statusCode == 401) {
+        idConductor = dataConductor['conductor']['id'];
         Navigator.push(
           context, 
           MaterialPageRoute(builder: (BuildContext context) => const MicrobusPage(),
         ));
       } else {
-          // ignore: use_build_context_synchronously
           errorSnackBar(context, responseMap.values.first[0]);
       }
   }
