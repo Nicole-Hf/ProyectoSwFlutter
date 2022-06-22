@@ -1,7 +1,6 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 
 import 'package:flutter/material.dart';
-import 'package:location/location.dart';
 import 'package:rutas_microbuses/pages/map_page.dart';
 import 'package:rutas_microbuses/utils/variables.dart';
 
@@ -16,9 +15,9 @@ class HomePage extends StatefulWidget{
 }
 
 class _HomePageState extends State<HomePage> {
-  Location location = Location();
+ // Location location = Location();
   late bool _serviceEnabled;
-  late PermissionStatus _permissionGranted;
+  //late PermissionStatus _permissionGranted;
   //late LocationData _locationData;
   // ignore: unused_field
   bool _isListenLocation = false; //, _isGetLocation = false;
@@ -59,7 +58,7 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[       
-          Column(
+     /*     Column(
             //mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Card(
@@ -191,7 +190,7 @@ class _HomePageState extends State<HomePage> {
                 )
               )  
             ],
-          ),     
+          ),    */
         ],
       )
     );

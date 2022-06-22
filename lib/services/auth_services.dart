@@ -66,8 +66,8 @@ class AuthServices {
     return response;
   }
 
-  static Future<http.Response> microbusRegister(String placa, String modelo, String nro_asientos, String nro_linea,
-      String nroInterno,String fecha_asignacion,String fecha_baja) async {
+  static Future<http.Response> microbusRegister(String placa, String modelo, String nro_asientos,
+      String nro_linea, String nroInterno,String fecha_asignacion,String fecha_baja) async {
     Map data = {
       "placa": placa,
       "modelo": modelo,
@@ -81,7 +81,7 @@ class AuthServices {
     };
 
     var body = json.encode(data);
-    var url = Uri.parse('${baseUrl}auth/UserConductor');
+    var url = Uri.parse('${baseUrl}auth/MicrobusPerfil');
     http.Response response = await http.post(
         url,
         headers: headers,

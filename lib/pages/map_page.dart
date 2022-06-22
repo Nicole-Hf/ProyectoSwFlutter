@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:location/location.dart';
+
 import 'package:rutas_microbuses/pages/login_page.dart';
 import 'package:rutas_microbuses/utils/variables.dart';
 
@@ -15,7 +15,7 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
-  Location location = Location();
+ // Location location = Location();
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class _MapPageState extends State<MapPage> {
           const SizedBox(width: 26)
         ],
       ),
-      body: Stack(children: <Widget>[
+   /*   body: Stack(children: <Widget>[
         StreamBuilder(
           stream: location.onLocationChanged,
           builder: (context, snapshot) {
@@ -78,7 +78,7 @@ class _MapPageState extends State<MapPage> {
             }
           }),
         ]
-      )
+      )*/
     );
   }
 }
