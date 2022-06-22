@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:rutas_microbuses/pages/bus_page.dart';
 import 'package:rutas_microbuses/pages/conductor_page.dart';
 import 'package:rutas_microbuses/pages/home_page.dart';
 import 'package:rutas_microbuses/pages/login_page.dart';
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Maps',
       theme: ThemeData(
         primarySwatch: Colors.blue,

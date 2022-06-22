@@ -11,8 +11,8 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
+ // Location location = Location();
   //Location location = Location();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

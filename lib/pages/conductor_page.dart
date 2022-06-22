@@ -2,13 +2,17 @@
 // ignore_for_file: use_build_context_synchronously, unnecessary_null_comparison, avoid_print
 
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/services/auth_services.dart';
 import 'package:rutas_microbuses/services/globals.dart';
 import 'package:rutas_microbuses/utils/button.dart';
-import 'package:rutas_microbuses/utils/variables.dart';
+import 'package:image_picker/image_picker.dart';
 
+import 'package:rutas_microbuses/utils/variables.dart';
 
 import 'microbus_page.dart';
 
@@ -19,7 +23,11 @@ class ConductorPage extends StatefulWidget {
   State<ConductorPage> createState() => _ConductorPageState();
 }
 
-class _ConductorPageState extends State<ConductorPage> {
+
+class _conductorpageState extends State<conductorpage> {
+  File ? pickedImage;
+
+
   String _name= '';
   String _fechanacimiento= '';
   String _ci= '';
@@ -27,22 +35,97 @@ class _ConductorPageState extends State<ConductorPage> {
   String _categorialic= '';
 
   createAccountPressed() async {
-      http.Response response = await AuthServices.conductorRegister(_name, _fechanacimiento, _ci, _telefono, _categorialic);
-      Map responseMap = jsonDecode(response.body);
-      var dataConductor = json.decode(response.body);
-      if (response.statusCode == 401) {
-        idConductor = dataConductor['conductor']['id'];
-        Navigator.push(
-          context, 
+    http.Response response = await AuthServices.conductorRegister(_name, _fechanacimiento, _ci, _telefono, _categorialic);
+    Map responseMap = jsonDecode(response.body);
+    var dataUser = json.decode(response.body);
+    if (response.statusCode == 401) {
+      Navigator.push(
+          context,
           MaterialPageRoute(builder: (BuildContext context) => const MicrobusPage(),
-        ));
-      } else {
-          errorSnackBar(context, responseMap.values.first[0]);
-      }
+          ));
+    } else {
+      // ignore: use_build_context_synchronously
+      errorSnackBar(context, responseMap.values.first[0]);
+    }
+  }
+  pickImage(ImageSource imageType) async {
+    try {
+      final photo = await ImagePicker().pickImage(source: imageType);
+      if (photo == null) return;
+      final tempImage = File(photo.path);
+      print(tempImage);
+      setState(() {
+        pickedImage = tempImage;
+      });
+
+      Get.back();
+    } catch (error) {
+      debugPrint(error.toString());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    void imagePickerOption() {
+      Get.bottomSheet(
+        SingleChildScrollView(
+          child: ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(10.0),
+              topRight: Radius.circular(10.0),
+            ),
+            child: Container(
+              color: Colors.white,
+              height: 250,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text(
+                      "Pic Image From",
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        pickImage(ImageSource.camera);
+                      },
+                      icon: const Icon(Icons.camera),
+                      label: const Text("CAMERA"),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        pickImage(ImageSource.gallery);
+                      },
+                      icon: const Icon(Icons.image),
+                      label: const Text("GALLERY"),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      icon: const Icon(Icons.close),
+                      label: const Text("CANCEL"),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+
+
+
     return Scaffold(
        appBar: AppBar(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -92,11 +175,19 @@ class _ConductorPageState extends State<ConductorPage> {
                            )
                          ],
                          shape: BoxShape.circle,
-                         image: const DecorationImage(
-                             fit:  BoxFit.cover,
-                             image: AssetImage("assets/images/user_icon.png"),
-                         )
                        ),
+                       child: ClipOval(
+                         child: pickedImage !=null ? Image.file(pickedImage!,
+                             width: 50,
+                             height: 50,
+                             fit:  BoxFit.cover):
+                         Image.asset("assets/images/frozen.jpg",
+                             width: 50,
+                             height: 50,
+                             fit:  BoxFit.cover
+                         ),
+                       ),
+
                      ),
                      Positioned(
                          bottom: 0,
@@ -112,10 +203,14 @@ class _ConductorPageState extends State<ConductorPage> {
                              ),
                              color: Colors.green
                            ),
-                           child: const Icon(
+                           child: IconButton(
+                               onPressed: imagePickerOption,
+                               icon: const Icon(
+
                              Icons.edit,
-                           color: Colors.white,
-                           ),
+                             color: Colors.white,
+                           ))
+                          ,
                          )
                      )
                    ],
@@ -168,44 +263,6 @@ class _ConductorPageState extends State<ConductorPage> {
                           const SizedBox(height: 20,)
                 ],
               ),
-            /*  buildTextField("nombre completo", "ejm: Juan Perez",_name),
-              buildTextField("fecha Nacimiento", "ejm: año/mes/dia",_fechanacimiento),
-              buildTextField("carnet identidad", "ejm: 11223345",_ci),
-              buildTextField("telefono", "ejm: 78903442",_telefono),
-              buildTextField("categoria licencia", "ejm: A",_categorialic),
-              const SizedBox(height: 30),
-*/
-
-              /*Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  /*OutlinedButton(onPressed: (){},
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 50),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))
-                        ),
-                      child: const Text("CANCEL", style: TextStyle(
-                        fontSize: 15,
-                        letterSpacing: 2,
-                        color: Colors.black
-                      )),
-                      ),*/
-                  ElevatedButton(
-                    onPressed: () => createAccountPressed(),
-                    style: ElevatedButton.styleFrom(
-                    primary: Colors.green,
-                    padding: const EdgeInsets.symmetric(horizontal: 50),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))
-                  ),
-                    child: const Text("siguiente", style: TextStyle(
-                      fontSize: 15,
-                      letterSpacing: 2,
-                      color: Colors.white
-                  )),
-                  )
-
-                ],
-              )*/
 
             ],
           ),
@@ -214,40 +271,6 @@ class _ConductorPageState extends State<ConductorPage> {
     );
   }
 
- Widget buildTextField(String labelText, String placeholder, String valor){
-    String valorcito = valor;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 30),
-      child: TextField(
-        //obscureText: isPasswordTextField ? isObscurePassword: false,
-        decoration: InputDecoration(
-          /*suffixIcon: isObscurePassword ?
-              IconButton(
-                  icon: const Icon(Icons.remove_red_eye, color: Colors.grey),
-                onPressed: (){},
-              ):null,*/
-          contentPadding: const EdgeInsets.only(bottom: 5),
-          labelText: labelText,floatingLabelBehavior: FloatingLabelBehavior.always,
-          hintText: placeholder,
-          hintStyle: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-            color: Colors.grey,
-          ),
-        ),
-        onChanged: (value) {
-          if(valorcito == null) {
-            print(valorcito);
-          }else{
-            print("no hay valor");
-          }
-          valorcito = value;
-        },
-
-      ),
-
-    );
- }
 
 }
 
