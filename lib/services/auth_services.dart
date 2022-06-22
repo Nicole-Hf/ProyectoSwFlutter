@@ -51,7 +51,6 @@ class AuthServices {
       "ci": ci,
       "telefono": telefono,
       "categoria_lic": categorialic,
-
       "users_id": idConductor,
     };
 

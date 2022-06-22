@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/pages/microbus_page.dart';
 import 'package:rutas_microbuses/services/auth_services.dart';
+import 'package:rutas_microbuses/utils/button.dart';
 
 import '../services/globals.dart';
 
@@ -15,8 +16,6 @@ class conductorpage extends StatefulWidget {
   State<conductorpage> createState() => _conductorpageState();
 }
 
-
-
 class _conductorpageState extends State<conductorpage> {
   String _name= '';
   String _fechanacimiento= '';
@@ -25,21 +24,18 @@ class _conductorpageState extends State<conductorpage> {
   String _categorialic= '';
 
   createAccountPressed() async {
-      http.Response response = await AuthServices.conductorRegister(_name, _fechanacimiento,
-          _ci,_telefono,_categorialic,);
+      http.Response response = await AuthServices.conductorRegister(_name, _fechanacimiento, _ci, _telefono, _categorialic);
       Map responseMap = jsonDecode(response.body);
       var dataUser = json.decode(response.body);
       if (response.statusCode == 401) {
-        print("datos registrados");
         Navigator.push(
-            context,
-            MaterialPageRoute(builder: (BuildContext context) => const MicrobusPage(),
-            ));
+          context, 
+          MaterialPageRoute(builder: (BuildContext context) => const MicrobusPage(),
+        ));
       } else {
-        // ignore: use_build_context_synchronously
-        errorSnackBar(context, responseMap.values.first[0]);
+          // ignore: use_build_context_synchronously
+          errorSnackBar(context, responseMap.values.first[0]);
       }
-
   }
 
   @override
@@ -65,10 +61,7 @@ class _conductorpageState extends State<conductorpage> {
              onPressed: (){},
            ),
          ],
-
-
        ),
-
       body: Container(
         padding: const EdgeInsets.only(left: 16,top: 25,right: 16),
         child: GestureDetector(
@@ -125,7 +118,6 @@ class _conductorpageState extends State<conductorpage> {
                    ],
                  ),
                ),
-
               Column(
                 children: [
                   const SizedBox(height: 20,),
@@ -165,7 +157,12 @@ class _conductorpageState extends State<conductorpage> {
                       _categorialic = value;
                     },
                   ),
-                  const SizedBox(height: 20,),
+                   const SizedBox(height: 20,),
+                          RoundedButton(
+                            btnText: 'Siguiente',
+                            onBtnPressed: () => createAccountPressed(),
+                          ),
+                          const SizedBox(height: 20,)
 
                 ],
               ),
@@ -176,7 +173,7 @@ class _conductorpageState extends State<conductorpage> {
               buildTextField("categoria licencia", "ejm: A",_categorialic),
               const SizedBox(height: 30),
 */
-              Row(
+              /*Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   /*OutlinedButton(onPressed: (){},
@@ -205,7 +202,7 @@ class _conductorpageState extends State<conductorpage> {
                   )
 
                 ],
-              )
+              )*/
             ],
           ),
         ),

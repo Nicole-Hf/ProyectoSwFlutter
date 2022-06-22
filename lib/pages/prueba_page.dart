@@ -4,49 +4,40 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/pages/bus_page.dart';
 import 'package:rutas_microbuses/pages/conductor_page.dart';
-import 'package:rutas_microbuses/pages/prueba_page.dart';
+import 'package:rutas_microbuses/pages/microbus_page.dart';
 import 'package:rutas_microbuses/services/auth_services.dart';
 import 'package:rutas_microbuses/services/globals.dart';
 import 'package:rutas_microbuses/utils/button.dart';
 import 'package:rutas_microbuses/utils/variables.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+class ConductorPage extends StatefulWidget {
+  const ConductorPage({Key? key}) : super(key: key);
   
   @override
   // ignore: library_private_types_in_public_api
-  _RegisterPageState createState() => _RegisterPageState();
+  _ConductorPageState createState() => _ConductorPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
-  String _name = '';
-  String _email = '';
-  String _password = '';
+class _ConductorPageState extends State<ConductorPage> {
+  String _name= '';
+  String _fechanacimiento= '';
+  String _ci= '';
+  String _telefono= '';
+  String _categorialic= '';
 
   createAccountPressed() async {
-    bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(_email);
-    
-    if (emailValid) {
-      http.Response response = await AuthServices.register(_name, _email, _password);
+      http.Response response = await AuthServices.conductorRegister(_name, _fechanacimiento, _ci, _telefono, _categorialic);
       Map responseMap = jsonDecode(response.body);
       var dataUser = json.decode(response.body);
       if (response.statusCode == 401) {
-        idConductor = dataUser['user']['id'];
-        username = dataUser['user']['name'];
-        // ignore: avoid_print
-        print('Conductor id: $idConductor');
-        // ignore: use_build_context_synchronously
         Navigator.push(
           context, 
-          MaterialPageRoute(builder: (BuildContext context) => const conductorpage(),
+          MaterialPageRoute(builder: (BuildContext context) => const MicrobusPage(),
         ));
       } else {
           // ignore: use_build_context_synchronously
           errorSnackBar(context, responseMap.values.first[0]);
       }
-    } else {
-        errorSnackBar(context, 'Email not valid');
-    }
   }
 
   @override
@@ -86,17 +77,30 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                           const SizedBox(height: 20,),
                           TextField(
-                            decoration: const InputDecoration(hintText: 'Email'),
+                            decoration: const InputDecoration(hintText: 'Fecha de Nacimiento'),
                             onChanged: (value) {
-                              _email = value;
+                              _fechanacimiento = value;
                             },
                           ),
                           const SizedBox(height: 20,),
                           TextField(
-                            obscureText: true,
-                            decoration: const InputDecoration(hintText: 'Password'),
+                            decoration: const InputDecoration(hintText: 'Telefono'),
                             onChanged: (value) {
-                              _password = value;
+                              _telefono = value;
+                            },
+                          ),
+                          const SizedBox(height: 20,),
+                          TextField(
+                            decoration: const InputDecoration(hintText: 'Categoria Licencia'),
+                            onChanged: (value) {
+                              _categorialic = value;
+                            },
+                          ),
+                          const SizedBox(height: 20,),
+                          TextField(
+                            decoration: const InputDecoration(hintText: 'Carnet'),
+                            onChanged: (value) {
+                              _ci = value;
                             },
                           ),
                           const SizedBox(height: 20,),
