@@ -1,12 +1,15 @@
 
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:rutas_microbuses/pages/microbus_page.dart';
+import 'package:rutas_microbuses/pages/bus_page.dart';
+import 'package:rutas_microbuses/pages/conductor_page.dart';
 import 'package:rutas_microbuses/services/auth_services.dart';
+import 'package:rutas_microbuses/services/globals.dart';
+import 'package:rutas_microbuses/utils/button.dart';
+import 'package:rutas_microbuses/utils/variables.dart';
 
-import '../services/globals.dart';
+import 'microbus_page.dart';
 
 class conductorpage extends StatefulWidget {
   const conductorpage({Key? key}) : super(key: key);
@@ -26,7 +29,7 @@ class _conductorpageState extends State<conductorpage> {
 
   createAccountPressed() async {
       http.Response response = await AuthServices.conductorRegister(_name, _fechanacimiento,
-          _ci,_telefono,_categorialic,);
+          _ci,_telefono,_categorialic);
       Map responseMap = jsonDecode(response.body);
       var dataUser = json.decode(response.body);
       if (response.statusCode == 401) {
@@ -166,7 +169,11 @@ class _conductorpageState extends State<conductorpage> {
                     },
                   ),
                   const SizedBox(height: 20,),
-
+                            RoundedButton(
+                            btnText: 'Next Page',
+                            onBtnPressed: () => createAccountPressed(),
+                          ),
+                          const SizedBox(height: 20,)
                 ],
               ),
             /*  buildTextField("nombre completo", "ejm: Juan Perez",_name),
@@ -176,7 +183,7 @@ class _conductorpageState extends State<conductorpage> {
               buildTextField("categoria licencia", "ejm: A",_categorialic),
               const SizedBox(height: 30),
 */
-              Row(
+             /* Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   /*OutlinedButton(onPressed: (){},
@@ -205,7 +212,8 @@ class _conductorpageState extends State<conductorpage> {
                   )
 
                 ],
-              )
+              )*/
+
             ],
           ),
         ),

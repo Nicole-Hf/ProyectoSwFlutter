@@ -67,17 +67,17 @@ class AuthServices {
     return response;
   }
 
-  static Future<http.Response> microbusRegister(String placa, String modelo, int nro_asientos, String telefono,
-      String categorialic) async {
+  static Future<http.Response> microbusRegister(String placa, String modelo, String nro_asientos, String nro_linea,
+      String nroInterno,String fecha_asignacion,String fecha_baja) async {
     Map data = {
-      "placa": name,
-      "modelo": fechanacimiento,
-      "nro_asientos": ci,
-      "nro_linea": telefono,
-      "nroInterno": categorialic,
-      "fecha_asignacion": ci,
-      "fecha_baja": telefono,
-      "nroInterno": categorialic,
+      "placa": placa,
+      "modelo": modelo,
+      "nro_asientos": nro_asientos,
+      "nro_linea": nro_linea,
+      "nroInterno": nroInterno,
+      "fecha_asignacion": fecha_asignacion,
+      "fecha_baja": fecha_baja,
+
       "conductor_id": idConductor,
     };
 

@@ -1,5 +1,14 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:rutas_microbuses/pages/microbus_page.dart';
+import 'package:rutas_microbuses/pages/conductor_page.dart';
+import 'package:rutas_microbuses/services/auth_services.dart';
+import 'package:rutas_microbuses/services/globals.dart';
+import 'package:rutas_microbuses/utils/button.dart';
+import 'package:rutas_microbuses/utils/variables.dart';
 
+import 'map_page.dart';
 class MicrobusPage extends StatefulWidget {
   const MicrobusPage({Key? key}) : super(key: key);
 
@@ -17,15 +26,15 @@ class _MicrobusPageState extends State<MicrobusPage> {
   String _fecha_baja= '';
 
   createAccountPressed() async {
-    http.Response response = await AuthServices.conductorRegister(_name, _fechanacimiento,
-      _ci,_telefono,_categorialic,);
+    http.Response response = await AuthServices.microbusRegister(_placa,_modelo,_nro_asientos,_nro_linea,
+        _nroInterno,_fecha_asignacion,_fecha_baja);
     Map responseMap = jsonDecode(response.body);
     var dataUser = json.decode(response.body);
     if (response.statusCode == 401) {
       print("datos registrados");
       Navigator.push(
           context,
-          MaterialPageRoute(builder: (BuildContext context) => const MicrobusPage(),
+          MaterialPageRoute(builder: (BuildContext context) => const MapPage(),
           ));
     } else {
       // ignore: use_build_context_synchronously
@@ -173,6 +182,13 @@ class _MicrobusPageState extends State<MicrobusPage> {
             },
           ),
           const SizedBox(height: 20,),
+                        RoundedButton(
+                            btnText: 'Next Page',
+                            onBtnPressed: () => createAccountPressed(),
+                          ),
+                          const SizedBox(height: 20,)
+               ],
+              ),
       /*buildTextField("placa", "ejm: GX34J"),
       buildTextField("modelo", "ejm: suzuki"),
       buildTextField("numero de asientos", "ejm: 10"),
@@ -182,10 +198,10 @@ class _MicrobusPageState extends State<MicrobusPage> {
       buildTextField("fecha de baja", "ejm: año/mes/dia"),
       const SizedBox(height: 0),*/
 
-      Row(
+     /* Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-         /* OutlinedButton(onPressed: (){},
+          OutlinedButton(onPressed: (){},
             style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))
@@ -195,7 +211,7 @@ class _MicrobusPageState extends State<MicrobusPage> {
                 letterSpacing: 2,
                 color: Colors.black
             )),
-          ),*/
+          ),
           ElevatedButton( onPressed: (){},
             style: ElevatedButton.styleFrom(
                 primary: Colors.green,
@@ -210,11 +226,11 @@ class _MicrobusPageState extends State<MicrobusPage> {
           )
 
         ],
-      )
+      )*/
     ],
-    ),
-    ),
-    ),
+          ),
+        ),
+      ),
     );
   }
 
