@@ -120,16 +120,17 @@ class _MicrobusPageState extends State<MicrobusPage> {
     appBar: AppBar(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       elevation: 1,
-      leading: IconButton(
-        icon: const Icon(Icons.account_box, color: Colors.green,),
-        onPressed: (){},
-      ),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.settings, color: Colors.green,),
-          onPressed: (){},
+      leading: InkWell(
+        onTap: () async {
+          Navigator.pop(context);
+        },
+        child: const Icon(
+          Icons.arrow_back_rounded,
+          color: Colors.black,
+          size: 24,
         ),
-      ],
+      ),
+      title: const Text('Añadir Microbus', style: TextStyle(fontSize: 20, color: Colors.black),),
     ),
     body: Container(
       padding: const EdgeInsets.only(left: 16,top: 25,right: 16),
@@ -139,7 +140,6 @@ class _MicrobusPageState extends State<MicrobusPage> {
         },
         child: ListView(
           children: [
-            const Text("Perfil Microbus", style: TextStyle(fontSize: 25,fontWeight: FontWeight.w500),),
             Center(
               child: Stack(
                 children: [
@@ -158,29 +158,20 @@ class _MicrobusPageState extends State<MicrobusPage> {
                       shape: BoxShape.rectangle,
                     ),
                     child: ClipRect(
-                      child: pickedImage !=null ? Image.file(pickedImage!,
-                      width: 50,
-                      height: 50,
-                      fit:  BoxFit.cover):
-                      Image.asset("assets/images/micro_icon.png", 
-                        width: 50,
-                        height: 50,
-                        fit:  BoxFit.cover
-                      ),
+                      child: pickedImage != null 
+                        ? Image.file(pickedImage!, width: 50, height: 50, fit:  BoxFit.cover)
+                        : Image.asset("assets/images/bus_icon.jpg", width: 50, height: 50, fit:  BoxFit.contain),
                     ),
                   ),
                   Positioned(
                     bottom: 0,
                     right: 0,
                     child: Container(
-                      height: 40,
-                      width: 40,
+                      height: 50,
+                      width: 50,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        border: Border.all(
-                          width: 4,
-                          color: Colors.white
-                        ),
+                        border: Border.all(width: 4, color: Colors.white),
                         color: Colors.green
                       ),
                       child: IconButton(
@@ -196,59 +187,59 @@ class _MicrobusPageState extends State<MicrobusPage> {
               children: [
                 const SizedBox(height: 20,),
                 TextField(
-                  decoration: const InputDecoration(hintText: 'placa'),
+                  decoration: const InputDecoration(hintText: 'Placa'),
                   onChanged: (value) {
                     _placa = value;
                   },
                 ),
                 const SizedBox(height: 20,),
                 TextField(
-                  decoration: const InputDecoration(hintText: 'modelo'),
+                  decoration: const InputDecoration(hintText: 'Modelo'),
                   onChanged: (value) {
                     _modelo = value;
                   },
                 ),
                 const SizedBox(height: 20,),
                 TextField(
-                  decoration: const InputDecoration(hintText: 'numero de asientos'),
+                  decoration: const InputDecoration(hintText: 'Capacidad'),
                   onChanged: (value) {
                     _nroasientos = value;
                   },
                 ),
                 const SizedBox(height: 20,),
                 TextField(
-                  decoration: const InputDecoration(hintText: 'numero de linea'),
+                  decoration: const InputDecoration(hintText: 'Número de linea'),
                   onChanged: (value) {
                     _nrolinea = value;
                   },
                 ),
                 const SizedBox(height: 20,),
                 TextField(
-                  decoration: const InputDecoration(hintText: 'numero interno'),
+                  decoration: const InputDecoration(hintText: 'Interno'),
                   onChanged: (value) {
                     _nroInterno = value;
                   },
                 ),
                 const SizedBox(height: 20,),
                 TextField(
-                  decoration: const InputDecoration(hintText: 'fecha de asignacion'),
+                  decoration: const InputDecoration(hintText: 'Fecha de asignación'),
                   onChanged: (value) {
                     _fechaasignacion = value;
                   },
                 ),
                 const SizedBox(height: 20,),
                 TextField(
-                  decoration: const InputDecoration(hintText: 'fecha de baja'),
+                  decoration: const InputDecoration(hintText: 'Fecha de baja'),
                   onChanged: (value) {
                     _fechabaja = value;
                   },  
                 ),
-                const SizedBox(height: 20,),
+                const SizedBox(height: 40,),
                 RoundedButton(
-                  btnText: 'Registrar',
+                  btnText: 'Completar registro',
                   onBtnPressed: () => createAccountPressed(),
                 ),
-                const SizedBox(height: 20,)
+                const SizedBox(height: 40,)
               ],
             ),
           ],

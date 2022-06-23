@@ -70,31 +70,25 @@ class _ConductorPageState extends State<ConductorPage> {
             ),
             child: Container(
               color: Colors.white,
-              height: 250,
+              height: 200,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(top: 10 ,right: 70.0, left: 70.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const Text(
-                      "Pic Image From",
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 10,),
                     ElevatedButton.icon(
                       onPressed: () {
                         pickImage(ImageSource.camera);
                       },
                       icon: const Icon(Icons.camera),
-                      label: const Text("CAMERA"),
+                      label: const Text("Cámara"),
                     ),
                     ElevatedButton.icon(
                       onPressed: () {
                         pickImage(ImageSource.gallery);
                       },
                       icon: const Icon(Icons.image),
-                      label: const Text("GALLERY"),
+                      label: const Text("Galería"),
                     ),
                     const SizedBox(height: 10,),
                     ElevatedButton.icon(
@@ -102,7 +96,7 @@ class _ConductorPageState extends State<ConductorPage> {
                         Get.back();
                       },
                       icon: const Icon(Icons.close),
-                      label: const Text("CANCEL"),
+                      label: const Text("Cancelar"),
                     ),
                   ],
                 ),
@@ -117,26 +111,26 @@ class _ConductorPageState extends State<ConductorPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,
-        leading: IconButton(
-          icon: const Icon(Icons.account_box, color: Colors.green,),
-          onPressed: (){},
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings, color: Colors.green,),
-            onPressed: (){},
+        leading: InkWell(
+          onTap: () async {
+            Navigator.pop(context);
+          },
+          child: const Icon(
+            Icons.arrow_back_rounded,
+            color: Colors.black,
+            size: 24,
           ),
-        ],
+        ),
+        title: const Text('Perfil', style: TextStyle(fontSize: 20, color: Colors.black),),
       ),
       body: Container(
-        padding: const EdgeInsets.only(left: 16,top: 25,right: 16),
+        padding: const EdgeInsets.only(left: 25, top: 25, right: 25),
         child: GestureDetector(
           onTap: (){
             FocusScope.of(context).unfocus();
           },
           child: ListView(
             children: [
-              const Text("Perfil", style: TextStyle(fontSize: 25,fontWeight: FontWeight.w500),),
               Center(
                 child: Stack(
                   children: [
@@ -155,15 +149,9 @@ class _ConductorPageState extends State<ConductorPage> {
                         shape: BoxShape.circle,
                       ),
                       child: ClipOval(
-                        child: pickedImage !=null ? Image.file(pickedImage!,
-                        width: 50,
-                        height: 50,
-                        fit:  BoxFit.cover):
-                        Image.asset("assets/images/user_icon.png",
-                          width: 50,
-                          height: 50,
-                          fit:  BoxFit.cover
-                        ),
+                        child: pickedImage !=null 
+                          ? Image.file(pickedImage!,width: 50, height: 50, fit:  BoxFit.cover)
+                          : Image.asset("assets/images/user_icon.png", width: 50, height: 50, fit:  BoxFit.cover),
                       ),
                     ),
                     Positioned(
@@ -178,54 +166,57 @@ class _ConductorPageState extends State<ConductorPage> {
                           color: Colors.green
                         ),
                         child: IconButton(
+                          padding: const EdgeInsets.all(0),
                           onPressed: imagePickerOption,
-                          icon: const Icon(Icons.edit, color: Colors.white,)
+                          icon: const Icon(Icons.edit, color: Colors.white,),
+                          alignment: Alignment.center,
                         ),
                       )
                     )
                   ],
                 ),
               ),
+              const SizedBox(height: 20,),
               Column(
                 children: [
-                  const SizedBox(height: 20,),
+                  const SizedBox(height: 25,),
                   TextField(
-                    decoration: const InputDecoration(hintText: 'Nombre Completo'),
+                    decoration: const InputDecoration(hintText: 'Nombre completo'),
                     onChanged: (value) {
                       _name = value;
                     },
                   ),
-                  const SizedBox(height: 20,),
+                  const SizedBox(height: 25,),
                   TextField(
-                    decoration: const InputDecoration(hintText: 'Fecha Nacimiento'),
+                    decoration: const InputDecoration(hintText: 'Fecha de nacimiento'),
                     onChanged: (value) {
                       _fechanacimiento = value;
                     },
                   ),
-                  const SizedBox(height: 20,),
+                  const SizedBox(height: 25,),
                   TextField(
                     decoration: const InputDecoration(hintText: 'Carnet de Identidad'),
                     onChanged: (value) {
                       _ci = value;
                     },
                   ),
-                  const SizedBox(height: 20,),
+                  const SizedBox(height: 25,),
                   TextField(
                     decoration: const InputDecoration(hintText: 'Celular/Teléfono'),
                     onChanged: (value) {
                       _telefono = value;
                     },
                   ),
-                  const SizedBox(height: 20,),
+                  const SizedBox(height: 25,),
                   TextField(
                     decoration: const InputDecoration(hintText: 'Categoría de Licencia'),
                     onChanged: (value) {
                       _categorialic = value;
                     },
                   ),
-                  const SizedBox(height: 20,),
+                  const SizedBox(height: 40,),
                   RoundedButton(
-                    btnText: 'Siguiente',
+                    btnText: 'Continuar',
                     onBtnPressed: () => createAccountPressed(),
                   ),
                   const SizedBox(height: 20,)

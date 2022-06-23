@@ -21,6 +21,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   String _email = '';
   String _password = '';
+  bool passwordVisibility = false;
 
   loginPressed() async {
     if (_email.isNotEmpty && _password.isNotEmpty) {
@@ -60,13 +61,19 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    passwordVisibility = false;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: <Widget>[
         Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/images/mapa_login.jpg"),
+              image: AssetImage("assets/images/train_image.jpg"),
               fit: BoxFit.cover
             )
           ),
@@ -78,9 +85,10 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Card(
-                  elevation: 4.0,
+                  elevation: 5.0,
+                  shadowColor: Colors.black,
                   color: Colors.white,
-                  margin: const EdgeInsets.only(left: 40, right: 40),
+                  margin: const EdgeInsets.only(left: 20, right: 20, top: 70, bottom: 30),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)
                   ),
@@ -90,18 +98,35 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         const SizedBox(height: 20,),
                         TextField(
-                          decoration: const InputDecoration(hintText: 'Enter your email'),
+                          decoration: const InputDecoration(hintText: 'Correo electrónico'),
                           onChanged: (value) { _email = value; },
                         ),
                         const SizedBox(height: 30,),
                         TextField(
-                          obscureText: true,
-                          decoration: const InputDecoration(hintText: 'Enter your password'),
-                          onChanged: (value) { _password = value;}
-                        ),
+                            obscureText: !passwordVisibility,
+                            decoration: InputDecoration(
+                              hintText: 'Contraseña',
+                              suffixIcon: InkWell(
+                                onTap: () => setState(
+                                  () => passwordVisibility = !passwordVisibility,
+                                ),
+                                focusNode: FocusNode(skipTraversal: true),
+                                child: Icon(
+                                  passwordVisibility
+                                    ? Icons.visibility_outlined
+                                    : Icons.visibility_off_outlined,
+                                  color: const Color(0xFF95A1AC),
+                                  size: 22,
+                                ),
+                              ),
+                            ),
+                            onChanged: (value) {
+                              _password = value;
+                            },
+                          ),
                         const SizedBox(height: 30,),
                         RoundedButton(
-                          btnText: 'ingresar',
+                          btnText: 'Ingresar',
                           onBtnPressed: () => loginPressed(),
                         ),
                         const SizedBox(height: 30,),                
@@ -109,7 +134,12 @@ class _LoginPageState extends State<LoginPage> {
                     )
                   ),
                 ),
-                const SizedBox(height: 30,),                
+                const SizedBox(height: 30,),    
+                const Text(
+                  '¿No tienes una cuenta?', 
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ), 
+                const SizedBox(height: 10,),            
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -118,8 +148,8 @@ class _LoginPageState extends State<LoginPage> {
                     );
                   },
                   child: const Text(
-                    'Do not have an account? Register here',
-                      style: TextStyle(decoration: TextDecoration.underline, color: Colors.white, fontSize: 18),
+                    'Registrate aquí',
+                      style: TextStyle(decoration: TextDecoration.underline, color: Colors.white, fontSize: 22),
                   )
                 ),
                 const SizedBox(height: 30,),
