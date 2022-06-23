@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, use_build_context_synchronously
+// ignore_for_file: avoid_print, use_build_context_synchronously, library_private_types_in_public_api
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -16,7 +16,6 @@ class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _LoginPageState createState() => _LoginPageState();
 }
 
@@ -32,15 +31,14 @@ class _LoginPageState extends State<LoginPage> {
       var dataUser = json.decode(response.body);
 
       if (response.statusCode == 200) {
-        idConductor = dataUser['user']['conductor_id'];
-
+        idConductor = dataUser['conductor']['id'];
+        nombreConductor = dataUser['conductor']['nombre'];
         http.Response responseBus = await LineaController.getBus();
         var dataBus = json.decode(responseBus.body);
-
-        interno = dataBus['interno'];
+        interno = dataBus['nroInterno'];
         placa = dataBus['placa'];
         modelo = dataBus['modelo'];
-        capacidad = dataBus['capacidad'];
+        capacidad = dataBus['nro_asientos'];
         lineaName = dataBus['linea'];
         print('Conductor id: $idConductor');
         Navigator.push(
