@@ -32,9 +32,10 @@ class _ConductorPageState extends State<ConductorPage> {
   createAccountPressed() async {
     http.Response response = await AuthServices.conductorRegister(_name, _fechanacimiento, _ci, _telefono, _categorialic, _foto);
     Map responseMap = jsonDecode(response.body);
-    var datConductor = json.decode(response.body);
+    var dataConductor = json.decode(response.body);
     if (response.statusCode == 401) {
-      idConductor = datConductor['conductor']['id'];
+      idConductor = dataConductor['conductor']['id'];
+      nombreConductor = dataConductor['conductor']['nombre'];
       Navigator.push(
           context,
           MaterialPageRoute(builder: (BuildContext context) => const MicrobusPage(),

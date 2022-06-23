@@ -38,7 +38,16 @@ class _MicrobusPageState extends State<MicrobusPage> {
     http.Response response = await AuthServices.microbusRegister(_placa,_modelo,_nroasientos,
         _nroInterno,_fechaasignacion,_fechabaja, _foto);
     Map responseMap = jsonDecode(response.body);
+    http.Response responseBus = await LineaController.getBus();
+    var dataBus = json.decode(responseBus.body);
+
     if (response.statusCode == 401) {
+      interno = dataBus['nroInterno'];
+      placa = dataBus['placa'];
+      modelo = dataBus['modelo'];
+      capacidad = dataBus['nro_asientos'];
+      lineaName = dataBus['linea'];
+      nombreConductor = dataBus['conductor'];
       Navigator.push(
         context,
         MaterialPageRoute(builder: (BuildContext context) => const HomePage(),
