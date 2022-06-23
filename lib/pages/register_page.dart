@@ -1,6 +1,7 @@
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/pages/conductor_page.dart';
 import 'package:rutas_microbuses/services/auth_services.dart';
@@ -12,7 +13,6 @@ class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
   
   @override
-  // ignore: library_private_types_in_public_api
   _RegisterPageState createState() => _RegisterPageState();
 }
 
@@ -31,15 +31,11 @@ class _RegisterPageState extends State<RegisterPage> {
       if (response.statusCode == 401) {
         idUser = dataUser['user']['id'];
         username = dataUser['user']['name'];
-        // ignore: avoid_print
-        print('Conductor id: $idConductor');
-        // ignore: use_build_context_synchronously
         Navigator.push(
           context, 
           MaterialPageRoute(builder: (BuildContext context) => const ConductorPage(),
         ));
       } else {
-          // ignore: use_build_context_synchronously
           errorSnackBar(context, responseMap.values.first[0]);
       }
     } else {

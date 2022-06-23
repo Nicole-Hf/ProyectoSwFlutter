@@ -1,5 +1,4 @@
-
-// ignore_for_file: use_build_context_synchronously, unnecessary_null_comparison, avoid_print
+// ignore_for_file: unnecessary_import, use_build_context_synchronously, avoid_print
 
 import 'dart:convert';
 import 'dart:io';
@@ -11,9 +10,7 @@ import 'package:rutas_microbuses/services/auth_services.dart';
 import 'package:rutas_microbuses/services/globals.dart';
 import 'package:rutas_microbuses/utils/button.dart';
 import 'package:image_picker/image_picker.dart';
-
 import 'package:rutas_microbuses/utils/variables.dart';
-
 import 'microbus_page.dart';
 
 class ConductorPage extends StatefulWidget {
@@ -23,11 +20,8 @@ class ConductorPage extends StatefulWidget {
   State<ConductorPage> createState() => _ConductorPageState();
 }
 
-
-class _conductorpageState extends State<conductorpage> {
+class _ConductorPageState extends State<ConductorPage> {
   File ? pickedImage;
-
-
   String _name= '';
   String _fechanacimiento= '';
   String _ci= '';
@@ -37,14 +31,14 @@ class _conductorpageState extends State<conductorpage> {
   createAccountPressed() async {
     http.Response response = await AuthServices.conductorRegister(_name, _fechanacimiento, _ci, _telefono, _categorialic);
     Map responseMap = jsonDecode(response.body);
-    var dataUser = json.decode(response.body);
+    var datConductor = json.decode(response.body);
     if (response.statusCode == 401) {
+      idConductor = datConductor['conductor']['id'];
       Navigator.push(
           context,
           MaterialPageRoute(builder: (BuildContext context) => const MicrobusPage(),
           ));
     } else {
-      // ignore: use_build_context_synchronously
       errorSnackBar(context, responseMap.values.first[0]);
     }
   }
@@ -87,9 +81,7 @@ class _conductorpageState extends State<conductorpage> {
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10,),
                     ElevatedButton.icon(
                       onPressed: () {
                         pickImage(ImageSource.camera);
@@ -104,9 +96,7 @@ class _conductorpageState extends State<conductorpage> {
                       icon: const Icon(Icons.image),
                       label: const Text("GALLERY"),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const SizedBox(height: 10,),
                     ElevatedButton.icon(
                       onPressed: () {
                         Get.back();
@@ -123,31 +113,21 @@ class _conductorpageState extends State<conductorpage> {
       );
     }
 
-
-
-
     return Scaffold(
-       appBar: AppBar(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          elevation: 1,
-          //title: Text('Perfil Conductor'),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 1,
         leading: IconButton(
-            icon: const Icon(
-              Icons.account_box,
-              color: Colors.green,
-            ),
+          icon: const Icon(Icons.account_box, color: Colors.green,),
           onPressed: (){},
         ),
-         actions: [
-           IconButton(
-             icon: const Icon(
-               Icons.settings,
-               color: Colors.green,
-             ),
-             onPressed: (){},
-           ),
-         ],
-       ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings, color: Colors.green,),
+            onPressed: (){},
+          ),
+        ],
+      ),
       body: Container(
         padding: const EdgeInsets.only(left: 16,top: 25,right: 16),
         child: GestureDetector(
@@ -156,122 +136,107 @@ class _conductorpageState extends State<conductorpage> {
           },
           child: ListView(
             children: [
-              const Text("Perfil",
-                style: TextStyle(fontSize: 25,fontWeight: FontWeight.w500),
+              const Text("Perfil", style: TextStyle(fontSize: 25,fontWeight: FontWeight.w500),),
+              Center(
+                child: Stack(
+                  children: [
+                    Container(
+                      width: 130,
+                      height: 130,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 4,color: Colors.white),
+                        boxShadow: [
+                          BoxShadow(
+                            spreadRadius: 2,
+                            blurRadius: 10,
+                            color: Colors.black.withOpacity(0.1)
+                          )
+                        ],
+                        shape: BoxShape.circle,
+                      ),
+                      child: ClipOval(
+                        child: pickedImage !=null ? Image.file(pickedImage!,
+                        width: 50,
+                        height: 50,
+                        fit:  BoxFit.cover):
+                        Image.asset("assets/images/user_icon.png",
+                          width: 50,
+                          height: 50,
+                          fit:  BoxFit.cover
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(width: 4, color: Colors.white)                        ,
+                          color: Colors.green
+                        ),
+                        child: IconButton(
+                          onPressed: imagePickerOption,
+                          icon: const Icon(Icons.edit, color: Colors.white,)
+                        ),
+                      )
+                    )
+                  ],
+                ),
               ),
-               Center(
-                 child: Stack(
-                   children: [
-                     Container(
-                       width: 130,
-                       height: 130,
-                       decoration: BoxDecoration(
-                         border: Border.all(width: 4,color: Colors.white),
-                         boxShadow: [
-                           BoxShadow(
-                             spreadRadius: 2,
-                             blurRadius: 10,
-                             color: Colors.black.withOpacity(0.1)
-                           )
-                         ],
-                         shape: BoxShape.circle,
-                       ),
-                       child: ClipOval(
-                         child: pickedImage !=null ? Image.file(pickedImage!,
-                             width: 50,
-                             height: 50,
-                             fit:  BoxFit.cover):
-                         Image.asset("assets/images/frozen.jpg",
-                             width: 50,
-                             height: 50,
-                             fit:  BoxFit.cover
-                         ),
-                       ),
-
-                     ),
-                     Positioned(
-                         bottom: 0,
-                         right: 0,
-                         child: Container(
-                           height: 40,
-                           width: 40,
-                           decoration: BoxDecoration(
-                             shape: BoxShape.circle,
-                             border: Border.all(
-                               width: 4,
-                               color: Colors.white
-                             ),
-                             color: Colors.green
-                           ),
-                           child: IconButton(
-                               onPressed: imagePickerOption,
-                               icon: const Icon(
-
-                             Icons.edit,
-                             color: Colors.white,
-                           ))
-                          ,
-                         )
-                     )
-                   ],
-                 ),
-               ),
               Column(
                 children: [
                   const SizedBox(height: 20,),
                   TextField(
-                    decoration: const InputDecoration(hintText: 'nombre completo'),
+                    decoration: const InputDecoration(hintText: 'Nombre Completo'),
                     onChanged: (value) {
                       _name = value;
                     },
                   ),
                   const SizedBox(height: 20,),
                   TextField(
-                    decoration: const InputDecoration(hintText: 'fecha Nacimiento'),
+                    decoration: const InputDecoration(hintText: 'Fecha Nacimiento'),
                     onChanged: (value) {
                       _fechanacimiento = value;
                     },
                   ),
                   const SizedBox(height: 20,),
                   TextField(
-                    decoration: const InputDecoration(hintText: 'carnet identidad'),
+                    decoration: const InputDecoration(hintText: 'Carnet de Identidad'),
                     onChanged: (value) {
                       _ci = value;
                     },
                   ),
-
                   const SizedBox(height: 20,),
                   TextField(
-                    decoration: const InputDecoration(hintText: 'telefono'),
+                    decoration: const InputDecoration(hintText: 'Celular/Teléfono'),
                     onChanged: (value) {
                       _telefono = value;
                     },
                   ),
-
                   const SizedBox(height: 20,),
                   TextField(
-                    decoration: const InputDecoration(hintText: 'categoria licencia'),
+                    decoration: const InputDecoration(hintText: 'Categoría de Licencia'),
                     onChanged: (value) {
                       _categorialic = value;
                     },
                   ),
-                   const SizedBox(height: 20,),
-                          RoundedButton(
-                            btnText: 'Siguiente',
-                            onBtnPressed: () => createAccountPressed(),
-                          ),
-                          const SizedBox(height: 20,)
+                  const SizedBox(height: 20,),
+                  RoundedButton(
+                    btnText: 'Siguiente',
+                    onBtnPressed: () => createAccountPressed(),
+                  ),
+                  const SizedBox(height: 20,)
                 ],
               ),
-
             ],
           ),
         ),
       ),
     );
   }
-
-
 }
 
 

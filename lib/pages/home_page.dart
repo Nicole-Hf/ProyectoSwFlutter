@@ -1,16 +1,12 @@
-// ignore_for_file: import_of_legacy_library_into_null_safe
+// ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:rutas_microbuses/pages/map_page.dart';
-import 'package:rutas_microbuses/utils/variables.dart';
-
 import 'login_page.dart';
 
 class HomePage extends StatefulWidget{
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _HomePageState createState() => _HomePageState();
 }
 
@@ -58,7 +54,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       body: Stack(
         fit: StackFit.expand,
-        children: <Widget>[       
+        children: const <Widget>[       
      /*     Column(
             //mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
