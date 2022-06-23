@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/pages/conductor_page.dart';
 import 'package:rutas_microbuses/pages/login_page.dart';
 import 'package:rutas_microbuses/services/auth_services.dart';
-import 'package:rutas_microbuses/services/globals.dart';
+import 'package:rutas_microbuses/utils/globals.dart';
 import 'package:rutas_microbuses/utils/button.dart';
 import 'package:rutas_microbuses/utils/variables.dart';
 
@@ -31,7 +31,6 @@ class _RegisterPageState extends State<RegisterPage> {
       var dataUser = json.decode(response.body);
       if (response.statusCode == 401) {
         idUser = dataUser['user']['id'];
-        username = dataUser['user']['name'];
         Navigator.push(
           context, 
           MaterialPageRoute(builder: (BuildContext context) => const ConductorPage(),

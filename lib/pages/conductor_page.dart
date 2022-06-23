@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/services/auth_services.dart';
-import 'package:rutas_microbuses/services/globals.dart';
+import 'package:rutas_microbuses/utils/globals.dart';
 import 'package:rutas_microbuses/utils/button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rutas_microbuses/utils/variables.dart';
@@ -27,9 +27,10 @@ class _ConductorPageState extends State<ConductorPage> {
   String _ci= '';
   String _telefono= '';
   String _categorialic= '';
+  String _foto = '';
 
   createAccountPressed() async {
-    http.Response response = await AuthServices.conductorRegister(_name, _fechanacimiento, _ci, _telefono, _categorialic);
+    http.Response response = await AuthServices.conductorRegister(_name, _fechanacimiento, _ci, _telefono, _categorialic, _foto);
     Map responseMap = jsonDecode(response.body);
     var datConductor = json.decode(response.body);
     if (response.statusCode == 401) {
@@ -50,6 +51,8 @@ class _ConductorPageState extends State<ConductorPage> {
       print(tempImage);
       setState(() {
         pickedImage = tempImage;
+        //probando guardar la ruta de la imagen
+        _foto = tempImage.toString();
       });
 
       Get.back();

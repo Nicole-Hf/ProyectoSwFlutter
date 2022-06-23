@@ -1,12 +1,14 @@
+// ignore_for_file: avoid_print, use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:http/http.dart' as http;
-import 'package:rutas_microbuses/controllers/linea_controller.dart';
-import 'package:rutas_microbuses/pages/conductor_page.dart';
+import 'package:rutas_microbuses/pages/home_page.dart';
+import 'package:rutas_microbuses/services/linea_controller.dart';
 import 'package:rutas_microbuses/pages/register_page.dart';
 import 'package:rutas_microbuses/services/auth_services.dart';
-import 'package:rutas_microbuses/services/globals.dart';
+import 'package:rutas_microbuses/utils/globals.dart';
 import 'package:rutas_microbuses/utils/button.dart';
 import 'package:rutas_microbuses/utils/variables.dart';
 
@@ -28,11 +30,9 @@ class _LoginPageState extends State<LoginPage> {
       http.Response response = await AuthServices.login(_email, _password);
       Map responseMap = jsonDecode(response.body);
       var dataUser = json.decode(response.body);
-      //idConductor = dataUser['user']['conductor_id'];
 
       if (response.statusCode == 200) {
         idConductor = dataUser['user']['conductor_id'];
-        username = dataUser['user']['name'];
 
         http.Response responseBus = await LineaController.getBus();
         var dataBus = json.decode(responseBus.body);
@@ -41,18 +41,13 @@ class _LoginPageState extends State<LoginPage> {
         placa = dataBus['placa'];
         modelo = dataBus['modelo'];
         capacidad = dataBus['capacidad'];
-        servicios = dataBus['servicios'];
         lineaName = dataBus['linea'];
-        // ignore: avoid_print
         print('Conductor id: $idConductor');
-        // ignore: use_build_context_synchronously
         Navigator.push(
           context, 
-          MaterialPageRoute(builder: (BuildContext context) => const ConductorPage(),
-          //const HomePage(),
+          MaterialPageRoute(builder: (BuildContext context) => const HomePage(),
         ));       
       } else {
-        // ignore: use_build_context_synchronously
         errorSnackBar(context, responseMap.values.first);
       }
     } else {

@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:rutas_microbuses/services/globals.dart';
+import 'package:rutas_microbuses/utils/globals.dart';
 import 'package:rutas_microbuses/utils/variables.dart';
 
 class AuthServices {
@@ -40,13 +40,14 @@ class AuthServices {
   }
 
   static Future<http.Response> conductorRegister(String name, String fechanacimiento, String ci, String telefono,
-      String categorialic) async {
+      String categorialic, String foto) async {
     Map data = {
       "nombre": name,
-      "fecha_nacimiento": fechanacimiento,
       "ci": ci,
+      "fecha_nacimiento": fechanacimiento,
       "telefono": telefono,
       "categoria_lic": categorialic,
+      "foto": foto,
       "users_id": idUser,
     };
 
@@ -61,17 +62,18 @@ class AuthServices {
     return response;
   }
 
-  static Future<http.Response> microbusRegister(String placa, String modelo, String nroasientos, String nrolinea,
-      String nroInterno,String fechaasignacion,String fechabaja) async {
+  static Future<http.Response> microbusRegister(String placa, String modelo, String nroasientos,
+      String nroInterno,String fechaasignacion,String fechabaja, String foto) async {
     Map data = {
       "placa": placa,
-      "modelo": modelo,
-      "nro_asientos": nroasientos,
-      "nro_linea": nrolinea,
       "nroInterno": nroInterno,
       "fecha_asignacion": fechaasignacion,
+      "modelo": modelo,
+      "nro_asientos": nroasientos,
       "fecha_baja": fechabaja,
+      "foto": foto,
       "conductor_id": idConductor,
+      "linea_id": idLinea
     };
 
     var body = json.encode(data);
