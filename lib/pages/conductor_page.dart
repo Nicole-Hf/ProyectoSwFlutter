@@ -1,4 +1,6 @@
 
+// ignore_for_file: use_build_context_synchronously, unnecessary_null_comparison, avoid_print
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -10,23 +12,25 @@ import 'package:rutas_microbuses/services/globals.dart';
 import 'package:rutas_microbuses/utils/button.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'package:rutas_microbuses/utils/variables.dart';
+
 import 'microbus_page.dart';
 
-class conductorpage extends StatefulWidget {
-  const conductorpage({Key? key}) : super(key: key);
+class ConductorPage extends StatefulWidget {
+  const ConductorPage({Key? key}) : super(key: key);
 
   @override
-  State<conductorpage> createState() => _conductorpageState();
+  State<ConductorPage> createState() => _ConductorPageState();
 }
 
-class _conductorpageState extends State<conductorpage> {
+class _ConductorPageState extends State<ConductorPage> {
   File ? pickedImage;
-
   String _name= '';
   String _fechanacimiento= '';
   String _ci= '';
   String _telefono= '';
   String _categorialic= '';
+  String _foto = '';
 
   createAccountPressed() async {
     http.Response response = await AuthServices.conductorRegister(_name, _fechanacimiento, _ci, _telefono, _categorialic);
@@ -169,9 +173,6 @@ class _conductorpageState extends State<conductorpage> {
                            )
                          ],
                          shape: BoxShape.circle,
-                         //image: const DecorationImage(
-
-                         //)
                        ),
                        child: ClipOval(
                          child: pickedImage !=null ? Image.file(pickedImage!,

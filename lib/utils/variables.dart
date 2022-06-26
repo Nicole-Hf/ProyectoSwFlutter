@@ -1,3 +1,4 @@
+int idUser = 0;
 int idConductor = 0;
 String username = "";
 int idLinea = 0;

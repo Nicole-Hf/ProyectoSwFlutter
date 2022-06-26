@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/pages/conductor_page.dart';
-import 'package:rutas_microbuses/pages/prueba_page.dart';
 import 'package:rutas_microbuses/services/auth_services.dart';
 import 'package:rutas_microbuses/services/globals.dart';
 import 'package:rutas_microbuses/utils/button.dart';
@@ -30,7 +29,7 @@ class _RegisterPageState extends State<RegisterPage> {
       Map responseMap = jsonDecode(response.body);
       var dataUser = json.decode(response.body);
       if (response.statusCode == 401) {
-        idConductor = dataUser['user']['id'];
+        idUser = dataUser['user']['id'];
         username = dataUser['user']['name'];
         // ignore: avoid_print
         print('Conductor id: $idConductor');
