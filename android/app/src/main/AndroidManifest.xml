@@ -2,7 +2,7 @@
     package="com.example.rutas_microbuses">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="rutas_microbuses"
+        android:label="Microbuses Conductor F"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
