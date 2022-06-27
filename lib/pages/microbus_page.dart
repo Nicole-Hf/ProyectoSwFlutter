@@ -1,4 +1,3 @@
-// ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'dart:convert';
 import 'dart:io';
@@ -14,6 +13,8 @@ import 'package:rutas_microbuses/services/auth_services.dart';
 import 'package:rutas_microbuses/utils/globals.dart';
 import 'package:rutas_microbuses/utils/button.dart';
 import 'package:rutas_microbuses/utils/variables.dart';
+import 'package:intl/intl.dart';
+
 
 class MicrobusPage extends StatefulWidget {
   const MicrobusPage({Key? key}) : super(key: key);
@@ -23,6 +24,8 @@ class MicrobusPage extends StatefulWidget {
 }
 
 class _MicrobusPageState extends State<MicrobusPage> {
+  final _dateController = TextEditingController();
+  final _dateController1 = TextEditingController();
   File ? pickedImage;
   String _placa= '';
   String _modelo= '';
@@ -49,9 +52,9 @@ class _MicrobusPageState extends State<MicrobusPage> {
       lineaName = dataBus['linea'];
       nombreConductor = dataBus['conductor'];
       Navigator.push(
-        context,
-        MaterialPageRoute(builder: (BuildContext context) => const HomePage(),
-      ));
+          context,
+          MaterialPageRoute(builder: (BuildContext context) => const HomePage(),
+          ));
     } else {
       errorSnackBar(context, responseMap.values.first[0]);
     }
@@ -157,35 +160,35 @@ class _MicrobusPageState extends State<MicrobusPage> {
                         border: Border.all(width: 4,color: Colors.white),
                         boxShadow: [
                           BoxShadow(
-                            spreadRadius: 2,
-                            blurRadius: 10,
-                            color: Colors.black.withOpacity(0.1)
+                              spreadRadius: 2,
+                              blurRadius: 10,
+                              color: Colors.black.withOpacity(0.1)
                           )
                         ],
                         shape: BoxShape.rectangle,
                       ),
                       child: ClipRect(
-                        child: pickedImage != null 
-                          ? Image.file(pickedImage!, width: 50, height: 50, fit:  BoxFit.cover)
-                          : Image.asset("assets/images/bus_icon.jpg", width: 50, height: 50, fit:  BoxFit.contain),
+                        child: pickedImage != null
+                            ? Image.file(pickedImage!, width: 50, height: 50, fit:  BoxFit.cover)
+                            : Image.asset("assets/images/bus_icon.jpg", width: 50, height: 50, fit:  BoxFit.contain),
                       ),
                     ),
                     Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(width: 4, color: Colors.white),
-                          color: Colors.green
-                        ),
-                        child: IconButton(
-                          onPressed: imagePickerOption,
-                          icon: const Icon(Icons.camera_alt,color: Colors.white,)
-                        ),
-                      )
+                        bottom: 0,
+                        right: 0,
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(width: 4, color: Colors.white),
+                              color: Colors.green
+                          ),
+                          child: IconButton(
+                              onPressed: imagePickerOption,
+                              icon: const Icon(Icons.camera_alt,color: Colors.white,)
+                          ),
+                        )
                     )
                   ],
                 ),
@@ -196,19 +199,21 @@ class _MicrobusPageState extends State<MicrobusPage> {
                   TypeAheadFormField<Linea?>(
                     key: _formKey,
                     textFieldConfiguration: TextFieldConfiguration(
-                      controller: _typeAheadController,
-                      decoration: const InputDecoration(
-                        hintText: 'Seleccione una línea'
-                      )
+                        controller: _typeAheadController,
+                        decoration: const InputDecoration(
+                            labelText: 'Seleccione una línea' ,
+                            icon: Icon(Icons.bus_alert),
+
+                        )
                     ),
-                    suggestionsCallback: LineaController.getLineaSuggestion, 
+                    suggestionsCallback: LineaController.getLineaSuggestion,
                     itemBuilder: (context, Linea? suggestion) {
                       final linea = suggestion!;
-                        return ListTile(title: Text(linea.nombre),);
-                    }, 
+                      return ListTile(title: Text(linea.nombre),);
+                    },
                     noItemsFoundBuilder: (context) => const SizedBox(
-                      height: 100,
-                      child: Text('No se encontró la línea', style: TextStyle(fontSize: 24),)
+                        height: 100,
+                        child: Text('No se encontró la línea', style: TextStyle(fontSize: 24),)
                     ),
                     transitionBuilder: (context, suggestionsBox, controller) {
                       return suggestionsBox;
@@ -216,54 +221,104 @@ class _MicrobusPageState extends State<MicrobusPage> {
                     onSuggestionSelected: (Linea? suggestion) {
                       final linea = suggestion!;
                       _typeAheadController.text = suggestion.nombre;
-                      setState(() {                             
+                      setState(() {
                         idLinea = linea.id;
                       });
                       print('Linea id: $idLinea');
-                    },  
-                    onSaved: (value) => idLinea = value as int,                         
+                    },
+                    onSaved: (value) => idLinea = value as int,
                   ),
                   const SizedBox(height: 20,),
                   TextField(
-                    decoration: const InputDecoration(hintText: 'Placa'),
+                    decoration: const InputDecoration(
+                        labelText: 'Placa',
+                        icon: Icon(Icons.label_important),
+                        hintText:"ejm: YJ45K" ),
                     onChanged: (value) {
                       _placa = value;
                     },
                   ),
                   const SizedBox(height: 20,),
                   TextField(
-                    decoration: const InputDecoration(hintText: 'Modelo'),
+                    decoration: const InputDecoration(
+                        labelText: 'Modelo' ,
+                        icon: Icon(Icons.model_training),
+                        hintText: "ejm: 2015"),
                     onChanged: (value) {
                       _modelo = value;
                     },
                   ),
                   const SizedBox(height: 20,),
                   TextField(
-                    decoration: const InputDecoration(hintText: 'Capacidad'),
+                    decoration: const InputDecoration(
+                        labelText: 'Capacidad',
+                        icon: Icon(Icons.person),
+                        hintText: "ejm: 10"),
                     onChanged: (value) {
                       _nroasientos = value;
                     },
                   ),
                   const SizedBox(height: 20,),
                   TextField(
-                    decoration: const InputDecoration(hintText: 'Interno'),
+                    decoration: const InputDecoration(
+                        labelText: 'Interno',
+                        icon: Icon(Icons.person),
+                        hintText: "ejm: 56"),
                     onChanged: (value) {
                       _nroInterno = value;
                     },
                   ),
                   const SizedBox(height: 20,),
                   TextField(
-                    decoration: const InputDecoration(hintText: 'Fecha de asignación'),
-                    onChanged: (value) {
-                      _fechaasignacion = value;
+                    controller: _dateController,
+                    readOnly: true,
+                    decoration: const InputDecoration(
+                      labelText: "Fecha de asignacion",
+                      icon: Icon(Icons.date_range),
+                      hintText: "Fecha de asignacion",
+                    ),
+                    onTap: () async {
+                      final selectedDate = await showDatePicker(
+                        context: context,
+                        firstDate: DateTime(2010),
+                        lastDate: DateTime(2024),
+                        initialDate: DateTime.now(),
+                        selectableDayPredicate: (day) => day.isBefore(DateTime.now()),
+                      );
+                      if (selectedDate != null) {
+                        setState(() {
+                          _dateController.text = DateFormat.yMd().format(selectedDate);
+                          _fechaasignacion=  _dateController.text;
+                          print(_fechaasignacion);
+                        });
+                      }
                     },
                   ),
                   const SizedBox(height: 20,),
                   TextField(
-                    decoration: const InputDecoration(hintText: 'Fecha de baja'),
-                    onChanged: (value) {
-                      _fechabaja = value;
-                    },  
+                    controller: _dateController1,
+                    readOnly: true,
+                    decoration: const InputDecoration(
+                      labelText: "Fecha de baja",
+                      icon: Icon(Icons.date_range_rounded),
+                      hintText: "Fecha de baja",
+                    ),
+                    onTap: () async {
+                      final selectedDate = await showDatePicker(
+                        context: context,
+                        firstDate: DateTime(2010),
+                        lastDate: DateTime(2024),
+                        initialDate: DateTime.now(),
+                        selectableDayPredicate: (day) => day.isBefore(DateTime.now()),
+                      );
+                      if (selectedDate != null) {
+                        setState(() {
+                          _dateController1.text = DateFormat.yMd().format(selectedDate);
+                          _fechabaja=  _dateController1.text;
+                          print(_fechabaja);
+                        });
+                      }
+                    },
                   ),
                   const SizedBox(height: 40,),
                   RoundedButton(

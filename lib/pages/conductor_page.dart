@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_holo_date_picker/date_time_formatter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
@@ -12,6 +13,8 @@ import 'package:rutas_microbuses/utils/button.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rutas_microbuses/utils/variables.dart';
 import 'microbus_page.dart';
+import 'package:intl/intl.dart';
+
 
 class ConductorPage extends StatefulWidget {
   const ConductorPage({Key? key}) : super(key: key);
@@ -21,6 +24,8 @@ class ConductorPage extends StatefulWidget {
 }
 
 class _ConductorPageState extends State<ConductorPage> {
+  final _dateController = TextEditingController();
+
   File ? pickedImage;
   String _name= '';
   String _fechanacimiento= '';
@@ -62,8 +67,11 @@ class _ConductorPageState extends State<ConductorPage> {
     }
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+
     void imagePickerOption() {
       Get.bottomSheet(
         SingleChildScrollView(
@@ -110,6 +118,8 @@ class _ConductorPageState extends State<ConductorPage> {
         ),
       );
     }
+
+
 
     return Scaffold(
       appBar: AppBar(
@@ -185,35 +195,67 @@ class _ConductorPageState extends State<ConductorPage> {
                 children: [
                   const SizedBox(height: 25,),
                   TextField(
-                    decoration: const InputDecoration(hintText: 'Nombre completo'),
+                    decoration: const InputDecoration(
+                        labelText: 'Nombre completo',
+                        icon: Icon(Icons.person),
+                        hintText: "ejm: yimmi neutron"),
                     onChanged: (value) {
                       _name = value;
                     },
                   ),
                   const SizedBox(height: 25,),
-                  TextField(
-                    decoration: const InputDecoration(hintText: 'Fecha de nacimiento'),
-                    onChanged: (value) {
-                      _fechanacimiento = value;
-                    },
+                  // display the selected date
+                TextField(
+                  controller: _dateController,
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                    labelText: "Fecha de Nacimiento",
+                    icon: Icon(Icons.event),
+                    hintText: "Fecha de Nacimiento",
                   ),
+                  onTap: () async {
+                    final selectedDate = await showDatePicker(
+                      context: context,
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime(2024),
+                      initialDate: DateTime.now(),
+                      selectableDayPredicate: (day) => day.isBefore(DateTime.now()),
+                    );
+                    if (selectedDate != null) {
+                      setState(() {
+                        _dateController.text = DateFormat.yMd().format(selectedDate);
+                        _fechanacimiento=  _dateController.text;
+                        print(_fechanacimiento);
+                      });
+                    }
+                  },
+                ),
                   const SizedBox(height: 25,),
                   TextField(
-                    decoration: const InputDecoration(hintText: 'Carnet de Identidad'),
+                    decoration: const InputDecoration(
+                        labelText:'Carnet de Identidad',
+                        icon: Icon(Icons.credit_card),
+                        hintText: "ejm: 11338034" ),
                     onChanged: (value) {
                       _ci = value;
                     },
                   ),
                   const SizedBox(height: 25,),
                   TextField(
-                    decoration: const InputDecoration(hintText: 'Celular/Teléfono'),
+                    decoration: const InputDecoration(
+                        labelText: 'Celular/Teléfono',
+                        icon: Icon(Icons.call),
+                        hintText: "celular"),
                     onChanged: (value) {
                       _telefono = value;
                     },
                   ),
                   const SizedBox(height: 25,),
                   TextField(
-                    decoration: const InputDecoration(hintText: 'Categoría de Licencia'),
+                    decoration: const InputDecoration(
+                        labelText:'Categoría de Licencia',
+                        icon: Icon(Icons.confirmation_num),
+                        hintText:  "ejm: A"),
                     onChanged: (value) {
                       _categorialic = value;
                     },

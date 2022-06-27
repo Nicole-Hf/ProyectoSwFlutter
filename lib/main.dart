@@ -28,7 +28,6 @@ class MyApp extends StatelessWidget {
         '/conductor': (context) => const ConductorPage(),
         '/microbus': (context) => const MicrobusPage(),
         '/home': (context) => const HomePage(),
-       // '/createbus': (context) => const BusPage(),
       },
     );
   }
