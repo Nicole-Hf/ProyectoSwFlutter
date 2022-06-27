@@ -1,34 +1,24 @@
-// ignore_for_file: import_of_legacy_library_into_null_safe
+// ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:rutas_microbuses/pages/map_page.dart';
 import 'package:rutas_microbuses/utils/variables.dart';
-
 import 'login_page.dart';
 
 class HomePage extends StatefulWidget{
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
- // Location location = Location();
-  /*Location location = Location();
-  late bool _serviceEnabled;
-  //late PermissionStatus _permissionGranted;
-  //late LocationData _locationData;
-  // ignore: unused_field
-  bool _isListenLocation = false; //, _isGetLocation = false;*/
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.black,       
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,       
         elevation: 10,
         toolbarHeight: 70,
         leading: Padding(
@@ -36,14 +26,14 @@ class _HomePageState extends State<HomePage> {
           child: Image.asset("assets/images/logo_app.jpeg",)
         ),
         centerTitle: true,
-        title: const Text('App Conductor'),
+        title: const Text('App Conductor', style: TextStyle(color: Colors.black),),
         actions: [
           Container(
             height: 40,
             width: 40,
             alignment: Alignment.center,
             child: IconButton(
-              icon: const Icon(Icons.logout, size: 25),
+              icon: const Icon(Icons.logout, size: 25, color: Colors.black,),
               onPressed: () {
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context) => const LoginPage()), 
@@ -59,8 +49,8 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[       
-     /*     Column(
-            //mainAxisAlignment: MainAxisAlignment.center,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Card(
                 margin: const EdgeInsets.only(left: 10, right: 10),
@@ -69,6 +59,13 @@ class _HomePageState extends State<HomePage> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),),
                 child: Column(
                   children: [
+                    ListTile(
+                      title: Text(
+                        'Conductor:  $nombreConductor',
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    const Divider(),
                     ListTile(
                       title: Text(
                         'Línea:  $lineaName',
@@ -99,13 +96,6 @@ class _HomePageState extends State<HomePage> {
                     const Divider(),
                     ListTile(
                       title: Text(
-                        'Servicios:  $servicios',
-                        style: const TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    const Divider(),
-                    ListTile(
-                      title: Text(
                         'Número de Asientos:  $capacidad',
                         style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
@@ -114,12 +104,10 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               const SizedBox(height: 40,),
-              // ignore: deprecated_member_use
               ElevatedButton(
                 onPressed: () {
                   debugPrint('Button cliked');
                 },
-                // ignore: sort_child_properties_last
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -134,64 +122,8 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),      
               ),
-              /*Padding(
-                padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 30.0, bottom: 0.0),
-                child: Column(
-                  children: [
-                    // ignore: deprecated_member_use
-                    ElevatedButton(
-                      onPressed: () async {
-                        _serviceEnabled = await location.serviceEnabled();
-                        if (!_serviceEnabled) {
-                          _serviceEnabled = await location.requestService();
-                          if (_serviceEnabled) {
-                            return;
-                          }
-                        }
-                        _permissionGranted = await location.hasPermission();
-                        if (_permissionGranted == PermissionStatus.denied) {
-                          _permissionGranted = await location.requestPermission();
-                          if (_permissionGranted != PermissionStatus.granted) {
-                            return;
-                          }
-                        }
-                        setState(() {
-                          _isListenLocation = true;
-                        });
-                        // ignore: use_build_context_synchronously
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (BuildContext context) => const MapPage(),));
-                      },
-                      // ignore: sort_child_properties_last
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Image.asset('assets/images/ubt_icon.png', height: 40.0, width: 40.0,),
-                          const Padding(
-                            padding: EdgeInsets.only(left: 10.0),
-                            child: Text('Ir al Mapa', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                          )
-                        ],
-                      ),
-                    ),
-                    StreamBuilder(
-                      stream: location.onLocationChanged,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState != ConnectionState.waiting) {
-                          var data = snapshot.data as LocationData;
-                          latitud = data.latitude!;
-                          longitud = data.longitude!;
-                          return Text('Location always change: \n ${data.latitude}/${data.longitude}');
-                        } else {
-                            return const Center();
-                        }
-                      }
-                    )
-                  ]
-                )
-              )  */
             ],
-          ),    */
+          ),
         ],
       )
     );

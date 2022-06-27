@@ -7,27 +7,23 @@ String lineaToJson(List<Linea> data) => json.encode(List<dynamic>.from(data.map(
 class Linea {
   Linea({
     required this.id,
-    required this.linea,
-    required this.horaInicio,
-    required this.horaFinal,
+    required this.nombre,
+    //required this.tipo,
   });
 
   final int id;
-  final String linea;
-  final String horaInicio;
-  final String horaFinal;
+  final String nombre;
+  //final String tipo;
   
   factory Linea.fromJson(Map<String, dynamic> json) => Linea(
     id: json["id"],
-    linea: json["linea"], 
-    horaInicio: json["horaInicio"], 
-    horaFinal: json["horaFinal"]
+    nombre: json["nombre"], 
+    //tipo: json["tipo"], 
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
-    "linea": linea,
-    "horaInicio": horaInicio,
-    "horaFinal": horaFinal,
+    "nombre": nombre,
+    //"tipo": tipo,
   };
 }

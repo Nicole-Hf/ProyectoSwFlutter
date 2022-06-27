@@ -9,7 +9,6 @@ class Bus {
     required this.id,
     required this.placa,
     required this.modelo,
-    required this.servicios,
     required this.interno,
     required this.capacidad,
     required this.conductor,
@@ -19,7 +18,6 @@ class Bus {
   final int id;
   final String placa;
   final String modelo;
-  final String servicios;
   final String interno;
   final String capacidad;
   final String conductor;
@@ -29,9 +27,8 @@ class Bus {
     id: json["id"],
     placa: json["placa"], 
     modelo: json["modelo"], 
-    servicios: json["servicios"],
-    interno: json["interno"],
-    capacidad: json["capacidad"],
+    interno: json["nroInterno"],
+    capacidad: json["nro_asientos"],
     conductor: json["conductor"],
     linea: json["linea"],
   );
@@ -40,7 +37,6 @@ class Bus {
     "id": id,
     "placa": placa,
     "modelo": modelo,
-    "servicios": servicios,
     "interno": interno,
     "capacidad": capacidad,
     "conductor": conductor,

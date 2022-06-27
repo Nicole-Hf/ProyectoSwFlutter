@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:http/http.dart' as http;
-import 'package:rutas_microbuses/controllers/linea_controller.dart';
+import 'package:rutas_microbuses/services/linea_controller.dart';
 import 'package:rutas_microbuses/models/linea.dart';
 import 'package:rutas_microbuses/pages/home_page.dart';
 import 'package:rutas_microbuses/utils/button.dart';
@@ -18,16 +18,19 @@ class BusPage extends StatefulWidget {
 }
 
 class _BusPageState extends State<BusPage> {
-  String _interno = '';
-  String _placa = '';
-  String _modelo = '';
-  String _servicios = '';
-  String _capacidad = '';
+  String _placa= '';
+  String _modelo= '';
+  final String _nroasientos= '';
+  String _nroInterno= '';
+  String _fechaasignacion= '';
+  String _fechabaja= '';
+  final String _foto = '';
   final _formKey = GlobalKey<FormState>();
   final _typeAheadController = TextEditingController();
   
   createBusPressed() async {
-    http.Response response = await LineaController.createBus(_placa, _modelo, _servicios, _interno, _capacidad);
+    http.Response response = await LineaController.createBus(_placa,_modelo,_nroasientos,
+        _nroInterno,_fechaasignacion,_fechabaja, _foto);
 
     http.Response responseBus = await LineaController.getBus();
     var dataBus = json.decode(responseBus.body);
@@ -37,14 +40,12 @@ class _BusPageState extends State<BusPage> {
       placa = dataBus['placa'];
       modelo = dataBus['modelo'];
       capacidad = dataBus['capacidad'];
-      servicios = dataBus['servicios'];
-      lineaName = dataBus['linea'];
+      //lineaName = dataBus['linea'];
 
       // ignore: use_build_context_synchronously
       Navigator.push(
         context, 
-        MaterialPageRoute(
-          builder: (BuildContext context) => const HomePage(),
+        MaterialPageRoute(builder: (BuildContext context) => const HomePage(),
       ));
     }
   }
@@ -90,7 +91,7 @@ class _BusPageState extends State<BusPage> {
                             itemBuilder: (context, Linea? suggestion) {
                               final linea = suggestion!;
                               return ListTile(
-                                title: Text(linea.linea),
+                                title: Text(linea.nombre),
                               );
                             }, 
                             noItemsFoundBuilder: (context) => const SizedBox(
@@ -105,7 +106,7 @@ class _BusPageState extends State<BusPage> {
                             },
                             onSuggestionSelected: (Linea? suggestion) {
                               final linea = suggestion!;
-                              _typeAheadController.text = suggestion.linea;
+                              _typeAheadController.text = suggestion.nombre;
                               setState(() {                             
                                 idLinea = linea.id;
                                 //lineaName = linea.linea;
@@ -119,7 +120,7 @@ class _BusPageState extends State<BusPage> {
                           TextField(
                             decoration: const InputDecoration(hintText: 'Interno'),
                             onChanged: (value) {
-                              _interno = value;
+                              _nroInterno = value;
                             },
                           ),
                           const SizedBox(height: 20,),
@@ -140,14 +141,14 @@ class _BusPageState extends State<BusPage> {
                           TextField(                           
                             decoration: const InputDecoration(hintText: 'Servicios'),
                             onChanged: (value) {
-                              _servicios = value;
+                              _fechaasignacion = value;
                             },
                           ),
                           const SizedBox(height: 20,),
                           TextField(                           
                             decoration: const InputDecoration(hintText: 'Capacidad'),
                             onChanged: (value) {
-                              _capacidad = value;
+                              _fechabaja = value;
                             },
                           ),
                           const SizedBox(height: 20,),

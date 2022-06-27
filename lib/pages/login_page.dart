@@ -1,12 +1,14 @@
+// ignore_for_file: avoid_print, use_build_context_synchronously, library_private_types_in_public_api
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:http/http.dart' as http;
-import 'package:rutas_microbuses/controllers/linea_controller.dart';
-import 'package:rutas_microbuses/pages/conductor_page.dart';
+import 'package:rutas_microbuses/pages/home_page.dart';
+import 'package:rutas_microbuses/services/linea_controller.dart';
 import 'package:rutas_microbuses/pages/register_page.dart';
 import 'package:rutas_microbuses/services/auth_services.dart';
-import 'package:rutas_microbuses/services/globals.dart';
+import 'package:rutas_microbuses/utils/globals.dart';
 import 'package:rutas_microbuses/utils/button.dart';
 import 'package:rutas_microbuses/utils/variables.dart';
 
@@ -14,49 +16,47 @@ class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
   String _email = '';
   String _password = '';
+  bool passwordVisibility = false;
 
   loginPressed() async {
     if (_email.isNotEmpty && _password.isNotEmpty) {
       http.Response response = await AuthServices.login(_email, _password);
       Map responseMap = jsonDecode(response.body);
       var dataUser = json.decode(response.body);
-      //idConductor = dataUser['user']['conductor_id'];
 
       if (response.statusCode == 200) {
-        idConductor = dataUser['user']['conductor_id'];
-        username = dataUser['user']['name'];
-
+        idConductor = dataUser['conductor']['id'];
+        nombreConductor = dataUser['conductor']['nombre'];
         http.Response responseBus = await LineaController.getBus();
         var dataBus = json.decode(responseBus.body);
-
-        interno = dataBus['interno'];
+        interno = dataBus['nroInterno'];
         placa = dataBus['placa'];
         modelo = dataBus['modelo'];
-        capacidad = dataBus['capacidad'];
-        servicios = dataBus['servicios'];
+        capacidad = dataBus['nro_asientos'];
         lineaName = dataBus['linea'];
-        // ignore: avoid_print
         print('Conductor id: $idConductor');
-        // ignore: use_build_context_synchronously
         Navigator.push(
           context, 
-          MaterialPageRoute(builder: (BuildContext context) => const ConductorPage(),
-          //const HomePage(),
+          MaterialPageRoute(builder: (BuildContext context) => const HomePage(),
         ));       
       } else {
-        // ignore: use_build_context_synchronously
         errorSnackBar(context, responseMap.values.first);
       }
     } else {
       errorSnackBar(context, 'Enter all required fields');
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    passwordVisibility = false;
   }
 
   @override
@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
         Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/images/mapa_login.jpg"),
+              image: AssetImage("assets/images/train_image.jpg"),
               fit: BoxFit.cover
             )
           ),
@@ -78,9 +78,10 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Card(
-                  elevation: 4.0,
+                  elevation: 5.0,
+                  shadowColor: Colors.black,
                   color: Colors.white,
-                  margin: const EdgeInsets.only(left: 40, right: 40),
+                  margin: const EdgeInsets.only(left: 20, right: 20, top: 70, bottom: 30),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)
                   ),
@@ -90,18 +91,35 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         const SizedBox(height: 20,),
                         TextField(
-                          decoration: const InputDecoration(hintText: 'Enter your email'),
+                          decoration: const InputDecoration(hintText: 'Correo electrónico'),
                           onChanged: (value) { _email = value; },
                         ),
                         const SizedBox(height: 30,),
                         TextField(
-                          obscureText: true,
-                          decoration: const InputDecoration(hintText: 'Enter your password'),
-                          onChanged: (value) { _password = value;}
-                        ),
+                            obscureText: !passwordVisibility,
+                            decoration: InputDecoration(
+                              hintText: 'Contraseña',
+                              suffixIcon: InkWell(
+                                onTap: () => setState(
+                                  () => passwordVisibility = !passwordVisibility,
+                                ),
+                                focusNode: FocusNode(skipTraversal: true),
+                                child: Icon(
+                                  passwordVisibility
+                                    ? Icons.visibility_outlined
+                                    : Icons.visibility_off_outlined,
+                                  color: const Color(0xFF95A1AC),
+                                  size: 22,
+                                ),
+                              ),
+                            ),
+                            onChanged: (value) {
+                              _password = value;
+                            },
+                          ),
                         const SizedBox(height: 30,),
                         RoundedButton(
-                          btnText: 'ingresar',
+                          btnText: 'Ingresar',
                           onBtnPressed: () => loginPressed(),
                         ),
                         const SizedBox(height: 30,),                
@@ -109,7 +127,12 @@ class _LoginPageState extends State<LoginPage> {
                     )
                   ),
                 ),
-                const SizedBox(height: 30,),                
+                const SizedBox(height: 30,),    
+                const Text(
+                  '¿No tienes una cuenta?', 
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ), 
+                const SizedBox(height: 10,),            
                 GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -118,8 +141,8 @@ class _LoginPageState extends State<LoginPage> {
                     );
                   },
                   child: const Text(
-                    'Do not have an account? Register here',
-                      style: TextStyle(decoration: TextDecoration.underline, color: Colors.white, fontSize: 18),
+                    'Registrate aquí',
+                      style: TextStyle(decoration: TextDecoration.underline, color: Colors.white, fontSize: 22),
                   )
                 ),
                 const SizedBox(height: 30,),
