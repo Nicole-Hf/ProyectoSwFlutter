@@ -22,8 +22,8 @@ class _HomePageState extends State<HomePage> {
         elevation: 10,
         toolbarHeight: 70,
         leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.asset("assets/images/logo_app.jpeg",)
+          padding: const EdgeInsets.all(1.0),
+          child: Image.asset("assets/images/app_icon.png",)
         ),
         centerTitle: true,
         title: const Text('App Conductor', style: TextStyle(color: Colors.black),),
@@ -64,6 +64,7 @@ class _HomePageState extends State<HomePage> {
                         'Conductor:  $nombreConductor',
                         style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
+                      leading: const Icon(Icons.person),
                     ),
                     const Divider(),
                     ListTile(
@@ -71,6 +72,7 @@ class _HomePageState extends State<HomePage> {
                         'Línea:  $lineaName',
                         style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
+                      leading: const Icon(Icons.bus_alert),
                     ),
                     const Divider(),
                     ListTile(
@@ -78,6 +80,7 @@ class _HomePageState extends State<HomePage> {
                         'Interno:  $interno',
                         style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
+                      leading: const Icon(Icons.numbers),
                     ),
                     const Divider(),
                     ListTile(
@@ -85,6 +88,7 @@ class _HomePageState extends State<HomePage> {
                         'Placa:  $placa',
                         style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
+                      leading: const Icon(Icons.label_important),
                     ),
                     const Divider(),
                     ListTile(
@@ -92,6 +96,7 @@ class _HomePageState extends State<HomePage> {
                         'Modelo:  $modelo',
                         style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
+                      leading: const Icon(Icons.model_training),
                     ),
                     const Divider(),
                     ListTile(
@@ -99,6 +104,7 @@ class _HomePageState extends State<HomePage> {
                         'Número de Asientos:  $capacidad',
                         style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
+                      leading: const Icon(Icons.group),
                     ),
                   ],
                 ),
@@ -110,13 +116,15 @@ class _HomePageState extends State<HomePage> {
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Image.asset('assets/images/bus_icon.jpg', height: 40.0, width: 40.0,),
-                    const Padding(
+                  children: const <Widget>[                    
+                    Padding(
                       padding: EdgeInsets.only(left: 10.0),
                       child: Text(
                         'Iniciar Recorrido', 
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold
+                        ),
                       ),
                     )
                   ],

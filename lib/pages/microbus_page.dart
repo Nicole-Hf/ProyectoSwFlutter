@@ -1,4 +1,6 @@
 
+// ignore_for_file: use_build_context_synchronously, avoid_print
+
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -52,9 +54,9 @@ class _MicrobusPageState extends State<MicrobusPage> {
       lineaName = dataBus['linea'];
       nombreConductor = dataBus['conductor'];
       Navigator.push(
-          context,
-          MaterialPageRoute(builder: (BuildContext context) => const HomePage(),
-          ));
+        context,
+        MaterialPageRoute(builder: (BuildContext context) => const HomePage(),
+      ));
     } else {
       errorSnackBar(context, responseMap.values.first[0]);
     }
@@ -169,26 +171,26 @@ class _MicrobusPageState extends State<MicrobusPage> {
                       ),
                       child: ClipRect(
                         child: pickedImage != null
-                            ? Image.file(pickedImage!, width: 50, height: 50, fit:  BoxFit.cover)
-                            : Image.asset("assets/images/bus_icon.jpg", width: 50, height: 50, fit:  BoxFit.contain),
+                          ? Image.file(pickedImage!, width: 50, height: 50, fit:  BoxFit.cover)
+                          : Image.asset("assets/images/bus_icon.jpg", width: 50, height: 50, fit:  BoxFit.contain),
                       ),
                     ),
                     Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(width: 4, color: Colors.white),
-                              color: Colors.green
-                          ),
-                          child: IconButton(
-                              onPressed: imagePickerOption,
-                              icon: const Icon(Icons.camera_alt,color: Colors.white,)
-                          ),
-                        )
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(width: 4, color: Colors.white),
+                          color: Colors.green
+                        ),
+                        child: IconButton(
+                          onPressed: imagePickerOption,
+                          icon: const Icon(Icons.camera_alt,color: Colors.white,)
+                        ),
+                      )
                     )
                   ],
                 ),
@@ -199,12 +201,11 @@ class _MicrobusPageState extends State<MicrobusPage> {
                   TypeAheadFormField<Linea?>(
                     key: _formKey,
                     textFieldConfiguration: TextFieldConfiguration(
-                        controller: _typeAheadController,
-                        decoration: const InputDecoration(
-                            labelText: 'Seleccione una línea' ,
-                            icon: Icon(Icons.bus_alert),
-
-                        )
+                      controller: _typeAheadController,
+                      decoration: const InputDecoration(
+                        labelText: 'Seleccione una línea' ,
+                        icon: Icon(Icons.bus_alert),
+                      )
                     ),
                     suggestionsCallback: LineaController.getLineaSuggestion,
                     itemBuilder: (context, Linea? suggestion) {
@@ -231,9 +232,9 @@ class _MicrobusPageState extends State<MicrobusPage> {
                   const SizedBox(height: 20,),
                   TextField(
                     decoration: const InputDecoration(
-                        labelText: 'Placa',
-                        icon: Icon(Icons.label_important),
-                        hintText:"ejm: YJ45K" ),
+                      labelText: 'Placa',
+                      icon: Icon(Icons.label_important),
+                      hintText:"ejm: YJ45K" ),
                     onChanged: (value) {
                       _placa = value;
                     },
@@ -241,9 +242,9 @@ class _MicrobusPageState extends State<MicrobusPage> {
                   const SizedBox(height: 20,),
                   TextField(
                     decoration: const InputDecoration(
-                        labelText: 'Modelo' ,
-                        icon: Icon(Icons.model_training),
-                        hintText: "ejm: 2015"),
+                      labelText: 'Modelo' ,
+                      icon: Icon(Icons.model_training),
+                      hintText: "ejm: 2015"),
                     onChanged: (value) {
                       _modelo = value;
                     },
@@ -251,9 +252,9 @@ class _MicrobusPageState extends State<MicrobusPage> {
                   const SizedBox(height: 20,),
                   TextField(
                     decoration: const InputDecoration(
-                        labelText: 'Capacidad',
-                        icon: Icon(Icons.person),
-                        hintText: "ejm: 10"),
+                      labelText: 'Capacidad',
+                      icon: Icon(Icons.group),
+                      hintText: "ejm: 10"),
                     onChanged: (value) {
                       _nroasientos = value;
                     },
@@ -261,9 +262,9 @@ class _MicrobusPageState extends State<MicrobusPage> {
                   const SizedBox(height: 20,),
                   TextField(
                     decoration: const InputDecoration(
-                        labelText: 'Interno',
-                        icon: Icon(Icons.person),
-                        hintText: "ejm: 56"),
+                      labelText: 'Interno',
+                      icon: Icon(Icons.numbers),
+                      hintText: "ejm: 56"),
                     onChanged: (value) {
                       _nroInterno = value;
                     },
