@@ -8,3 +8,4 @@ int capacidad = 0;
 String placa = "";
 String modelo = "";
 String fechaasignacion = "";
+String fotoMicro = "";

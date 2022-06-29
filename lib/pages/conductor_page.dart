@@ -32,6 +32,8 @@ class _ConductorPageState extends State<ConductorPage> {
   String _telefono= '';
   String _categorialic= '';
   String _foto = '';
+  String _imagen64 = '';
+  String _imagen = '';
 
   createAccountPressed() async {
     http.Response response = await AuthServices.conductorRegister(_name, _fechanacimiento, _ci, _telefono, _categorialic, _foto);
@@ -48,16 +50,21 @@ class _ConductorPageState extends State<ConductorPage> {
       errorSnackBar(context, responseMap.values.first[0]);
     }
   }
+
   pickImage(ImageSource imageType) async {
     try {
       final photo = await ImagePicker().pickImage(source: imageType);
       if (photo == null) return;
       final tempImage = File(photo.path);
-      print(tempImage);
+      //encoding 64
+      _imagen = photo.path;  
+      List<int> bytes = File(_imagen).readAsBytesSync();
+      _imagen64 = base64.encode(bytes);
+
       setState(() {
         pickedImage = tempImage;
-        //probando guardar la ruta de la imagen
-        _foto = tempImage.toString();
+        //guardando imagen en la bd
+        _foto = _imagen64;    
       });
 
       Get.back();
@@ -114,6 +121,8 @@ class _ConductorPageState extends State<ConductorPage> {
         ),
       );
     }
+
+    
 
     return Scaffold(
       appBar: AppBar(

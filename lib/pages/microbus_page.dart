@@ -36,6 +36,8 @@ class _MicrobusPageState extends State<MicrobusPage> {
   String _fechaasignacion= '';
   String _fechabaja= '';
   String _foto = '';
+  String _imagen = '';
+  String _imagen64 = '';
   final _formKey = GlobalKey<FormState>();
   final _typeAheadController = TextEditingController();
 
@@ -53,6 +55,7 @@ class _MicrobusPageState extends State<MicrobusPage> {
       capacidad = dataBus['nro_asientos'];
       lineaName = dataBus['linea'];
       nombreConductor = dataBus['conductor'];
+      fotoMicro = dataBus['foto'];
       Navigator.push(
         context,
         MaterialPageRoute(builder: (BuildContext context) => const HomePage(),
@@ -66,10 +69,14 @@ class _MicrobusPageState extends State<MicrobusPage> {
       final photo = await ImagePicker().pickImage(source: imageType);
       if (photo == null) return;
       final tempImage = File(photo.path);
-      print(tempImage);
+      //encoding 64
+      _imagen = photo.path;
+      List<int> bytes = File(_imagen).readAsBytesSync();
+      _imagen64 = base64.encode(bytes);
       setState(() {
         pickedImage = tempImage;
-        _foto = tempImage.toString();
+        //guardando en la bd
+        _foto = _imagen64;
       });
       Get.back();
     } catch (error) {
