@@ -52,7 +52,7 @@ class AuthServices {
     };
 
     var body = json.encode(data);
-    var url = Uri.parse('${baseUrl}auth/UserConductor');
+    var url = Uri.parse('${baseUrl}UserConductor');
     http.Response response = await http.post(
         url,
         headers: headers,
@@ -77,7 +77,7 @@ class AuthServices {
     };
 
     var body = json.encode(data);
-    var url = Uri.parse('${baseUrl}auth/MicrobusPerfil');
+    var url = Uri.parse('${baseUrl}MicrobusPerfil');
     http.Response response = await http.post(
         url,
         headers: headers,

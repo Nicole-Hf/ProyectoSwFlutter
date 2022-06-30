@@ -42,6 +42,7 @@ class _ConductorPageState extends State<ConductorPage> {
     if (response.statusCode == 401) {
       idConductor = dataConductor['conductor']['id'];
       nombreConductor = dataConductor['conductor']['nombre'];
+      print('Conductor ID: $idConductor');
       Navigator.push(
           context,
           MaterialPageRoute(builder: (BuildContext context) => const MicrobusPage(),
@@ -122,8 +123,6 @@ class _ConductorPageState extends State<ConductorPage> {
       );
     }
 
-    
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -198,10 +197,11 @@ class _ConductorPageState extends State<ConductorPage> {
                 children: [
                   const SizedBox(height: 25,),
                   TextField(
+                    keyboardType: TextInputType.name,
                     decoration: const InputDecoration(
                       labelText: 'Nombre completo',
                       icon: Icon(Icons.person),
-                      hintText: "ejm: yimmi neutron"
+                      hintText: "Ej. Juan Perez"
                     ),
                     onChanged: (value) {
                       _name = value;
@@ -210,12 +210,13 @@ class _ConductorPageState extends State<ConductorPage> {
                   const SizedBox(height: 25,),
                   // display the selected date
                   TextField(
+                    keyboardType: TextInputType.datetime,
                     controller: _dateController,
                     readOnly: true,
                     decoration: const InputDecoration(
-                      labelText: "Fecha de Nacimiento",
+                      labelText: "Fecha de nacimiento (Opcional)",
                       icon: Icon(Icons.event),
-                      hintText: "Fecha de Nacimiento",
+                      hintText: "Seleccione una fecha",
                     ),
                     onTap: () async {
                       final selectedDate = await showDatePicker(
@@ -239,7 +240,7 @@ class _ConductorPageState extends State<ConductorPage> {
                     decoration: const InputDecoration(
                       labelText:'Carnet de Identidad',
                       icon: Icon(Icons.credit_card),
-                      hintText: "ejm: 11338034" 
+                      hintText: "Ej. 8456718j" 
                     ),
                     onChanged: (value) {
                       _ci = value;
@@ -247,10 +248,11 @@ class _ConductorPageState extends State<ConductorPage> {
                   ),
                   const SizedBox(height: 25,),
                   TextField(
+                    keyboardType: TextInputType.phone,
                     decoration: const InputDecoration(
-                      labelText: 'Celular/Teléfono',
+                      labelText: 'Celular/Teléfono (Opcional)',
                       icon: Icon(Icons.call),
-                      hintText: "celular"
+                      hintText: "Ingrese su número de celular"
                     ),
                     onChanged: (value) {
                       _telefono = value;
@@ -261,7 +263,7 @@ class _ConductorPageState extends State<ConductorPage> {
                     decoration: const InputDecoration(
                       labelText:'Categoría de Licencia',
                       icon: Icon(Icons.confirmation_num),
-                      hintText:  "ejm: A"
+                      hintText:  "Ej. P, M, A, B, C, T"
                     ),
                     onChanged: (value) {
                       _categorialic = value;

@@ -55,7 +55,7 @@ class _MicrobusPageState extends State<MicrobusPage> {
       capacidad = dataBus['nro_asientos'];
       lineaName = dataBus['linea'];
       nombreConductor = dataBus['conductor'];
-      fotoMicro = dataBus['foto'];
+      //fotoMicro = dataBus['foto'];
       Navigator.push(
         context,
         MaterialPageRoute(builder: (BuildContext context) => const HomePage(),
@@ -241,7 +241,8 @@ class _MicrobusPageState extends State<MicrobusPage> {
                     decoration: const InputDecoration(
                       labelText: 'Placa',
                       icon: Icon(Icons.label_important),
-                      hintText:"ejm: YJ45K" ),
+                      hintText:"Ej. 1000BOL" 
+                    ),
                     onChanged: (value) {
                       _placa = value;
                     },
@@ -249,29 +250,31 @@ class _MicrobusPageState extends State<MicrobusPage> {
                   const SizedBox(height: 20,),
                   TextField(
                     decoration: const InputDecoration(
-                      labelText: 'Modelo' ,
+                      labelText: 'Modelo (Opcional)' ,
                       icon: Icon(Icons.model_training),
-                      hintText: "ejm: 2015"),
+                      hintText: "Ej. 2015"),
                     onChanged: (value) {
                       _modelo = value;
                     },
                   ),
                   const SizedBox(height: 20,),
                   TextField(
+                    keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
-                      labelText: 'Capacidad',
+                      labelText: 'Capacidad (Opcional)',
                       icon: Icon(Icons.group),
-                      hintText: "ejm: 10"),
+                      hintText: "Ej. 20"),
                     onChanged: (value) {
                       _nroasientos = value;
                     },
                   ),
                   const SizedBox(height: 20,),
                   TextField(
+                    keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
                       labelText: 'Interno',
                       icon: Icon(Icons.numbers),
-                      hintText: "ejm: 56"),
+                      hintText: "Ej. 18"),
                     onChanged: (value) {
                       _nroInterno = value;
                     },
@@ -281,7 +284,7 @@ class _MicrobusPageState extends State<MicrobusPage> {
                     controller: _dateController,
                     readOnly: true,
                     decoration: const InputDecoration(
-                      labelText: "Fecha de asignacion",
+                      labelText: "Fecha de asignacion (Opcional)",
                       icon: Icon(Icons.date_range),
                       hintText: "Fecha de asignacion",
                     ),
@@ -307,7 +310,7 @@ class _MicrobusPageState extends State<MicrobusPage> {
                     controller: _dateController1,
                     readOnly: true,
                     decoration: const InputDecoration(
-                      labelText: "Fecha de baja",
+                      labelText: "Fecha de baja (Opcional)",
                       icon: Icon(Icons.date_range_rounded),
                       hintText: "Fecha de baja",
                     ),

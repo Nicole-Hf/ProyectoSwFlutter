@@ -48,7 +48,8 @@ Future<ApiResponse> register(String name, String email, String password) async {
         'password': password
       }
     );
-
+    print('Status code:'+response.statusCode.toString());
+    print('Body'+response.body.toString());
     switch(response.statusCode){
       case 200:
         apiResponse.data = User.fromJson(jsonDecode(response.body));

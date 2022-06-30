@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:rutas_microbuses/screens/login.dart';
 import 'package:rutas_microbuses/utils/variables.dart';
 import 'login_page.dart';
 
@@ -36,7 +37,7 @@ class _HomePageState extends State<HomePage> {
               icon: const Icon(Icons.logout, size: 25, color: Colors.black,),
               onPressed: () {
                 Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => const LoginPage()), 
+                  MaterialPageRoute(builder: (context) => const Login()), 
                   (route) => false
                 );
               },
@@ -52,7 +53,7 @@ class _HomePageState extends State<HomePage> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Card(
+              /*Card(
                   elevation: 10.0,
                   shadowColor: Colors.grey.withOpacity(0.5),
                   shape: RoundedRectangleBorder(
@@ -69,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     )
                   )
-                ),
+                ),*/
               Card(
                 margin: const EdgeInsets.only(left: 10, right: 10),
                 elevation: 10,
@@ -84,7 +85,6 @@ class _HomePageState extends State<HomePage> {
                       ),
                       leading: const Icon(Icons.person),
                     ),
-                    const Divider(),
                     ListTile(
                       title: Text(
                         'Línea:  $lineaName',
@@ -92,7 +92,6 @@ class _HomePageState extends State<HomePage> {
                       ),
                       leading: const Icon(Icons.bus_alert),
                     ),
-                    const Divider(),
                     ListTile(
                       title: Text(
                         'Interno:  $interno',
@@ -100,7 +99,6 @@ class _HomePageState extends State<HomePage> {
                       ),
                       leading: const Icon(Icons.numbers),
                     ),
-                    const Divider(),
                     ListTile(
                       title: Text(
                         'Placa:  $placa',
@@ -108,7 +106,6 @@ class _HomePageState extends State<HomePage> {
                       ),
                       leading: const Icon(Icons.label_important),
                     ),
-                    const Divider(),
                     ListTile(
                       title: Text(
                         'Modelo:  $modelo',
@@ -116,7 +113,6 @@ class _HomePageState extends State<HomePage> {
                       ),
                       leading: const Icon(Icons.model_training),
                     ),
-                    const Divider(),
                     ListTile(
                       title: Text(
                         'Número de Asientos:  $capacidad',

@@ -1,11 +1,16 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/models/api_response.dart';
 import 'package:rutas_microbuses/models/user.dart';
 import 'package:rutas_microbuses/pages/home_page.dart';
 import 'package:rutas_microbuses/screens/register.dart';
+import 'package:rutas_microbuses/services/linea_controller.dart';
 import 'package:rutas_microbuses/services/user_service.dart';
+import 'package:rutas_microbuses/utils/variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
@@ -20,11 +25,19 @@ class _LoginState extends State<Login> {
   TextEditingController txtEmailController = TextEditingController();
   TextEditingController txtPasswordController = TextEditingController();
   bool loading = false;
+  bool passwordVisibility = false;
 
   void _loginUser() async {
     ApiResponse response = await login(txtEmailController.text, txtPasswordController.text);
     if (response.error == null) {
       _saveAndRedirectToHome(response.data as User);
+      http.Response responseBus = await LineaController.getBus();
+      var dataBus = json.decode(responseBus.body);
+      interno = dataBus['nroInterno'];
+      placa = dataBus['placa'];
+      modelo = dataBus['modelo'];
+      capacidad = dataBus['nro_asientos'];
+      lineaName = dataBus['linea'];
     } else {
       setState(() {
         loading = false;
@@ -39,7 +52,16 @@ class _LoginState extends State<Login> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString('token', user.token ?? '');
     await preferences.setInt('userId', user.id ?? 0);
+    idUser = user.id!;
+    //idConductor = user.conductorId!;
+    //nombreConductor = user.conductorName!;
     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const HomePage(),), (route) => false);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    passwordVisibility = false;
   }
 
   @override
@@ -56,7 +78,7 @@ class _LoginState extends State<Login> {
             ),
           ),
           Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(0, 300, 0, 0),
+            padding: const EdgeInsetsDirectional.fromSTEB(20, 300, 20, 0),
             child: Form(
               key: formKey,
               child: ListView(
@@ -76,7 +98,7 @@ class _LoginState extends State<Login> {
                         fontSize: 14,
                         fontWeight: FontWeight.normal,
                       ),
-                      hintText: 'Enter your email here...',
+                      hintText: 'Ingresa tu email...',
                       hintStyle: TextStyle(
                         fontFamily: 'Lexend Deca',
                         color: Color(0xFF95A1AC),
@@ -95,23 +117,52 @@ class _LoginState extends State<Login> {
                   ),
                   const SizedBox(height: 10,),
                   TextFormField(
-                    obscureText: true,
+                    obscureText: !passwordVisibility,
                     controller: txtPasswordController,
                     validator: (val) => val!.length < 6 ? 'Required at least 6 chars' : null,
-                    decoration: const InputDecoration(
-                      labelText: 'Password',
-                      contentPadding: EdgeInsets.all(10),
-                      border: OutlineInputBorder(
+                    decoration: InputDecoration(
+                      suffixIcon: InkWell(
+                        onTap: () => setState(
+                          () => passwordVisibility = !passwordVisibility,
+                        ),
+                        focusNode: FocusNode(skipTraversal: true),
+                        child: Icon(
+                          passwordVisibility
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
+                          color: const Color(0xFF95A1AC),
+                          size: 22,
+                        ),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      labelText: 'Contraseña',
+                      labelStyle: const TextStyle(
+                        fontFamily: 'Lexend Deca',
+                        color: Color(0xFF95A1AC),
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                      ),
+                      hintText: 'Ingresa tu contraseña...',
+                      hintStyle: const TextStyle(
+                        fontFamily: 'Lexend Deca',
+                        color: Color(0xFF95A1AC),
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                      ),
+                      contentPadding: const EdgeInsetsDirectional.fromSTEB(16, 24, 0, 24),
+                      border: const OutlineInputBorder(
                         borderSide: BorderSide(
-                          width: 1, 
-                          color: Colors.black
-                        )
-                      )
+                          width: 2, 
+                          color: Color(0xFFDBE2E7)
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                      ),
                     )
                   ),
-                  const SizedBox(height: 10,),
+                  const SizedBox(height: 30,),
                   loading ? const Center(child: CircularProgressIndicator(),)
-                  : TextButton(
+                  : ElevatedButton(
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         setState(() {
@@ -120,19 +171,41 @@ class _LoginState extends State<Login> {
                         _loginUser();
                       }
                     },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateColor.resolveWith((states) => Colors.green),
-                      padding: MaterialStateProperty.resolveWith((states) => const EdgeInsets.symmetric(vertical: 10)),
+                    style: ButtonStyle(   
+                      elevation: MaterialStateProperty.resolveWith((states) => 2),             
+                      backgroundColor: MaterialStateColor.resolveWith((states) => const Color.fromARGB(255, 58, 170, 60)),
+                      side: MaterialStateProperty.resolveWith((states) => 
+                        const BorderSide(
+                          color: Colors.transparent,
+                          width: 1,
+                        )
+                      ),
+                      padding: MaterialStateProperty.resolveWith((states) => const EdgeInsetsDirectional.fromSTEB(50, 15, 50, 15)),
                     ), 
-                    child: const Text('Login', style: TextStyle(color: Colors.white),),
+                    child: const Text('Login', 
+                      style: TextStyle(
+                        fontFamily: 'Lexend Deca',
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
-                  const SizedBox(height: 10,),
+                  const SizedBox(height: 50,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text('No tienes una cuenta? '),
+                      const Text('No tienes una cuenta? ', 
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
                       GestureDetector(
-                        child: const Text('Registrate aquí', style: TextStyle(color: Colors.blue),),
+                        child: const Text('Registrate aquí', 
+                          style: TextStyle(
+                            color: Colors.blue, 
+                            decoration: TextDecoration.underline,
+                            fontSize: 18
+                          ),
+                        ),
                         onTap: () {
                           Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const Register(),), (route) => false);
                         },
