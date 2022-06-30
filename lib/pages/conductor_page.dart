@@ -127,17 +127,8 @@ class _ConductorPageState extends State<ConductorPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,
-        leading: InkWell(
-          onTap: () async {
-            Navigator.pop(context);
-          },
-          child: const Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.black,
-            size: 24,
-          ),
-        ),
-        title: const Text('Perfil', style: TextStyle(fontSize: 20, color: Colors.black),),
+        centerTitle: true,
+        title: const Text('Perfil de Conductor', style: TextStyle(fontSize: 25, color: Colors.black),),
       ),
       body: Container(
         padding: const EdgeInsets.only(left: 25, top: 25, right: 25),
@@ -196,7 +187,8 @@ class _ConductorPageState extends State<ConductorPage> {
               Column(
                 children: [
                   const SizedBox(height: 25,),
-                  TextField(
+                  TextFormField(
+                    validator: (val) => val!.isEmpty ? 'El campo es requerido' : null,
                     keyboardType: TextInputType.name,
                     decoration: const InputDecoration(
                       labelText: 'Nombre completo',
@@ -209,12 +201,13 @@ class _ConductorPageState extends State<ConductorPage> {
                   ),
                   const SizedBox(height: 25,),
                   // display the selected date
-                  TextField(
+                  TextFormField(
+                    validator: (val) => val!.isEmpty ? 'El campo es requerido' : null,
                     keyboardType: TextInputType.datetime,
                     controller: _dateController,
                     readOnly: true,
                     decoration: const InputDecoration(
-                      labelText: "Fecha de nacimiento (Opcional)",
+                      labelText: "Fecha de nacimiento",
                       icon: Icon(Icons.event),
                       hintText: "Seleccione una fecha",
                     ),
@@ -236,7 +229,8 @@ class _ConductorPageState extends State<ConductorPage> {
                     },
                   ),
                   const SizedBox(height: 25,),
-                  TextField(
+                  TextFormField(
+                    validator: (val) => val!.isEmpty ? 'El campo es requerido' : null,
                     decoration: const InputDecoration(
                       labelText:'Carnet de Identidad',
                       icon: Icon(Icons.credit_card),
@@ -247,10 +241,11 @@ class _ConductorPageState extends State<ConductorPage> {
                     },
                   ),
                   const SizedBox(height: 25,),
-                  TextField(
+                  TextFormField(
+                    validator: (val) => val!.isEmpty ? 'El campo es requerido' : null,
                     keyboardType: TextInputType.phone,
                     decoration: const InputDecoration(
-                      labelText: 'Celular/Teléfono (Opcional)',
+                      labelText: 'Celular/Teléfono',
                       icon: Icon(Icons.call),
                       hintText: "Ingrese su número de celular"
                     ),
@@ -259,7 +254,8 @@ class _ConductorPageState extends State<ConductorPage> {
                     },
                   ),
                   const SizedBox(height: 25,),
-                  TextField(
+                  TextFormField(
+                    validator: (val) => val!.isEmpty ? 'El campo es requerido' : null,
                     decoration: const InputDecoration(
                       labelText:'Categoría de Licencia',
                       icon: Icon(Icons.confirmation_num),

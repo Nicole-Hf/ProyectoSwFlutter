@@ -1,9 +1,9 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
 import 'package:rutas_microbuses/screens/login.dart';
+import 'package:rutas_microbuses/services/user_service.dart';
 import 'package:rutas_microbuses/utils/variables.dart';
-import 'login_page.dart';
 
 class HomePage extends StatefulWidget{
   const HomePage({Key? key}) : super(key: key);
@@ -36,10 +36,13 @@ class _HomePageState extends State<HomePage> {
             child: IconButton(
               icon: const Icon(Icons.logout, size: 25, color: Colors.black,),
               onPressed: () {
-                Navigator.of(context).pushAndRemoveUntil(
+                /*Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context) => const Login()), 
                   (route) => false
-                );
+                );*/
+                logout().then((value) {
+                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const Login(),), (route) => false);
+                });
               },
             ),
           ),
@@ -48,29 +51,23 @@ class _HomePageState extends State<HomePage> {
       ),
       backgroundColor: Colors.white,
       body: Stack(
-        fit: StackFit.expand,
+        //fit: StackFit.expand,
         children: <Widget>[       
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              /*Card(
-                  elevation: 10.0,
-                  shadowColor: Colors.grey.withOpacity(0.5),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: Container(
-                    height: 200,
-                    width: 150,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: NetworkImage("http://10.0.2.2:8000$fotoMicro",)
-                      ),
+              fotoMicro != null ?
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 180,
+                  margin: const EdgeInsets.only(top: 5),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(                     
+                      image: NetworkImage( fotoMicro,),
+                      fit: BoxFit.cover
                     )
-                  )
-                ),*/
+                  ),
+                ) : SizedBox(height: fotoMicro != null ? 0 : 10,),
               Card(
                 margin: const EdgeInsets.only(left: 10, right: 10),
                 elevation: 10,

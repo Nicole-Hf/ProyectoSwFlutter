@@ -55,7 +55,8 @@ class _MicrobusPageState extends State<MicrobusPage> {
       capacidad = dataBus['nro_asientos'];
       lineaName = dataBus['linea'];
       nombreConductor = dataBus['conductor'];
-      //fotoMicro = dataBus['foto'];
+      fotoMicro = dataBus['foto'];
+      print('Foto Micro: $fotoMicro');
       Navigator.push(
         context,
         MaterialPageRoute(builder: (BuildContext context) => const HomePage(),

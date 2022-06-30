@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/constant.dart';
@@ -48,8 +50,8 @@ Future<ApiResponse> register(String name, String email, String password) async {
         'password': password
       }
     );
-    print('Status code:'+response.statusCode.toString());
-    print('Body'+response.body.toString());
+    print('Status code:${response.statusCode}');
+    print('Body${response.body}');
     switch(response.statusCode){
       case 200:
         apiResponse.data = User.fromJson(jsonDecode(response.body));
