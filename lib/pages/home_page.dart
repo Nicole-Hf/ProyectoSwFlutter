@@ -54,20 +54,22 @@ class _HomePageState extends State<HomePage> {
         //fit: StackFit.expand,
         children: <Widget>[       
           Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            //mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              fotoMicro != null ?
+              /*fotoMicro != null ?
                 Container(
-                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  width: 300,
                   height: 180,
                   margin: const EdgeInsets.only(top: 5),
                   decoration: BoxDecoration(
                     image: DecorationImage(                     
-                      image: NetworkImage( fotoMicro,),
+                      image: NetworkImage(fotoMicro),
                       fit: BoxFit.cover
                     )
                   ),
-                ) : SizedBox(height: fotoMicro != null ? 0 : 10,),
+                ) : SizedBox(height: fotoMicro != null ? 0 : 10,),*/
+              const SizedBox(height: 20,),
               Card(
                 margin: const EdgeInsets.only(left: 10, right: 10),
                 elevation: 10,
