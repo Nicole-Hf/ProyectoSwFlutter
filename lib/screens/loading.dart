@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:rutas_microbuses/models/api_response.dart';
-import 'package:rutas_microbuses/pages/home_page.dart';
+import 'package:rutas_microbuses/screens/home_page.dart';
 import 'package:rutas_microbuses/screens/login.dart';
 import 'package:rutas_microbuses/services/user_service.dart';
 

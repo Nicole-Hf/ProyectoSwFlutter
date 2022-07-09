@@ -1,4 +1,3 @@
-
 // ignore_for_file: use_build_context_synchronously, avoid_print
 
 import 'dart:convert';
@@ -8,15 +7,14 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:rutas_microbuses/constant.dart';
+import 'package:rutas_microbuses/screens/home_page.dart';
 import 'package:rutas_microbuses/services/linea_controller.dart';
 import 'package:rutas_microbuses/models/linea.dart';
-import 'package:rutas_microbuses/pages/home_page.dart';
-import 'package:rutas_microbuses/services/auth_services.dart';
-import 'package:rutas_microbuses/utils/globals.dart';
-import 'package:rutas_microbuses/utils/button.dart';
-import 'package:rutas_microbuses/utils/variables.dart';
+import 'package:rutas_microbuses/services/conductor_service.dart';
+import 'package:rutas_microbuses/button.dart';
+import 'package:rutas_microbuses/variables.dart';
 import 'package:intl/intl.dart';
-
 
 class MicrobusPage extends StatefulWidget {
   const MicrobusPage({Key? key}) : super(key: key);
@@ -42,13 +40,14 @@ class _MicrobusPageState extends State<MicrobusPage> {
   final _typeAheadController = TextEditingController();
 
   createAccountPressed() async {
-    http.Response response = await AuthServices.microbusRegister(_placa,_modelo,_nroasientos,
+    http.Response response = await ConductorService.microbusRegister(_placa,_modelo,_nroasientos,
         _nroInterno,_fechaasignacion,_fechabaja, _foto);
     Map responseMap = jsonDecode(response.body);
     http.Response responseBus = await LineaController.getBus();
     var dataBus = json.decode(responseBus.body);
 
     if (response.statusCode == 401) {
+      
       interno = dataBus['nroInterno'];
       placa = dataBus['placa'];
       modelo = dataBus['modelo'];
@@ -97,9 +96,9 @@ class _MicrobusPageState extends State<MicrobusPage> {
             ),
             child: Container(
               color: Colors.white,
-              height: 250,
+              height: 200,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(top: 10 ,right: 70.0, left: 70.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -140,7 +139,7 @@ class _MicrobusPageState extends State<MicrobusPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,
-        leading: InkWell(
+        /*leading: InkWell(
           onTap: () async {
             Navigator.pop(context);
           },
@@ -149,8 +148,9 @@ class _MicrobusPageState extends State<MicrobusPage> {
             color: Colors.black,
             size: 24,
           ),
-        ),
-        title: const Text('Añadir Microbus', style: TextStyle(fontSize: 20, color: Colors.black),),
+        ),*/
+        centerTitle: true,
+        title: const Text('Añadir Microbus', style: TextStyle(fontSize: 25, color: Colors.black),),
       ),
       body: Container(
         padding: const EdgeInsets.only(left: 16,top: 25,right: 16),
@@ -251,7 +251,7 @@ class _MicrobusPageState extends State<MicrobusPage> {
                   const SizedBox(height: 20,),
                   TextField(
                     decoration: const InputDecoration(
-                      labelText: 'Modelo (Opcional)' ,
+                      labelText: 'Modelo' ,
                       icon: Icon(Icons.model_training),
                       hintText: "Ej. 2015"),
                     onChanged: (value) {
@@ -262,7 +262,7 @@ class _MicrobusPageState extends State<MicrobusPage> {
                   TextField(
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
-                      labelText: 'Capacidad (Opcional)',
+                      labelText: 'Capacidad',
                       icon: Icon(Icons.group),
                       hintText: "Ej. 20"),
                     onChanged: (value) {

@@ -18,33 +18,6 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: const Loading(),
-      /*initialRoute: '/',
-      routes: {
-        '/': (context) => const LoginPage(),
-        '/register': (context) => const RegisterPage(),
-        '/conductor': (context) => const ConductorPage(),
-        '/microbus': (context) => const MicrobusPage(),
-        '/home': (context) => const HomePage(),
-      },*/
     );
   }
 }
-
-
-/*
-void main() {
-  runApp(const App());
-}
-
-class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(     
-      debugShowCheckedModeBanner: false,
-      home: Loading(),
-    );
-  }
-}
-*/

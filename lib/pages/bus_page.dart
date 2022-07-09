@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/services/linea_controller.dart';
 import 'package:rutas_microbuses/models/linea.dart';
-import 'package:rutas_microbuses/pages/home_page.dart';
-import 'package:rutas_microbuses/utils/button.dart';
-import 'package:rutas_microbuses/utils/variables.dart';
+import 'package:rutas_microbuses/screens/home_page.dart';
+import 'package:rutas_microbuses/button.dart';
+import 'package:rutas_microbuses/variables.dart';
 
 class BusPage extends StatefulWidget {
   const BusPage({Key? key}) : super(key: key);

@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_import, use_build_context_synchronously, avoid_print
+// ignore_for_file: use_build_context_synchronously, unnecessary_import
 
 import 'dart:convert';
 import 'dart:io';
@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
-import 'package:rutas_microbuses/services/auth_services.dart';
-import 'package:rutas_microbuses/utils/globals.dart';
-import 'package:rutas_microbuses/utils/button.dart';
+import 'package:rutas_microbuses/constant.dart';
+import 'package:rutas_microbuses/screens/home_page.dart';
+import 'package:rutas_microbuses/services/conductor_service.dart';
+import 'package:rutas_microbuses/button.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:rutas_microbuses/utils/variables.dart';
-import 'microbus_page.dart';
+import 'package:rutas_microbuses/variables.dart';
 import 'package:intl/intl.dart';
 
 
@@ -26,7 +26,6 @@ class _ConductorPageState extends State<ConductorPage> {
   final _dateController = TextEditingController();
 
   File ? pickedImage;
-  String _name= '';
   String _fechanacimiento= '';
   String _ci= '';
   String _telefono= '';
@@ -35,18 +34,18 @@ class _ConductorPageState extends State<ConductorPage> {
   String _imagen64 = '';
   String _imagen = '';
 
-  createAccountPressed() async {
-    http.Response response = await AuthServices.conductorRegister(_name, _fechanacimiento, _ci, _telefono, _categorialic, _foto);
+  createDriverPressed() async {
+    http.Response response = await ConductorService.createConductor(_fechanacimiento, _ci, _telefono, _categorialic, _foto);
     Map responseMap = jsonDecode(response.body);
     var dataConductor = json.decode(response.body);
+    debugPrint('status: ${response.statusCode}');
     if (response.statusCode == 401) {
       idConductor = dataConductor['conductor']['id'];
-      nombreConductor = dataConductor['conductor']['nombre'];
-      print('Conductor ID: $idConductor');
+      debugPrint('Conductor ID: $idConductor');
       Navigator.push(
-          context,
-          MaterialPageRoute(builder: (BuildContext context) => const MicrobusPage(),
-          ));
+        context,
+        MaterialPageRoute(builder: (BuildContext context) => const HomePage(),)
+      );
     } else {
       errorSnackBar(context, responseMap.values.first[0]);
     }
@@ -57,17 +56,13 @@ class _ConductorPageState extends State<ConductorPage> {
       final photo = await ImagePicker().pickImage(source: imageType);
       if (photo == null) return;
       final tempImage = File(photo.path);
-      //encoding 64
       _imagen = photo.path;  
       List<int> bytes = File(_imagen).readAsBytesSync();
       _imagen64 = base64.encode(bytes);
-
       setState(() {
         pickedImage = tempImage;
-        //guardando imagen en la bd
         _foto = _imagen64;    
       });
-
       Get.back();
     } catch (error) {
       debugPrint(error.toString());
@@ -128,7 +123,9 @@ class _ConductorPageState extends State<ConductorPage> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 1,
         centerTitle: true,
-        title: const Text('Perfil de Conductor', style: TextStyle(fontSize: 25, color: Colors.black),),
+        title: const Text('Perfil de Conductor', 
+          style: TextStyle(fontSize: 25, color: Colors.black),
+        ),
       ),
       body: Container(
         padding: const EdgeInsets.only(left: 25, top: 25, right: 25),
@@ -185,22 +182,8 @@ class _ConductorPageState extends State<ConductorPage> {
               ),
               const SizedBox(height: 20,),
               Column(
-                children: [
+                children: [           
                   const SizedBox(height: 25,),
-                  TextFormField(
-                    validator: (val) => val!.isEmpty ? 'El campo es requerido' : null,
-                    keyboardType: TextInputType.name,
-                    decoration: const InputDecoration(
-                      labelText: 'Nombre completo',
-                      icon: Icon(Icons.person),
-                      hintText: "Ej. Juan Perez"
-                    ),
-                    onChanged: (value) {
-                      _name = value;
-                    },
-                  ),
-                  const SizedBox(height: 25,),
-                  // display the selected date
                   TextFormField(
                     validator: (val) => val!.isEmpty ? 'El campo es requerido' : null,
                     keyboardType: TextInputType.datetime,
@@ -223,7 +206,7 @@ class _ConductorPageState extends State<ConductorPage> {
                         setState(() {
                           _dateController.text = DateFormat.yMd().format(selectedDate);
                           _fechanacimiento=  _dateController.text;
-                          print(_fechanacimiento);
+                          debugPrint(_fechanacimiento);
                         });
                       }
                     },
@@ -267,8 +250,8 @@ class _ConductorPageState extends State<ConductorPage> {
                   ),
                   const SizedBox(height: 40,),
                   RoundedButton(
-                    btnText: 'Continuar',
-                    onBtnPressed: () => createAccountPressed(),
+                    btnText: 'Completar registro',
+                    onBtnPressed: () => createDriverPressed(),
                   ),
                   const SizedBox(height: 20,)
                 ],

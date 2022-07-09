@@ -1,10 +1,10 @@
-// ignore_for_file: avoid_print
-
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/constant.dart';
 import 'package:rutas_microbuses/models/api_response.dart';
 import 'package:rutas_microbuses/models/user.dart';
+import 'package:rutas_microbuses/variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<ApiResponse> login(String email, String password) async {
@@ -47,11 +47,11 @@ Future<ApiResponse> register(String name, String email, String password) async {
       body: {
         'name': name,
         'email': email, 
-        'password': password
+        'password': password,
+        'linea': lineaName
       }
     );
-    print('Status code:${response.statusCode}');
-    print('Body${response.body}');
+    debugPrint('Body User: ${response.body}');
     switch(response.statusCode){
       case 200:
         apiResponse.data = User.fromJson(jsonDecode(response.body));

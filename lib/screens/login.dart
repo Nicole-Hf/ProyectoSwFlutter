@@ -1,16 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/models/api_response.dart';
 import 'package:rutas_microbuses/models/user.dart';
-import 'package:rutas_microbuses/pages/home_page.dart';
+import 'package:rutas_microbuses/screens/home_page.dart';
 import 'package:rutas_microbuses/screens/register.dart';
-import 'package:rutas_microbuses/services/linea_controller.dart';
 import 'package:rutas_microbuses/services/user_service.dart';
-import 'package:rutas_microbuses/utils/variables.dart';
+import 'package:rutas_microbuses/variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
@@ -31,13 +27,6 @@ class _LoginState extends State<Login> {
     ApiResponse response = await login(txtEmailController.text, txtPasswordController.text);
     if (response.error == null) {
       _saveAndRedirectToHome(response.data as User);
-      http.Response responseBus = await LineaController.getBus();
-      var dataBus = json.decode(responseBus.body);
-      interno = dataBus['nroInterno'];
-      placa = dataBus['placa'];
-      modelo = dataBus['modelo'];
-      capacidad = dataBus['nro_asientos'];
-      lineaName = dataBus['linea'];
     } else {
       setState(() {
         loading = false;
@@ -53,9 +42,11 @@ class _LoginState extends State<Login> {
     await preferences.setString('token', user.token ?? '');
     await preferences.setInt('userId', user.id ?? 0);
     idUser = user.id!;
-    //idConductor = user.conductorId!;
-    //nombreConductor = user.conductorName!;
-    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const HomePage(),), (route) => false);
+    debugPrint('User id: $idUser');
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => const HomePage(),), 
+      (route) => false
+    );
   }
 
   @override
@@ -207,7 +198,10 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                         onTap: () {
-                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const Register(),), (route) => false);
+                          Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (context) => const Register(),), 
+                            (route) => false
+                          );
                         },
                       )
                     ],
@@ -217,7 +211,7 @@ class _LoginState extends State<Login> {
             ),
           )
         ]
-      )                                           
+      )
     );
   }
 }

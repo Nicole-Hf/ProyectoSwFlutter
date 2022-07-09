@@ -1,14 +1,14 @@
 // ignore_for_file: avoid_print
 
 import 'dart:convert';
+import 'package:rutas_microbuses/constant.dart';
 import 'package:rutas_microbuses/models/linea.dart';
-import 'package:rutas_microbuses/utils/globals.dart';
 import 'package:http/http.dart' as http;
-import 'package:rutas_microbuses/utils/variables.dart';
+import 'package:rutas_microbuses/variables.dart';
 
 class LineaController {
   static Future<List<Linea>> getLineaSuggestion(String query) async {
-    final url = Uri.parse('${baseUrl}lineas');
+    final url = Uri.parse(getLineasUrl);
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -48,7 +48,7 @@ class LineaController {
     var url = Uri.parse('${baseUrl}createBus');
     http.Response response = await http.post(
       url,
-      headers: headers,
+      headers: headersC,
       body: body
     );
     print(response.body);
@@ -56,7 +56,7 @@ class LineaController {
   }
 
   static Future<http.Response> getBus() async {
-    var url = Uri.parse('${baseUrl}getBus/$idConductor');
+    var url = Uri.parse('${baseUrl}getBus/$idUser');
     http.Response response = await http.get(url);
     print(response.body);
     return response;
