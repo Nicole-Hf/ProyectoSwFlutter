@@ -111,98 +111,100 @@ class _HomePageState extends State<HomePage> {
           children: [
             Expanded(
               child: _loading 
-                      ? const Center(child: CircularProgressIndicator(),)
-                      : RefreshIndicator(
-                          onRefresh: () {
-                            return retrieveBus();
-                          },
-                          child: ListView.builder(
-                            itemCount: _busList.length,
-                            itemBuilder: (context, index) {
-                              Bus bus = _busList[index];
-                              return Column(
-                                  children: [
-                                    Container(
-                                      width: 38,
-                                      height: 38,
-                                      decoration: BoxDecoration(
-                                        image: bus.foto != null
-                                        ? DecorationImage(
-                                            image: NetworkImage('${bus.foto}')
-                                          ) 
-                                        : null,
-                                        borderRadius: BorderRadius.circular(25),
-                                        color: Colors.amber
-                                      ),
-                                    ),
-                                    Card(
-                                      margin: const EdgeInsets.only(left: 10, right: 10),
-                                      elevation: 10,
-                                      shadowColor: Colors.grey.withOpacity(0.5),
-                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),),
-                                      child: Column(
-                                        children: [
-                                          ListTile(
-                                            title: Text(
-                                              'Conductor: ${bus.conductor}',
-                                              style: const TextStyle(fontWeight: FontWeight.w500),
-                                            ),
-                                            leading: const Icon(Icons.person),
-                                          ),
-                                          ListTile(
-                                            title: Text(
-                                              'Línea:  ${bus.linea}',
-                                              style: const TextStyle(fontWeight: FontWeight.w500),
-                                            ),
-                                            leading: const Icon(Icons.bus_alert),
-                                          ), 
-                                          ListTile(
-                                            title: Text(
-                                              'Interno:  ${bus.interno}',
-                                              style: const TextStyle(fontWeight: FontWeight.w500),
-                                            ),
-                                            leading: const Icon(Icons.numbers),
-                                          ), 
-                                          ListTile(
-                                            title: Text(
-                                              'Placa:  ${bus.placa}',
-                                              style: const TextStyle(fontWeight: FontWeight.w500),
-                                            ),
-                                            leading: const Icon(Icons.label_important),
-                                          ), 
-                                          ListTile(
-                                            title: Text(
-                                              'Modelo:  ${bus.modelo}',
-                                              style: const TextStyle(fontWeight: FontWeight.w500),
-                                            ),
-                                            leading: const Icon(Icons.model_training),
-                                          ),
-                                          ListTile(
-                                            title: Text(
-                                              'Número de asientos:  ${bus.capacidad}',
-                                              style: const TextStyle(fontWeight: FontWeight.w500),
-                                            ),
-                                            leading: const Icon(Icons.group),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                              );
-                            },
-                          ), 
-                        ),
+              ? const Center(child: CircularProgressIndicator(),)
+              : RefreshIndicator(
+                  onRefresh: () {
+                    return retrieveBus();
+                  },
+                  child: ListView.builder(
+                    itemCount: _busList.length,
+                    itemBuilder: (context, index) {
+                      Bus bus = _busList[index];
+                      return Column(
+                        children: [
+                          bus.foto != null
+                          ? Container(
+                              padding: const EdgeInsets.only(left: 20, right: 20),
+                              width: 300,
+                              height: 180,
+                              margin: const EdgeInsets.only(top: 5),
+                              decoration: BoxDecoration(
+                                image: bus.foto != null
+                                ? DecorationImage(image: NetworkImage('${bus.foto}'), fit: BoxFit.cover) 
+                                : null,
+                              ),
+                            )
+                          : const SizedBox(height: 10,),
+                          Card(
+                            margin: const EdgeInsets.only(left: 10, right: 10),
+                            elevation: 10,
+                            shadowColor: Colors.grey.withOpacity(0.5),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0),),
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  title: Text(
+                                    'Conductor: ${bus.conductor}',
+                                    style: const TextStyle(fontWeight: FontWeight.w500),
+                                  ),
+                                  leading: const Icon(Icons.person),
+                                ),
+                                ListTile(
+                                  title: Text(
+                                    'Línea:  ${bus.linea}',
+                                    style: const TextStyle(fontWeight: FontWeight.w500),
+                                  ),
+                                  leading: const Icon(Icons.bus_alert),
+                                ), 
+                                ListTile(
+                                  title: Text(
+                                    'Interno:  ${bus.interno}',
+                                    style: const TextStyle(fontWeight: FontWeight.w500),
+                                  ),
+                                  leading: const Icon(Icons.numbers),
+                                ), 
+                                ListTile(
+                                  title: Text(
+                                    'Placa:  ${bus.placa}',
+                                    style: const TextStyle(fontWeight: FontWeight.w500),
+                                  ),
+                                  leading: const Icon(Icons.label_important),
+                                ), 
+                                ListTile(
+                                  title: Text(
+                                    'Modelo:  ${bus.modelo}',
+                                    style: const TextStyle(fontWeight: FontWeight.w500),
+                                  ),
+                                  leading: const Icon(Icons.model_training),
+                                ),
+                                ListTile(
+                                  title: Text(
+                                    'Número de asientos:  ${bus.capacidad}',
+                                    style: const TextStyle(fontWeight: FontWeight.w500),
+                                  ),
+                                  leading: const Icon(Icons.group),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ), 
+                ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                debugPrint('Button');
-              }, 
-              child: const Text('Iniciar Recorrido')
+            Container(
+              padding: const EdgeInsets.only(bottom: 30),
+              child: ElevatedButton(
+                onPressed: () {
+                  debugPrint('Button');
+                }, 
+                child: const Text('Iniciar Recorrido')
+              ),
             )
           ],
         ),
       ),
-    );
-                
+    );              
   }
 }

@@ -14,8 +14,8 @@ class Bus {
   String? foto;
   String? placa;
   String? modelo;
-  String? interno;
-  String? capacidad;
+  int? interno;
+  int? capacidad;
   String? conductor;
   String? linea;
   
