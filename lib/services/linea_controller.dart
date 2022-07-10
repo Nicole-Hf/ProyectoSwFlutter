@@ -1,9 +1,11 @@
-// ignore_for_file: avoid_print
-
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:rutas_microbuses/constant.dart';
+import 'package:rutas_microbuses/models/api_response.dart';
+import 'package:rutas_microbuses/models/bus.dart';
 import 'package:rutas_microbuses/models/linea.dart';
 import 'package:http/http.dart' as http;
+import 'package:rutas_microbuses/services/user_service.dart';
 import 'package:rutas_microbuses/variables.dart';
 
 class LineaController {
@@ -13,7 +15,7 @@ class LineaController {
 
     if (response.statusCode == 200) {
       final List lineas = json.decode(response.body);
-      print(response.body);
+      debugPrint(response.body);
       return lineas.map((json) => Linea.fromJson(json)).where((linea) {
         final nameLower = linea.nombre.toLowerCase();
         final queryLower = query.toLowerCase();    
@@ -51,15 +53,47 @@ class LineaController {
       headers: headersC,
       body: body
     );
-    print(response.body);
+    debugPrint(response.body);
     return response;
   }
 
   static Future<http.Response> getBus() async {
     var url = Uri.parse('${baseUrl}getBus/$idUser');
     http.Response response = await http.get(url);
-    print(response.body);
+    debugPrint(response.body);
     return response;
   }
-
 }
+
+Future<ApiResponse> getBusToday() async {
+    ApiResponse apiResponse = ApiResponse();
+    try{
+      String token = await getToken();
+      var url = Uri.parse(getMicroUrl);
+      final response = await http.get(
+        url,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+      );
+
+      switch (response.statusCode) {
+        case 200:
+          apiResponse.data = jsonDecode(response.body)['bus'].map((p) => Bus.fromJson(p)).toList();
+          apiResponse.data as List<dynamic>;
+          break;
+        case 401:
+          apiResponse.error = unauthorized;
+          break;
+        default:
+          apiResponse.error = somethingWentWrong;
+          break;
+      }
+    }
+    catch (e) {
+      apiResponse.error = serverError;
+    }
+    
+    return apiResponse;
+  }
