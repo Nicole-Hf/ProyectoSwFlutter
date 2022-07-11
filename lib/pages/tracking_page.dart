@@ -1,10 +1,11 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls, unused_local_variable
 
 import 'dart:async';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:rutas_microbuses/services/recorrido_service.dart';
 import 'package:rutas_microbuses/variables.dart';
 
 class TrackingPage extends StatefulWidget {
@@ -34,11 +35,13 @@ class _TrackingPageState extends State<TrackingPage> {
 
     GoogleMapController googleMapController = await _controller.future;
 
-    location.onLocationChanged.listen((newLoc) {
+    location.onLocationChanged.listen((newLoc) async {
       currentLocation = newLoc;
-      /*http.Response response = await RecorridoController.saveLocation(_latitud, _longitud);
+      _latitud = currentLocation!.latitude;
+      _longitud = currentLocation!.longitude;
+      http.Response response = await editLoc(_latitud, _longitud);
       debugPrint('Ubicacion nueva: $currentLocation');
-      debugPrint('Response: ${response.body}');*/
+      debugPrint('Response: ${response.body}');
       
       googleMapController.animateCamera(
         CameraUpdate.newCameraPosition(
