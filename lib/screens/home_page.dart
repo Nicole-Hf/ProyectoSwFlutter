@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
 
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/constant.dart';
@@ -50,16 +51,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   createRecorridoPressed() async {
-    http.Response response = await RecorridoController.createRecorrido(_tipo);
+    http.Response response = await iniciarRecorrido(_tipo);
     var data = json.decode(response.body);
+    debugPrint("StatusR: ${response.statusCode}");
     if (response.statusCode == 200) { 
-      idRecorrido = data['id']; 
+      idRecorrido = data['recorrido']['id']; 
       debugPrint('Recorrido: $idRecorrido');   
-      fecha = data['fecha'];
-      tipo = data['tipo'];
-      horaSalida = data['horaSalida']; 
-      horaLlegada = data['horaLLegada'];
-      tiempo = data['tiempo'];
+      fecha = data['recorrido']['fecha'];
+      tipo = data['recorrido']['tipo'];
+      horaSalida = data['recorrido']['horaSalida']; 
+      horaLlegada = data['recorrido']['horaLLegada'];
+      tiempo = data['recorrido']['tiempo'];
 
       Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) => const TrackingPage(),)
@@ -109,6 +111,25 @@ class _HomePageState extends State<HomePage> {
         color: Colors.white,
         child: Column(
           children: [
+            /*const SizedBox(height: 20,),
+            TextFormField(
+              validator: (val) => val!.isEmpty ? 'El campo es requerido' : null,
+              decoration: const InputDecoration(
+                labelText:'Tipo de recorrido',
+                hintText: "Ej. Ida/Vuelta" 
+              ),
+              onChanged: (value) {
+                _tipo = value;
+              },
+            ),
+            const SizedBox(height: 20,),                              
+            ElevatedButton(
+              onPressed: () {
+                createRecorridoPressed();
+              },
+              child: const Text('Iniciar'),
+            ),
+            const SizedBox(height: 20,),*/
             Expanded(
               child: _loading 
               ? const Center(child: CircularProgressIndicator(),)
@@ -120,6 +141,7 @@ class _HomePageState extends State<HomePage> {
                     itemCount: _busList.length,
                     itemBuilder: (context, index) {
                       Bus bus = _busList[index];
+                      idDriving = bus.driving;
                       return Column(
                         children: [
                           bus.foto != null
@@ -197,7 +219,85 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.only(bottom: 30),
               child: ElevatedButton(
                 onPressed: () {
-                  debugPrint('Button');
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        content: Container(                        
+                          width: MediaQuery.of(context).size.width / 1.3,
+                          height: MediaQuery.of(context).size.height / 4.5,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            color: Color(0x00ffffff),
+                            borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              const Text('Seleccione un recorrido'),
+                              const SizedBox(height: 20,),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 0, right: 0, left: 0, bottom: 0),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: ChoiceChip(                   
+                                        label: const Text('Ida',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(color: Colors.black, fontSize: 15)
+                                        ),
+                                        labelPadding: const EdgeInsets.symmetric(horizontal: 50),
+                                        selected: _tipo == 'ida',
+                                        onSelected: (bool selected) {
+                                          setState(() {
+                                            _tipo = selected ? 'ida' : null;  
+                                            debugPrint('Tipo $_tipo');                       
+                                          });
+                                        },
+                                        selectedColor: const Color.fromARGB(255, 19, 135, 15),
+                                        shape: ContinuousRectangleBorder(
+                                          borderRadius: BorderRadius.circular(5.0)
+                                        )
+                                      )
+                                    ),
+                                    Expanded(
+                                      child: ChoiceChip(                   
+                                        label: const Text('Vuelta',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(color: Colors.black, fontSize: 15)
+                                        ),
+                                        labelPadding: const EdgeInsets.symmetric(horizontal: 50),
+                                        selected: _tipo == 'vuelta',
+                                        onSelected: (bool selected) {
+                                          setState(() {
+                                            _tipo = selected ? 'vuelta' : null;
+                                            debugPrint('Tipo $_tipo');
+                                          });
+                                        },
+                                        selectedColor: const Color.fromARGB(255, 19, 135, 15),
+                                        shape: ContinuousRectangleBorder(
+                                          borderRadius: BorderRadius.circular(5.0)
+                                        )
+                                      )
+                                    ),
+                                  ]
+                                )
+                              ),
+                              const SizedBox(height: 20,),                              
+                              ElevatedButton(
+                                onPressed: () {
+                                  createRecorridoPressed();
+                                },
+                                child: const Text('Iniciar'),
+                              ),                             
+                            ]
+                          )
+                        ),
+                      );
+                    }
+                  );                 
                 }, 
                 child: const Text('Iniciar Recorrido')
               ),

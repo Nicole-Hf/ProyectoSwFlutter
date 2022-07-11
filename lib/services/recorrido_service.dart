@@ -1,29 +1,53 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
-import 'package:intl/intl.dart';
 import 'package:rutas_microbuses/constant.dart';
 import 'package:http/http.dart' as http;
+import 'package:rutas_microbuses/models/api_response.dart';
 import 'package:rutas_microbuses/services/user_service.dart';
 import 'package:rutas_microbuses/variables.dart';
 
-class RecorridoController {
-  
-  static Future<http.Response> createRecorrido(String? tipo) async {
-    final DateTime now = DateTime.now();
-    final DateFormat formatter = DateFormat('yyyy-MM-dd');
-    final String fecha = formatter.format(now);
-    final DateFormat formathour = DateFormat('hh:mm');
-    final String horaSalida = formathour.format(now);
-    var tiempo = 45; //arreglar esta parte del tiempo, el tiempo estimado de llegada debe ser dado por el admin?
-    var addTime = now.add(Duration(minutes: tiempo)); 
-    final DateFormat formathourL = DateFormat('hh:mm');
-    final String horaLlegada = formathourL.format(addTime);
-    
+Future<ApiResponse> createRecorrido(String tipo) async {
+  ApiResponse apiResponse = ApiResponse();
+  try {
+    String token = await getToken();
+    var url = Uri.parse(createRecorridoUrl);
+    final response = await http.post(
+      url,        
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      },
+      body: {
+        'tipo': tipo,
+        'drive_id': idDriving,
+      }
+    );
+    debugPrint('StatusCodeR: ${response.statusCode}');
+    debugPrint('BodyR: ${response.body}');
+    switch(response.statusCode){
+      case 200:
+        apiResponse.data = jsonDecode(response.body);
+        break;
+      case 422:
+        final errors = jsonDecode(response.body)['errors'];
+        apiResponse.error = errors[errors.keys.elementAt(0)][0];
+        break;
+      case 401:
+        apiResponse.error = unauthorized;
+        break;
+      default:
+        debugPrint('Recorrido body: ${response.body}');
+        apiResponse.error = somethingWentWrong;
+        break;
+    }
+  } catch (e) {
+    apiResponse.error = serverError;
+  } 
+  return apiResponse;
+}
+
+  Future<http.Response> iniciarRecorrido(String? tipo) async {
     Map data = {
-      "fecha": fecha,
-      "horaSalida": horaSalida,
-      "horaLlegada": horaLlegada,
-      "tiempo": tiempo,
       "tipo": tipo,
     };
 
@@ -33,7 +57,7 @@ class RecorridoController {
     http.Response response = await http.post(
       url,
       headers: {
-        'Accept': 'application/json',
+        "Content-Type": "application/json",
         'Authorization': 'Bearer $token'
       },
       body: body
@@ -42,7 +66,7 @@ class RecorridoController {
     return response;
   }
 
-  static Future<http.Response> saveLocation(double? latitud, double? longitud) async {
+  Future<http.Response> saveLocation(double? latitud, double? longitud) async {
     Map data = {
       "latitud": latitud,
       "longitud": longitud,
@@ -64,7 +88,7 @@ class RecorridoController {
     return response;
   }
 
-  static Future<http.Response> editLoc(double? latitud, double? longitud) async {
+  Future<http.Response> editLoc(double? latitud, double? longitud) async {
     Map data = {
       "latitud": latitud,
       "longitud": longitud,
@@ -85,4 +109,3 @@ class RecorridoController {
     debugPrint('Body Tracking: ${response.body}');
     return response;
   }
-}

@@ -8,6 +8,7 @@ class Bus {
     this.capacidad,
     this.conductor,
     this.linea,
+    this.driving
   });
 
   int? id;
@@ -18,6 +19,7 @@ class Bus {
   int? capacidad;
   String? conductor;
   String? linea;
+  int? driving;
   
   factory Bus.fromJson(Map<String, dynamic> json) {
     return Bus(
@@ -25,10 +27,11 @@ class Bus {
       foto: json["foto"],
       placa: json["placa"], 
       modelo: json["modelo"], 
-      interno: json["nroInterno"],
-      capacidad: json["nro_asientos"],
+      interno: json["interno"],
+      capacidad: json["capacidad"],
       conductor: json["conductor"],
       linea: json["linea"],
+      driving: json["driving"]
     );
   }
 }

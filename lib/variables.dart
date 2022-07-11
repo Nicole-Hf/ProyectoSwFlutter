@@ -23,7 +23,8 @@ int idRecorrido = 0;
 String fecha = "";
 String horaSalida = "";
 String horaLlegada = "";
-int tiempo = 0;
+String tiempo = "";
 String tipo = "";
-
 double? latitud, longitud;
+
+int? idDriving;

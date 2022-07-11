@@ -3,29 +3,35 @@ class Recorrido {
   String? fecha;
   String? horaSalida;
   String? horaLlegada;
+  double? latitud;
+  double? longitud;
+  String? tiempo;
   String? tipo;
+  int? driveId;
 
   Recorrido({
     this.id,
     this.fecha,
     this.horaSalida,
     this.horaLlegada,
-    this.tipo
+    this.latitud,
+    this.longitud,
+    this.tiempo,
+    this.tipo,
+    this.driveId
   });
 
-  factory Recorrido.fromJson(Map<String, dynamic> json) => Recorrido(
-    id: json["id"],
-    fecha: json["fecha"],
-    horaSalida: json["horaSalida"],
-    horaLlegada: json["horaLlegada"],  
-    tipo: json["tipo"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "fecha": fecha,
-    "horaSalida": horaSalida,
-    "horaLlegada": horaLlegada,
-    "tipo": tipo,
-  };
+  factory Recorrido.fromJson(Map<String, dynamic> json) {
+    return Recorrido(
+      id: json["id"],
+      fecha: json["fecha"],
+      horaSalida: json["horaSalida"],
+      horaLlegada: json["horaLLegada"], 
+      latitud: json['latitud'],
+      longitud: json['longitud'], 
+      tiempo: json['tiempo'],
+      tipo: json["tipo"],
+      driveId: json['drive_id']
+    );
+  }
 }
