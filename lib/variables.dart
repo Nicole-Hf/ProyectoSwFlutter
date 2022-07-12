@@ -24,7 +24,13 @@ String fecha = "";
 String horaSalida = "";
 String horaLlegada = "";
 String tiempo = "";
+String tiempoUpd = "";
+String? retraso;
 String tipo = "";
 double? latitud, longitud;
 
 int? idDriving;
+
+int? idComentario;
+String? motivo;
+String? horaRetiro;

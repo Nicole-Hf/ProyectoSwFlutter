@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/constant.dart';
 import 'package:rutas_microbuses/models/api_response.dart';
 import 'package:rutas_microbuses/models/bus.dart';
-import 'package:rutas_microbuses/pages/tracking_page.dart';
+import 'package:rutas_microbuses/screens/tracking_page.dart';
 import 'package:rutas_microbuses/screens/login.dart';
 import 'package:rutas_microbuses/services/linea_controller.dart';
 import 'package:rutas_microbuses/services/recorrido_service.dart';
@@ -53,10 +53,8 @@ class _HomePageState extends State<HomePage> {
   createRecorridoPressed() async {
     http.Response response = await iniciarRecorrido(_tipo);
     var data = json.decode(response.body);
-    debugPrint("StatusR: ${response.statusCode}");
     if (response.statusCode == 200) { 
-      idRecorrido = data['recorrido']['id']; 
-      debugPrint('Recorrido: $idRecorrido');   
+      idRecorrido = data['recorrido']['id'];   
       fecha = data['recorrido']['fecha'];
       tipo = data['recorrido']['tipo'];
       horaSalida = data['recorrido']['horaSalida']; 
@@ -111,25 +109,6 @@ class _HomePageState extends State<HomePage> {
         color: Colors.white,
         child: Column(
           children: [
-            /*const SizedBox(height: 20,),
-            TextFormField(
-              validator: (val) => val!.isEmpty ? 'El campo es requerido' : null,
-              decoration: const InputDecoration(
-                labelText:'Tipo de recorrido',
-                hintText: "Ej. Ida/Vuelta" 
-              ),
-              onChanged: (value) {
-                _tipo = value;
-              },
-            ),
-            const SizedBox(height: 20,),                              
-            ElevatedButton(
-              onPressed: () {
-                createRecorridoPressed();
-              },
-              child: const Text('Iniciar'),
-            ),
-            const SizedBox(height: 20,),*/
             Expanded(
               child: _loading 
               ? const Center(child: CircularProgressIndicator(),)

@@ -45,3 +45,24 @@ import 'package:rutas_microbuses/variables.dart';
     debugPrint('Body Tracking: ${response.body}');
     return response;
   }
+
+  Future<http.Response> saveRetiro(String? motivo) async {
+    Map data = {
+      "motivo": latitud,
+      "recorrido_id": idRecorrido,
+    };
+
+    var body = json.encode(data);
+    String token = await getToken();
+    var url = Uri.parse(saveRetiroUrl);
+    http.Response response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      },
+      body: body
+    );
+    debugPrint('Body Tracking: ${response.body}');
+    return response;
+  }

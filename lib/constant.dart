@@ -14,6 +14,7 @@ const createMicroUrl = '${baseUrl}bus';
 const getMicroUrl = '${baseUrl}index';
 const createRecorridoUrl = '${baseUrl}recorrido';
 const updateLocationUrl = '${baseUrl}update';
+const saveRetiroUrl = '${baseUrl}salir';
 
 const Map<String, String> headers = {"Accept": "application/json"};
 const Map<String, String> headersC = {"Content-Type": "application/json"};
