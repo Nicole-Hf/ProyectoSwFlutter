@@ -2,21 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:rutas_microbuses/models/api_response.dart';
-import 'package:rutas_microbuses/models/user.dart';
+import 'package:rutas_microbuses/models/conductor.dart';
 import 'package:rutas_microbuses/screens/perfil_page.dart';
-import 'package:rutas_microbuses/screens/register.dart';
-import 'package:rutas_microbuses/services/user_service.dart';
+import 'package:rutas_microbuses/services/conductor_service.dart';
 import 'package:rutas_microbuses/variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+class LoginDriver extends StatefulWidget {
+  const LoginDriver({Key? key}) : super(key: key);
 
   @override
-  State<Login> createState() => _LoginState();
+  State<LoginDriver> createState() => _LoginDriverState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginDriverState extends State<LoginDriver> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController txtEmailController = TextEditingController();
   TextEditingController txtPasswordController = TextEditingController();
@@ -24,9 +23,9 @@ class _LoginState extends State<Login> {
   bool passwordVisibility = false;
 
   void _loginUser() async {
-    ApiResponse response = await login(txtEmailController.text, txtPasswordController.text);
+    ApiResponse response = await loginDriver(txtEmailController.text, txtPasswordController.text);
     if (response.error == null) {
-      _saveAndRedirectToHome(response.data as User);
+      _saveAndRedirectToHome(response.data as Conductor);
     } else {
       setState(() {
         loading = false;
@@ -37,15 +36,15 @@ class _LoginState extends State<Login> {
     }
   }
 
-  void _saveAndRedirectToHome(User user) async{
+  void _saveAndRedirectToHome(Conductor conductor) async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setString('token', user.token ?? '');
-    await preferences.setInt('userId', user.id ?? 0);
-    idUser = user.id!;
-    debugPrint('User id: $idUser');
-    Navigator.of(context).pushAndRemoveUntil(
+    await preferences.setString('email', conductor.email ?? '');
+    await preferences.setInt('conductorId', conductor.id ?? 0);
+    idConductor = conductor.id!;
+    debugPrint('Conductor ID: $idConductor');
+    
+    Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => const PerfilPage(),), 
-      (route) => false
     );
   }
 
@@ -182,30 +181,7 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 50,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text('No tienes una cuenta? ', 
-                        style: TextStyle(color: Colors.white, fontSize: 18),
-                      ),
-                      GestureDetector(
-                        child: const Text('Registrate aquí', 
-                          style: TextStyle(
-                            color: Colors.blue, 
-                            decoration: TextDecoration.underline,
-                            fontSize: 18
-                          ),
-                        ),
-                        onTap: () {
-                          Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (context) => const Register(),), 
-                            (route) => false
-                          );
-                        },
-                      )
-                    ],
-                  )
+                  const SizedBox(height: 50,),                  
                 ]
               )
             ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rutas_microbuses/screens/home_page.dart';
 import 'package:rutas_microbuses/screens/login.dart';
+import 'package:rutas_microbuses/screens/micro_page.dart';
 import 'package:rutas_microbuses/services/user_service.dart';
 import 'package:rutas_microbuses/variables.dart';
 
@@ -23,7 +23,7 @@ class _RetiroPageState extends State<RetiroPage> {
         leading: InkWell(
           onTap: () {
             Navigator.push(context,
-              MaterialPageRoute(builder: (BuildContext context) => const HomePage(),)
+              MaterialPageRoute(builder: (BuildContext context) => const MicroPage(),)
             );
           },
           child: const Icon(

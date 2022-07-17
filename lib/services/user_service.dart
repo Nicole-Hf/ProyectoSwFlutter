@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/constant.dart';
 import 'package:rutas_microbuses/models/api_response.dart';
 import 'package:rutas_microbuses/models/user.dart';
-import 'package:rutas_microbuses/variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<ApiResponse> login(String email, String password) async {
@@ -38,7 +37,7 @@ Future<ApiResponse> login(String email, String password) async {
   return apiResponse;
 }
 
-Future<ApiResponse> register(String name, String email, String password) async {
+Future<ApiResponse> register(String name, String email, String password, int? linea) async {
   ApiResponse apiResponse = ApiResponse();
   try{
     final response = await http.post(
@@ -48,7 +47,7 @@ Future<ApiResponse> register(String name, String email, String password) async {
         'name': name,
         'email': email, 
         'password': password,
-        'linea': lineaName
+        'linea_id': linea
       }
     );
     debugPrint('Body User: ${response.body}');
@@ -71,7 +70,7 @@ Future<ApiResponse> register(String name, String email, String password) async {
   return apiResponse;
 }
 
-Future<ApiResponse> getUser() async {
+Future<ApiResponse> getUserDetail() async {
   ApiResponse apiResponse = ApiResponse();
   try{
     String token = await getToken();

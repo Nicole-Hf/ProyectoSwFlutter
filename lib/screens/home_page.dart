@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   createRecorridoPressed() async {
-    http.Response response = await iniciarRecorrido(_tipo);
+    http.Response response = await createRecorrido(_tipo);
     var data = json.decode(response.body);
     if (response.statusCode == 200) { 
       idRecorrido = data['recorrido']['id'];   
@@ -120,7 +120,6 @@ class _HomePageState extends State<HomePage> {
                     itemCount: _busList.length,
                     itemBuilder: (context, index) {
                       Bus bus = _busList[index];
-                      idDriving = bus.driving;
                       return Column(
                         children: [
                           bus.foto != null

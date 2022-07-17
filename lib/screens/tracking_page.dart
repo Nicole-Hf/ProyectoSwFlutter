@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, unused_local_variable
 
 import 'dart:async';
 import 'dart:convert';
@@ -41,13 +41,6 @@ class _TrackingPageState extends State<TrackingPage> {
       _latitud = currentLocation!.latitude;
       _longitud = currentLocation!.longitude;
       http.Response response = await editLoc(_latitud, _longitud);
-      var data = json.decode(response.body);
-      tiempoUpd = data['recorrido']['tiempo'];
-      if (data['recorrido']['retraso'] != null) {
-        retraso = data['recorrido']['retraso'];
-      } else {
-        retraso = '00:00';
-      }
       googleMapController.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
@@ -65,9 +58,16 @@ class _TrackingPageState extends State<TrackingPage> {
     setState(() {
       _locationSubscription = null;
     });
-    Navigator.push(context,
-      MaterialPageRoute(builder: (BuildContext context) => const FinishTracking(),)
-    );
+    http.Response response = await finishRecorrido();
+    var data = json.decode(response.body);
+    if (response.statusCode == 200) { 
+      tiempoUpd = data['recorrido']['tiempo'];
+      horaRetiro = data['recorrido']['horaLLegada'];
+      retraso = data['recorrido']['retraso'];
+      Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => const FinishTracking(),)
+      );
+    }
   }
 
   Future<void> _saveRetiro() async {
@@ -80,7 +80,7 @@ class _TrackingPageState extends State<TrackingPage> {
     if (response.statusCode == 200) { 
       idComentario = data['comentario']['id'];   
       motivo = data['comentario']['fecha'];
-      horaRetiro = data['comentario']['tipo']; 
+      horaRetiro = data['comentario']['horaRetiro']; 
       Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) => const RetiroPage(),)
       );

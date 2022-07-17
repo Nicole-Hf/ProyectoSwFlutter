@@ -26,11 +26,12 @@ class _RegisterState extends State<Register> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final _formKey = GlobalKey<FormState>();
   final _typeAheadController = TextEditingController();
+  int? _lineaId = 0;
   bool loading = false;
   bool passwordVisibility = false;
 
   void _registerUser() async {
-    ApiResponse response = await register(txtNameController.text, txtEmailController.text, txtPasswordController.text);
+    ApiResponse response = await register(txtNameController.text, txtEmailController.text, txtPasswordController.text, _lineaId);
     debugPrint(response.error);
     if (response.error == null) {
       _saveAndRedirectToHome(response.data as User);
@@ -130,11 +131,12 @@ class _RegisterState extends State<Register> {
                       _typeAheadController.text = suggestion.nombre;
                       setState(() {
                         idLinea = linea.id;
+                        _lineaId = linea.id;
                         lineaName = linea.nombre;
                       });
                       debugPrint('Linea id: $idLinea');
                     },
-                    onSaved: (value) => idLinea = value as int,
+                    onSaved: (value) => _lineaId = value as int?,
                   ),
                   const SizedBox(height: 10,),
                   TextFormField(

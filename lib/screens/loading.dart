@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:rutas_microbuses/models/api_response.dart';
-import 'package:rutas_microbuses/screens/home_page.dart';
+import 'package:rutas_microbuses/screens/perfil_page.dart';
 import 'package:rutas_microbuses/screens/login.dart';
 import 'package:rutas_microbuses/services/user_service.dart';
 
@@ -20,9 +20,9 @@ class _LoadingState extends State<Loading> {
     if (token == '') {
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const Login()), (route) => false);
     } else {
-      ApiResponse response = await getUser();
+      ApiResponse response = await getUserDetail();
       if (response.error == null) {
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const HomePage()), (route) => false);
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const PerfilPage()), (route) => false);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${response.error}')));
       }

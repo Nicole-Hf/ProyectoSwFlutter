@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/constant.dart';
-import 'package:rutas_microbuses/screens/home_page.dart';
+import 'package:rutas_microbuses/screens/perfil_page.dart';
 import 'package:rutas_microbuses/services/conductor_service.dart';
 import 'package:rutas_microbuses/button.dart';
 import 'package:image_picker/image_picker.dart';
@@ -44,7 +44,7 @@ class _ConductorPageState extends State<ConductorPage> {
       debugPrint('Conductor ID: $idConductor');
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (BuildContext context) => const HomePage(),)
+        MaterialPageRoute(builder: (BuildContext context) => const PerfilPage(),)
       );
     } else {
       errorSnackBar(context, responseMap.values.first[0]);

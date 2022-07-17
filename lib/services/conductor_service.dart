@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/constant.dart';
+import 'package:rutas_microbuses/models/api_response.dart';
+import 'package:rutas_microbuses/models/conductor.dart';
 import 'package:rutas_microbuses/variables.dart';
 
 class ConductorService {
@@ -34,9 +36,8 @@ class ConductorService {
     return response;
   }
 
-  static Future<http.Response> microbusRegister(String placa, String modelo, 
-  String nroasientos, String nroInterno, String fechaasignacion,
-  String fechabaja, String foto) async {
+  static Future<http.Response> createMicrobus(String placa, String modelo, String nroasientos, 
+    String nroInterno, String fechaasignacion, String fechabaja, String foto) async {
     Map data = {
       "placa": placa,
       "nroInterno": nroInterno,
@@ -45,7 +46,6 @@ class ConductorService {
       "nro_asientos": nroasientos,
       "fecha_baja": fechabaja,
       "foto": foto,
-      "linea_id": idLinea
     };
 
     var body = json.encode(data);
@@ -59,3 +59,64 @@ class ConductorService {
     return response;
   }
 }
+
+Future<ApiResponse> loginDriver(String email, String password) async {
+  ApiResponse apiResponse = ApiResponse();
+  try{
+    final response = await http.post(
+      Uri.parse(loginDriverUrl),
+      headers: headers,
+      body: {'email': email, 'password': password}
+    );
+
+    switch(response.statusCode){
+      case 200:
+        apiResponse.data = Conductor.fromJson(jsonDecode(response.body));
+        break;
+      case 422:
+        final errors = jsonDecode(response.body)['errors'];
+        apiResponse.error = errors[errors.keys.elementAt(0)][0];
+        break;
+      case 403:
+        apiResponse.error = jsonDecode(response.body)['message'];
+        break;
+      default:
+        apiResponse.error = somethingWentWrong;
+        break;
+    }
+  }catch(e) {
+    apiResponse.error = serverError;
+  }
+
+  return apiResponse;
+}
+
+Future<ApiResponse> getConductorDetail() async {
+  ApiResponse apiResponse = ApiResponse();
+  try{
+    final response = await http.get(
+      Uri.parse('$driverUrl/$idConductor'),
+      headers: {
+        'Accept': 'application/json',
+      },     
+    );
+
+    switch(response.statusCode){
+      case 200:
+        apiResponse.data = Conductor.fromJson(jsonDecode(response.body));
+        break;
+      case 401:
+        apiResponse.error = unauthorized;
+        break;     
+      default:
+        apiResponse.error = somethingWentWrong;
+        break;
+    }
+  }catch(e) {
+    apiResponse.error = serverError;
+  }
+
+  return apiResponse;
+}
+
+

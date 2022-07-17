@@ -42,12 +42,10 @@ class LineaController {
       "nro_asientos": nroasientos,
       "fecha_baja": fechabaja,
       "foto": foto,
-      "conductor_id": idConductor,
-      "linea_id": idLinea
     };
 
     var body = json.encode(data);
-    var url = Uri.parse('${baseUrl}createBus');
+    var url = Uri.parse(createMicroUrl);
     http.Response response = await http.post(
       url,
       headers: headersC,
@@ -65,7 +63,7 @@ class LineaController {
   }
 }
 
-Future<ApiResponse> getBusToday() async {
+  Future<ApiResponse> getBusToday() async {
     ApiResponse apiResponse = ApiResponse();
     try{
       String token = await getToken();
@@ -97,3 +95,31 @@ Future<ApiResponse> getBusToday() async {
     
     return apiResponse;
   }
+
+  Future<ApiResponse> getBusDetail() async {
+  ApiResponse apiResponse = ApiResponse();
+  try{
+    final response = await http.get(
+      Uri.parse('$getBusUrl/$idConductor'),
+      headers: {
+        'Accept': 'application/json',
+      },     
+    );
+
+    switch(response.statusCode){
+      case 200:
+        apiResponse.data = Bus.fromJson(jsonDecode(response.body));
+        break;
+      case 401:
+        apiResponse.error = unauthorized;
+        break;     
+      default:
+        apiResponse.error = somethingWentWrong;
+        break;
+    }
+  }catch(e) {
+    apiResponse.error = serverError;
+  }
+
+  return apiResponse;
+}
