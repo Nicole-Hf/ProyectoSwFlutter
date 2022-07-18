@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "261909526275",
+    "project_id": "ubicaciones-5704d",
+    "storage_bucket": "ubicaciones-5704d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261909526275:android:12d2fdb954083c64421b36",
+        "android_client_info": {
+          "package_name": "com.example.rutas_microbuses"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "261909526275-kh0du1n8h6ohb3hjm7l6s5lbs1fqp27n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEWrnW7R1HScUvICJy18irMd1NFUtiZ-U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "261909526275-kh0du1n8h6ohb3hjm7l6s5lbs1fqp27n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
