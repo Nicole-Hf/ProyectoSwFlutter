@@ -18,10 +18,20 @@ dependencies:
   shared_preferences: ^2.0.15
   fancy_dialog: ^1.0.4
   flutter_typeahead: ^4.0.0
-  flutter_map: ^0.14.0
   image_picker: ^0.8.5+3
-  firebase_core: ^1.19.2
-  
+  flutter_holo_date_picker: ^1.0.3
+  date_format: ^2.0.6
+  intl: ^0.17.0
+  dio: ^4.0.6
+  flutter_polyline_points: ^1.0.0
+  google_maps_flutter: ^2.1.8
+  location: ^4.4.0
+  flutter_svg: ^1.1.1+1
+  permission_handler: ^8.1.4+2
+
+dependency_overrides:
+  image_picker_android: 0.8.5+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

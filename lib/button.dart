@@ -10,7 +10,7 @@ class RoundedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       elevation: 5,
-      color: Colors.blueGrey,
+      color: const Color.fromARGB(255, 1, 87, 21),
       borderRadius: BorderRadius.circular(30),
       child: MaterialButton(
         onPressed: () {
@@ -25,4 +25,15 @@ class RoundedButton extends StatelessWidget {
       ),
     );
   }
+}
+
+TextButton kTextButton(String label, Function onPressed) {
+  return TextButton(
+    onPressed: () => onPressed(),
+    style: ButtonStyle(
+      backgroundColor: MaterialStateColor.resolveWith((states) => Colors.green),
+      padding: MaterialStateProperty.resolveWith((states) => const EdgeInsets.symmetric(vertical: 10)),
+    ), 
+    child: const Text('Login', style: TextStyle(color: Colors.white),),
+  );
 }
