@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:rutas_microbuses/pages/bus_page.dart';
-import 'package:rutas_microbuses/pages/conductor_page.dart';
-import 'package:rutas_microbuses/pages/home_page.dart';
-import 'package:rutas_microbuses/pages/login_page.dart';
-import 'package:rutas_microbuses/pages/microbus_page.dart';
-import 'package:rutas_microbuses/pages/register_page.dart';
+import 'package:rutas_microbuses/screens/login_driver.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,19 +14,10 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Maps',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const LoginPage(),
-        '/register': (context) => const RegisterPage(),
-        '/conductor': (context) => const ConductorPage(),
-        '/microbus': (context) => const MicrobusPage(),
-        '/home': (context) => const HomePage(),
-       // '/createbus': (context) => const BusPage(),
-      },
+      home: const LoginDriver(),
     );
   }
 }
-
