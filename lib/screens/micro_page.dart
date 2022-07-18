@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:location/location.dart';
 import 'package:rutas_microbuses/constant.dart';
 import 'package:rutas_microbuses/drawer_widget.dart';
 import 'package:rutas_microbuses/models/api_response.dart';
@@ -26,6 +27,7 @@ class _MicroPageState extends State<MicroPage> {
   bool loading = true;
   String? _tipo;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  LocationData? currentLocation;
 
   void getBus() async {
     ApiResponse response = await getBusDetail();

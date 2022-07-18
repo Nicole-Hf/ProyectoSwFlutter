@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, unused_local_variable
+// ignore_for_file: use_build_context_synchronously, unused_local_variable, avoid_web_libraries_in_flutter
 
 import 'dart:async';
 import 'dart:convert';
@@ -20,14 +20,40 @@ class TrackingPage extends StatefulWidget {
 
 class _TrackingPageState extends State<TrackingPage> {
   final Completer<GoogleMapController> _controller = Completer();
-  Location location = Location();
   LocationData? currentLocation;
+  Location location = Location();
+  late bool _serviceEnabled;
+  late PermissionStatus _permissionGranted;
   double? _latitud, _longitud;
   final TextEditingController _txtControllerBody = TextEditingController();
   StreamSubscription<LocationData>? _locationSubscription;
 
+  @override
+  void initState() {
+    permissions();
+    getCurrentLocation();
+    super.initState();
+  }
+
+  Future<void> permissions() async {
+    _serviceEnabled = await location.serviceEnabled();
+                if (!_serviceEnabled) {
+                  _serviceEnabled = await location.requestService();
+                  if (_serviceEnabled) return;
+                }
+
+                _permissionGranted = await location.hasPermission();
+                if (_permissionGranted == PermissionStatus.denied) {
+                  _permissionGranted = await location.requestPermission();
+                  if (_permissionGranted != PermissionStatus.granted) return;
+                }
+                currentLocation = await location.getLocation();
+                setState(() {
+                  
+                });
+  }
+
   Future<void> getCurrentLocation() async {
-    //Location location = Location();
     location.getLocation().then((location) {
       currentLocation = location;
       _latitud = currentLocation!.latitude;
@@ -88,12 +114,6 @@ class _TrackingPageState extends State<TrackingPage> {
   }
 
   @override
-  void initState() {
-    getCurrentLocation();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -111,7 +131,7 @@ class _TrackingPageState extends State<TrackingPage> {
       body: Stack(
         children: [
           currentLocation == null
-          ? const Center(child: Text("Loading"),)
+          ? const Center(child: CircularProgressIndicator(),)
           : GoogleMap(
               initialCameraPosition: CameraPosition(
                 target: LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
