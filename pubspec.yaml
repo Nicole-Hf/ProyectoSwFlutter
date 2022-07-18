@@ -21,7 +21,7 @@ dependencies:
   flutter_map: ^0.14.0
   image_picker: ^0.8.5+3
   firebase_core: ^1.19.2
-
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

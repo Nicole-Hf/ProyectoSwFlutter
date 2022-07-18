@@ -70,7 +70,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '261909526275',
     projectId: 'ubicaciones-5704d',
     storageBucket: 'ubicaciones-5704d.appspot.com',
-    iosClientId: '261909526275-80k2kc1feiia1meipla692irqq3fca2v.apps.googleusercontent.com',
+    iosClientId:
+        '261909526275-80k2kc1feiia1meipla692irqq3fca2v.apps.googleusercontent.com',
     iosBundleId: 'com.example.rutasMicrobuses',
   );
 }
