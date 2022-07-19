@@ -56,6 +56,7 @@ class _RetiroPageState extends State<RetiroPage> {
         fit: StackFit.expand,
         children: <Widget>[       
           Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const SizedBox(height: 20,),
               Card(
@@ -85,13 +86,6 @@ class _RetiroPageState extends State<RetiroPage> {
                         style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
                       leading: const Icon(Icons.numbers),
-                    ),
-                    ListTile(
-                      title: Text(
-                        'Retraso:  $retraso',
-                        style: const TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                      leading: const Icon(Icons.label_important),
                     ),
                   ],
                 ),
