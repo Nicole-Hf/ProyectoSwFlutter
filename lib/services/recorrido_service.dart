@@ -4,9 +4,11 @@ import 'package:rutas_microbuses/constant.dart';
 import 'package:http/http.dart' as http;
 import 'package:rutas_microbuses/variables.dart';
 
-  Future<http.Response> createRecorrido(String? tipo) async {
+  Future<http.Response> createRecorrido(String? tipo, double? latitud, double? longitud) async {
     Map data = {
       "tipo": tipo,
+      "latitud": latitud,
+      "longitud": longitud,
     };
 
     var body = json.encode(data);

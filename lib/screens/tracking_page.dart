@@ -37,20 +37,18 @@ class _TrackingPageState extends State<TrackingPage> {
 
   Future<void> permissions() async {
     _serviceEnabled = await location.serviceEnabled();
-                if (!_serviceEnabled) {
-                  _serviceEnabled = await location.requestService();
-                  if (_serviceEnabled) return;
-                }
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (_serviceEnabled) return;
+    }
 
-                _permissionGranted = await location.hasPermission();
-                if (_permissionGranted == PermissionStatus.denied) {
-                  _permissionGranted = await location.requestPermission();
-                  if (_permissionGranted != PermissionStatus.granted) return;
-                }
-                currentLocation = await location.getLocation();
-                setState(() {
-                  
-                });
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) return;
+    }
+    currentLocation = await location.getLocation();
+    setState(() {});
   }
 
   Future<void> getCurrentLocation() async {
@@ -67,6 +65,7 @@ class _TrackingPageState extends State<TrackingPage> {
       _latitud = currentLocation!.latitude;
       _longitud = currentLocation!.longitude;
       http.Response response = await editLoc(_latitud, _longitud);
+      debugPrint('BODY TRACKING: ${response.body}');
       googleMapController.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(

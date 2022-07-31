@@ -21,7 +21,7 @@ class MenuWidget extends StatelessWidget {
               ),
             )
           ),
-          ListTile(
+          /*ListTile(
             title: const Text('Perfil',
               style: TextStyle(fontSize: 18.0, color: Colors.grey),
             ),
@@ -35,7 +35,7 @@ class MenuWidget extends StatelessWidget {
                 builder: (context) => const HomePage()
               ));
             },
-          ),
+          ),*/
           ListTile(
             title: const Text('Editar Perfil',
               style: TextStyle(fontSize: 18.0, color: Colors.grey),
@@ -49,7 +49,7 @@ class MenuWidget extends StatelessWidget {
               debugPrint('button clicked');
             },
           ), 
-          ListTile(
+          /*ListTile(
             title: const Text('Iniciar recorrido',
               style: TextStyle(fontSize: 18.0, color: Colors.grey),
             ),
@@ -63,7 +63,7 @@ class MenuWidget extends StatelessWidget {
                 builder: (context) => const HomePage()
               ));
             },
-          ),                         
+          ), */                        
         ],
       ),
     );

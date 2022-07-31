@@ -28,6 +28,44 @@ class _MicroPageState extends State<MicroPage> {
   String? _tipo;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   LocationData? currentLocation;
+  Location location = Location();
+  late bool _serviceEnabled;
+  late PermissionStatus _permissionGranted;
+  double? _latitud, _longitud;
+  final TextEditingController _txtControllerBody = TextEditingController();
+
+  @override
+  void initState() {
+    getBus();
+    permissions();
+    getCurrentLocation();
+    super.initState();
+  }
+
+  Future<void> permissions() async {
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (_serviceEnabled) return;
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) return;
+    }
+    currentLocation = await location.getLocation();
+    setState(() {});
+  }
+
+  Future<void> getCurrentLocation() async {
+    location.getLocation().then((location) {
+      currentLocation = location;
+      _latitud = currentLocation!.latitude;
+      _longitud = currentLocation!.longitude;
+      debugPrint('UBICACION: $currentLocation');
+    });
+  }
 
   void getBus() async {
     ApiResponse response = await getBusDetail();
@@ -53,10 +91,10 @@ class _MicroPageState extends State<MicroPage> {
   }
 
   createRecorridoPressed() async {
-    http.Response response = await createRecorrido(_tipo);
+    http.Response response = await createRecorrido(_tipo, _latitud, _longitud);
     var data = json.decode(response.body);
     debugPrint('Id conductor nuevo: $idConductor');
-    debugPrint('Body Tracking: ${response.body}');
+    debugPrint('BODY RECORRIDO: ${response.body}');
     if (response.statusCode == 200) { 
       idRecorrido = data['recorrido']['id'];   
       fecha = data['recorrido']['fecha'];
@@ -71,11 +109,11 @@ class _MicroPageState extends State<MicroPage> {
     }
   }
 
-  @override
+ /* @override
   void initState() {
     super.initState();
     getBus();
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
