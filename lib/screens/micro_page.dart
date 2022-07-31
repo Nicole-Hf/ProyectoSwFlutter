@@ -2,12 +2,33 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
 import 'package:rutas_microbuses/constant.dart';
-import 'package:rutas_microbuses/drawer_widget.dart';
 import 'package:rutas_microbuses/models/api_response.dart';
 import 'package:rutas_microbuses/models/bus.dart';
+import 'package:rutas_microbuses/routes/lineas/rutas.dart';
+import 'package:rutas_microbuses/routes/points/linea01.dart';
+import 'package:rutas_microbuses/routes/points/linea02.dart';
+import 'package:rutas_microbuses/routes/points/linea05.dart';
+import 'package:rutas_microbuses/routes/points/linea08.dart';
+import 'package:rutas_microbuses/routes/points/linea09.dart';
+import 'package:rutas_microbuses/routes/points/linea10.dart';
+import 'package:rutas_microbuses/routes/points/linea11.dart';
+import 'package:rutas_microbuses/routes/points/linea16.dart';
+import 'package:rutas_microbuses/routes/points/linea17.dart';
+import 'package:rutas_microbuses/routes/points/linea18.dart';
+import 'package:rutas_microbuses/routes/polylines/linea01.dart';
+import 'package:rutas_microbuses/routes/polylines/linea02.dart';
+import 'package:rutas_microbuses/routes/polylines/linea05.dart';
+import 'package:rutas_microbuses/routes/polylines/linea08.dart';
+import 'package:rutas_microbuses/routes/polylines/linea09.dart';
+import 'package:rutas_microbuses/routes/polylines/linea10.dart';
+import 'package:rutas_microbuses/routes/polylines/linea11.dart';
+import 'package:rutas_microbuses/routes/polylines/linea16.dart';
+import 'package:rutas_microbuses/routes/polylines/linea17.dart';
+import 'package:rutas_microbuses/routes/polylines/linea18.dart';
 import 'package:rutas_microbuses/screens/login.dart';
 import 'package:rutas_microbuses/screens/tracking_page.dart';
 import 'package:rutas_microbuses/services/linea_controller.dart';
@@ -32,7 +53,6 @@ class _MicroPageState extends State<MicroPage> {
   late bool _serviceEnabled;
   late PermissionStatus _permissionGranted;
   double? _latitud, _longitud;
-  final TextEditingController _txtControllerBody = TextEditingController();
 
   @override
   void initState() {
@@ -72,6 +92,8 @@ class _MicroPageState extends State<MicroPage> {
     if(response.error == null) {
       setState(() {
         bus = response.data as Bus;
+        lineaMicro = bus!.linea;
+        debugPrint("LINEA: $lineaMicro");
         loading = false;
       });
     }
@@ -102,18 +124,60 @@ class _MicroPageState extends State<MicroPage> {
       horaSalida = data['recorrido']['horaSalida']; 
       horaLlegada = data['recorrido']['horaLLegada'];
       tiempo = data['recorrido']['tiempo'];
+      
+      final List<Ida> ida = [
+      Ida("Línea 1", linea01.first),
+      Ida("Línea 2", linea02.first),
+      Ida("Línea 5", linea05.first),
+      Ida("Línea 8", linea08.first),
+      Ida("Línea 9", linea09.first),
+      Ida("Línea 10", linea10.first),
+      Ida("Línea 11", linea11.first),
+      Ida("Línea 16", linea16.first),
+      Ida("Línea 17", linea17.first),
+      Ida("Línea 18", linea18.first),
+    ];
 
-      Navigator.push(context,
-        MaterialPageRoute(builder: (BuildContext context) => const TrackingPage(),)
+    final List<Vuelta> vuelta = [
+      Vuelta("Línea 1", linea01.last),
+      Vuelta("Línea 2", linea02.last),
+      Vuelta("Línea 5", linea05.last),
+      Vuelta("Línea 8", linea08.last),
+      Vuelta("Línea 9", linea09.last),
+      Vuelta("Línea 10", linea10.last),
+      Vuelta("Línea 11", linea11.last),
+      Vuelta("Línea 16", linea16.last),
+      Vuelta("Línea 17", linea17.last),
+      Vuelta("Línea 18", linea18.last),
+    ];
+
+    if (tipo == "ida") {
+      for (int i = 0; i < ida.length; i++) {
+        if (lineaMicro == ida[i].name) {
+          Set<Polyline> linea = {
+            ida[i].ini
+          };
+          Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => 
+        TrackingPage(linea: linea, inicio: ida[i].ini.points.first, fin: ida[i].ini.points.last),)
       );
+        }
+      }
+    } else if (tipo == "vuelta") {
+      for (int i = 0; i < vuelta.length; i++) {
+        if (lineaMicro == vuelta[i].name) {
+          Set<Polyline> linea = {
+            vuelta[i].fin
+          };
+          Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => 
+        TrackingPage(linea: linea, inicio: vuelta[i].fin.points.first, fin: vuelta[i].fin.points.last),)
+      );
+        }
+      }
+    }
     }
   }
-
- /* @override
-  void initState() {
-    super.initState();
-    getBus();
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +206,7 @@ class _MicroPageState extends State<MicroPage> {
             const SizedBox(width: 26)
           ],
         ),
-        drawer: const MenuWidget(),
+        //drawer: const MenuWidget(),
         backgroundColor: Colors.white,
         body: Container(
           color: Colors.white,

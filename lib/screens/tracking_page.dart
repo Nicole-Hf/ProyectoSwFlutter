@@ -12,7 +12,13 @@ import 'package:rutas_microbuses/services/recorrido_service.dart';
 import 'package:rutas_microbuses/variables.dart';
 
 class TrackingPage extends StatefulWidget {
-  const TrackingPage({Key? key}) : super(key: key);
+  LatLng inicio, fin;
+  Set<Polyline> linea;
+  TrackingPage({
+    Key? key,  
+    required this.linea, 
+    required this.inicio, 
+    required this.fin}) : super(key: key);
 
   @override
   State<TrackingPage> createState() => _TrackingPageState();
@@ -136,11 +142,20 @@ class _TrackingPageState extends State<TrackingPage> {
                 target: LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
                 zoom: 14.5,
               ),
+              polylines: widget.linea,
               markers: {
                 Marker(
                   markerId: const MarkerId("currentLocation"),
                   position: LatLng(currentLocation!.latitude!, currentLocation!.longitude!)
-                ),               
+                ),   
+                Marker(
+                  markerId: const MarkerId("Inicio"),
+                  position: widget.inicio
+                ),
+                Marker(
+                  markerId: const MarkerId("Fin"),
+                  position: widget.fin
+                ),            
               },
               onMapCreated: (mapController) {
                 _controller.complete(mapController);

@@ -34,3 +34,5 @@ int? idDriving;
 int? idComentario;
 String? motivo;
 String? horaRetiro;
+
+String? lineaMicro;

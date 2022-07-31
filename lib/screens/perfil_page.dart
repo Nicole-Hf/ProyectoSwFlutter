@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:rutas_microbuses/constant.dart';
-import 'package:rutas_microbuses/drawer_widget.dart';
 import 'package:rutas_microbuses/models/api_response.dart';
 import 'package:rutas_microbuses/models/conductor.dart';
 import 'package:rutas_microbuses/screens/login.dart';
@@ -78,7 +77,7 @@ class _PerfilPageState extends State<PerfilPage> {
             const SizedBox(width: 26)
           ],
         ),
-        drawer: const MenuWidget(),
+        //drawer: const MenuWidget(),
         backgroundColor: Colors.white,
         body: Container(
           color: Colors.white,
