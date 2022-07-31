@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, unused_local_variable, avoid_web_libraries_in_flutter
+// ignore_for_file: use_build_context_synchronously, unused_local_variable, avoid_web_libraries_in_flutter, must_be_immutable
 
 import 'dart:async';
 import 'dart:convert';
