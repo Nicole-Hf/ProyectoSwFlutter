@@ -75,7 +75,7 @@ class _TrackingPageState extends State<TrackingPage> {
       googleMapController.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
-            zoom: 14.5,
+            zoom: 15.5,
             target: LatLng(newLoc.latitude!, newLoc.longitude!)
           )
         )
@@ -110,7 +110,7 @@ class _TrackingPageState extends State<TrackingPage> {
     var data = json.decode(response.body);
     if (response.statusCode == 200) { 
       idComentario = data['comentario']['id'];   
-      motivo = data['comentario']['fecha'];
+      motivo = data['comentario']['motivo'];
       horaRetiro = data['comentario']['horaRetiro']; 
       Navigator.push(context,
         MaterialPageRoute(builder: (BuildContext context) => const RetiroPage(),)
@@ -140,13 +140,13 @@ class _TrackingPageState extends State<TrackingPage> {
           : GoogleMap(
               initialCameraPosition: CameraPosition(
                 target: LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
-                zoom: 14.5,
+                zoom: 15.5,
               ),
               polylines: widget.linea,
               markers: {
                 Marker(
                   markerId: const MarkerId("currentLocation"),
-                  position: LatLng(currentLocation!.latitude!, currentLocation!.longitude!)
+                  position: LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
                 ),   
                 Marker(
                   markerId: const MarkerId("Inicio"),

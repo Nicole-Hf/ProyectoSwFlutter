@@ -75,17 +75,24 @@ class _RetiroPageState extends State<RetiroPage> {
                     ),
                     ListTile(
                       title: Text(
-                        'Hora del Llegada:  $horaLlegada',
+                        'Hora estimada de Llegada:  $horaLlegada',
                         style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
-                      leading: const Icon(Icons.bus_alert),
+                      leading: const Icon(Icons.timer),
                     ),
                     ListTile(
                       title: Text(
-                        'Tiempo transcurrido:  $tiempo',
+                        'Hora del retiro:  $horaRetiro',
                         style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
-                      leading: const Icon(Icons.numbers),
+                      leading: const Icon(Icons.timer_off),
+                    ),
+                    ListTile(
+                      title: Text(
+                        'Motivo del retiro:  $motivo',
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                      leading: const Icon(Icons.message),
                     ),
                   ],
                 ),
